@@ -1,0 +1,3 @@
+﻿{
+  "ConnectionString": "User ID=sa;Password=Dotnet123!;Server=ENT-NB-005\\WERBASWEB;Database=TimeCore;Trusted_Connection=True;MultipleActiveResultSets=true"
+}
