@@ -19,7 +19,9 @@ namespace TimeCore.ModelService.EFC.SQL
         /// diese wird intern geholt
         /// </summary>
         public FirmSQLContext()
-        { }
+        { 
+        
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
