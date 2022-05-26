@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TimeCore.FirmModulService\TimeCore.FirmModulService.csproj" />
+    <ProjectReference Include="..\TimeCore.ModulService\TimeCore.ModulService.csproj" />
     <ProjectReference Include="..\TimeCore.Model\TimeCore.Model.csproj" />
   </ItemGroup>
 

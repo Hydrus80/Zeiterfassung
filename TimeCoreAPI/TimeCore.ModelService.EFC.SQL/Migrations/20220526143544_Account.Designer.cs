@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TimeCore.ModelService.EFC.SQL;
 
 namespace TimeCore.ModelService.EFC.SQL.Migrations
 {
     [DbContext(typeof(SQLContext))]
-    partial class FirmSQLContextModelSnapshot : ModelSnapshot
+    [Migration("20220526143544_Account")]
+    partial class Account
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

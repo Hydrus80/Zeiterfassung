@@ -13,11 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeCore.ModelService", "Ti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeCore.Test", "TimeCore.Test\TimeCore.Test.csproj", "{B56314EF-3991-43C5-A43C-AD8A82818C59}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeCore.FirmModulService", "TimeCore.FirmModulService\TimeCore.FirmModulService.csproj", "{938014FE-E981-4B91-B936-01469279F8C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeCore.ModulService", "TimeCore.ModulService\TimeCore.ModulService.csproj", "{938014FE-E981-4B91-B936-01469279F8C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeCore.ModelService.EFC.SQL", "TimeCore.ModelService.EFC.SQL\TimeCore.ModelService.EFC.SQL.csproj", "{D4A49275-4988-47C8-83FA-093F35C4106A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeCore.ModelService.EFC.SQL", "TimeCore.ModelService.EFC.SQL\TimeCore.ModelService.EFC.SQL.csproj", "{D4A49275-4988-47C8-83FA-093F35C4106A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeCore.ConfigurationModulService", "TimeCore.ConfigurationModulService\TimeCore.ConfigurationModulService.csproj", "{727DB2ED-374E-4A41-BF47-AFEEC7AB39E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeCore.ConfigurationModulService", "TimeCore.ConfigurationModulService\TimeCore.ConfigurationModulService.csproj", "{727DB2ED-374E-4A41-BF47-AFEEC7AB39E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

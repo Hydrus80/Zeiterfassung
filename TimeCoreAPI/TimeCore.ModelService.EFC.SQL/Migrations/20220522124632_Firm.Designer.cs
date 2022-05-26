@@ -9,7 +9,7 @@ using TimeCore.ModelService.EFC.SQL;
 
 namespace TimeCore.ModelService.EFC.SQL.Migrations
 {
-    [DbContext(typeof(FirmSQLContext))]
+    [DbContext(typeof(SQLContext))]
     [Migration("20220522124632_Firm")]
     partial class Firm
     {

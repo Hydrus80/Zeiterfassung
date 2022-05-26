@@ -5,7 +5,7 @@ using System;
 
 namespace TimeCore.ModelService.EFC.SQL
 {
-    public class FirmSQLContext : DbContext
+    public class SQLContext : DbContext
     {
         //private readonly string _connString = "User ID=sa;Password=Dotnet123!;Server=ENT-NB-005\\WERBASWEB;Database=Artikel;Trusted_Connection=True;MultipleActiveResultSets=true";
         //Update der Datenbank
@@ -18,7 +18,7 @@ namespace TimeCore.ModelService.EFC.SQL
         /// Konstruktor ohne Connectrionstringuebergabe,
         /// diese wird intern geholt
         /// </summary>
-        public FirmSQLContext()
+        public SQLContext()
         { 
         
         }
@@ -43,5 +43,7 @@ namespace TimeCore.ModelService.EFC.SQL
         }
 
         public virtual DbSet<FirmModel> Firm { get; set; }
+        public virtual DbSet<WorkshopModel> Workshop { get; set; }
+        public virtual DbSet<AccountModel> Account { get; set; }
     }
 }
