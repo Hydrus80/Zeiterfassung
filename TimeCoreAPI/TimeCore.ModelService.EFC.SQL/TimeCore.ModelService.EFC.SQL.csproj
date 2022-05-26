@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TimeCore.ConfigurationModulService\TimeCore.ConfigurationModulService.csproj" />
+    <ProjectReference Include="..\TimeCore.ErrorHandler\TimeCore.ErrorHandler.csproj" />
     <ProjectReference Include="..\TimeCore.Model\TimeCore.Model.csproj" />
   </ItemGroup>
 

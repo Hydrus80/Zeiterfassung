@@ -9,7 +9,7 @@ namespace TimeCore.ModelService.EFC.SQL
         IFirmModel AddFirmToDataSource(IFirmModel newFirm);
         Task<IFirmModel> GetFirmByIDFromDataSource_Async(int searchFirmID);
         IFirmModel GetFirmByIDFromDataSource(int searchFirmID);
-        Task<IFirmModel> UpdateFirmToDataSource_Async(IFirmModel newFirm);
-        IFirmModel UpdateFirmToDataSource(IFirmModel newFirm);
+        Task<IFirmModel> UpdateFirmToDataSource_Async(IFirmModel updateFirm);
+        IFirmModel UpdateFirmToDataSource(IFirmModel updateFirm);
     }
 }
