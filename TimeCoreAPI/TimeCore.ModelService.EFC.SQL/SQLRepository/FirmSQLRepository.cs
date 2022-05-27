@@ -1,6 +1,7 @@
 ﻿using Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TimeCore.ErrorHandler;
@@ -9,35 +10,37 @@ namespace TimeCore.ModelService.EFC.SQL
 {
     public class FirmSQLRepository : IFirmSQLRepository
     {
-        //Context
-        private readonly SQLContext sqlContext;
-
-        public FirmSQLRepository(SQLContext selSQLContext)
-        {
-            sqlContext = selSQLContext;
-        }
+        public FirmSQLRepository()
+        { }
 
         public IFirmModel AddFirmToDataSource(IFirmModel newFirm)
         {
             try
             {
-                FirmModel insertEntry = new FirmModel()
+                //Context setzen
+                using (SQLContext sqlContext = new SQLContext())
                 {
-                    Name = newFirm.Name,
-                    Number = newFirm.Number,
-                    LastUpdate = newFirm.LastUpdate,
-                };
-                sqlContext.Firm.Add(insertEntry);
-                if (sqlContext.Database.CanConnect())
-                {
-                    //m_partcontext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT PartStorage ON"); //ExecuteSqlCommand
-                    sqlContext.SaveChanges();
-                    return insertEntry;
-                }
-                else
-                {
-                    ErrorHandlerLog.WriteError("FirmSQLRepository.AddFirmToDataSource(): Keine Verbindung zur Datenbank möglich");
-                    return null;
+                    //Existiert Datenbank und ist der Zugriff gewährt?
+                    if (sqlContext.Database.CanConnect())
+                    {
+                        FirmModel insertEntry = new FirmModel()
+                        {
+                            Name = newFirm.Name,
+                            Number = newFirm.Number,
+                            LastUpdate = newFirm.LastUpdate,
+                        };
+                        sqlContext.Firm.Add(insertEntry);
+
+                        //Änderungen speichern
+                        //m_partcontext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT PartStorage ON"); //ExecuteSqlCommand
+                        sqlContext.SaveChanges();
+                        return insertEntry;
+                    }
+                    else
+                    {
+                        ErrorHandlerLog.WriteError("FirmSQLRepository.AddFirmToDataSource(): Keine Verbindung zur Datenbank möglich");
+                        return null;
+                    }
                 }
             }
             catch (Exception ex)
@@ -51,23 +54,30 @@ namespace TimeCore.ModelService.EFC.SQL
         {
             try
             {
-                FirmModel insertEntry = new FirmModel()
+                //Context setzen
+                using (SQLContext sqlContext = new SQLContext())
                 {
-                    Name = newFirm.Name,
-                    Number = newFirm.Number,
-                    LastUpdate = newFirm.LastUpdate,
-                };
-                sqlContext.Firm.Add(insertEntry);
-                if (sqlContext.Database.CanConnect())
-                {
-                    //m_partcontext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT PartStorage ON"); //ExecuteSqlCommand
-                    sqlContext.SaveChanges();
-                    return Task.FromResult<IFirmModel>(insertEntry);
-                }
-                else
-                {
-                    ErrorHandlerLog.WriteError("FirmSQLRepository.AddFirmToDataSource_Async(): Keine Verbindung zur Datenbank möglich");
-                    return null;
+                    //Existiert Datenbank und ist der Zugriff gewährt?
+                    if (sqlContext.Database.CanConnect())
+                    {
+                        FirmModel insertEntry = new FirmModel()
+                        {
+                            Name = newFirm.Name,
+                            Number = newFirm.Number,
+                            LastUpdate = newFirm.LastUpdate,
+                        };
+                        sqlContext.Firm.Add(insertEntry);
+
+                        //Änderungen speichern
+                        //m_partcontext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT PartStorage ON"); //ExecuteSqlCommand
+                        sqlContext.SaveChanges();
+                        return Task.FromResult<IFirmModel>(insertEntry);
+                    }
+                    else
+                    {
+                        ErrorHandlerLog.WriteError("FirmSQLRepository.AddFirmToDataSource_Async(): Keine Verbindung zur Datenbank möglich");
+                        return null;
+                    }
                 }
             }
             catch (Exception ex)
@@ -81,14 +91,19 @@ namespace TimeCore.ModelService.EFC.SQL
         {
             try
             {
-                if (sqlContext.Database.CanConnect())
+                //Context setzen
+                using (SQLContext sqlContext = new SQLContext())
                 {
-                    return sqlContext.Firm.Find(searchFirmID);
-                }
-                else
-                {
-                    ErrorHandlerLog.WriteError("FirmSQLRepository.GetFirmByIDFromDataSource(): Keine Verbindung zur Datenbank möglich");
-                    return null;
+                    //Existiert Datenbank und ist der Zugriff gewährt?
+                    if (sqlContext.Database.CanConnect())
+                    {
+                        return sqlContext.Firm.Find(searchFirmID);
+                    }
+                    else
+                    {
+                        ErrorHandlerLog.WriteError("FirmSQLRepository.GetFirmByIDFromDataSource(): Keine Verbindung zur Datenbank möglich");
+                        return null;
+                    }
                 }
             }
             catch (Exception ex)
@@ -102,14 +117,19 @@ namespace TimeCore.ModelService.EFC.SQL
         {
             try
             {
-                if (sqlContext.Database.CanConnect())
+                //Context setzen
+                using (SQLContext sqlContext = new SQLContext())
                 {
-                    return Task.FromResult<IFirmModel>(sqlContext.Firm.Find(searchFirmID));
-                }
-                else
-                {
-                    ErrorHandlerLog.WriteError("FirmSQLRepository.GetFirmByIDFromDataSource_Async(): Keine Verbindung zur Datenbank möglich");
-                    return null;
+                    //Existiert Datenbank und ist der Zugriff gewährt?
+                    if (sqlContext.Database.CanConnect())
+                    {
+                        return Task.FromResult<IFirmModel>(sqlContext.Firm.Find(searchFirmID));
+                    }
+                    else
+                    {
+                        ErrorHandlerLog.WriteError("FirmSQLRepository.GetFirmByIDFromDataSource_Async(): Keine Verbindung zur Datenbank möglich");
+                        return null;
+                    }
                 }
             }
             catch (Exception ex)
@@ -123,25 +143,30 @@ namespace TimeCore.ModelService.EFC.SQL
         {
             try
             {
-                if (sqlContext.Database.CanConnect())
+                //Context setzen
+                using (SQLContext sqlContext = new SQLContext())
                 {
-                    IFirmModel existingFirm = sqlContext.Firm.Find(updateFirm.ID);
-                    if (existingFirm != null)
+                    //Existiert Datenbank und ist der Zugriff gewährt?
+                    if (sqlContext.Database.CanConnect())
                     {
-                        existingFirm.ID = updateFirm.ID;
-                        existingFirm.Name = updateFirm.Name;
-                        existingFirm.Number = updateFirm.Number;
-                        existingFirm.LastUpdate = updateFirm.LastUpdate;
-                        sqlContext.SaveChanges();
-                        return existingFirm;
+                        IFirmModel existingFirm = sqlContext.Firm.Find(updateFirm.ID);
+                        if (existingFirm != null)
+                        {
+                            existingFirm.ID = updateFirm.ID;
+                            existingFirm.Name = updateFirm.Name;
+                            existingFirm.Number = updateFirm.Number;
+                            existingFirm.LastUpdate = updateFirm.LastUpdate;
+                            sqlContext.SaveChanges();
+                            return existingFirm;
+                        }
+                        else
+                            return AddFirmToDataSource(updateFirm);
                     }
                     else
-                        return AddFirmToDataSource(updateFirm);
-                }
-                else
-                {
-                    ErrorHandlerLog.WriteError("FirmSQLRepository.UpdateFirmToDataSource(): Keine Verbindung zur Datenbank möglich");
-                    return null;
+                    {
+                        ErrorHandlerLog.WriteError("FirmSQLRepository.UpdateFirmToDataSource(): Keine Verbindung zur Datenbank möglich");
+                        return null;
+                    }
                 }
             }
             catch (Exception ex)
@@ -155,25 +180,30 @@ namespace TimeCore.ModelService.EFC.SQL
         {
             try
             {
-                if (sqlContext.Database.CanConnect())
+                //Context setzen
+                using (SQLContext sqlContext = new SQLContext())
                 {
-                    IFirmModel existingFirm = sqlContext.Firm.Find(updateFirm.ID);
-                    if (existingFirm != null)
+                    //Existiert Datenbank und ist der Zugriff gewährt?
+                    if (sqlContext.Database.CanConnect())
                     {
-                        existingFirm.ID = updateFirm.ID;
-                        existingFirm.Name = updateFirm.Name;
-                        existingFirm.Number = updateFirm.Number;
-                        existingFirm.LastUpdate = updateFirm.LastUpdate;
-                        sqlContext.SaveChanges();
-                        return Task.FromResult(existingFirm);
+                        IFirmModel existingFirm = sqlContext.Firm.Find(updateFirm.ID);
+                        if (existingFirm != null)
+                        {
+                            existingFirm.ID = updateFirm.ID;
+                            existingFirm.Name = updateFirm.Name;
+                            existingFirm.Number = updateFirm.Number;
+                            existingFirm.LastUpdate = updateFirm.LastUpdate;
+                            sqlContext.SaveChanges();
+                            return Task.FromResult(existingFirm);
+                        }
+                        else
+                            return AddFirmToDataSource_Async(updateFirm);
                     }
                     else
-                        return AddFirmToDataSource_Async(updateFirm);
-                }
-                else
-                {
-                    ErrorHandlerLog.WriteError("FirmSQLRepository.UpdateFirmToDataSource_Async(): Keine Verbindung zur Datenbank möglich");
-                    return null;
+                    {
+                        ErrorHandlerLog.WriteError("FirmSQLRepository.UpdateFirmToDataSource_Async(): Keine Verbindung zur Datenbank möglich");
+                        return null;
+                    }
                 }
             }
             catch (Exception ex)

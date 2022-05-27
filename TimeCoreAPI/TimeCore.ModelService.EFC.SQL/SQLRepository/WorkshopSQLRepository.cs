@@ -9,36 +9,38 @@ namespace TimeCore.ModelService.EFC.SQL
 {
     public class WorkshopSQLRepository : IWorkshopSQLRepository
     {
-        //Context
-        private readonly SQLContext sqlContext;
-
-        public WorkshopSQLRepository(SQLContext selSQLContext)
-        {
-            sqlContext = selSQLContext;
-        }
+        public WorkshopSQLRepository()
+        { }
 
         public IWorkshopModel AddWorkshopToDataSource(IWorkshopModel newWorkshop)
         {
             try
             {
-                WorkshopModel insertEntry = new WorkshopModel()
+                //Context setzen
+                using (SQLContext sqlContext = new SQLContext())
                 {
-                    Name = newWorkshop.Name,
-                    Number = newWorkshop.Number,
-                    Firm = newWorkshop.Firm,
-                    LastUpdate = newWorkshop.LastUpdate,
-                };
-                sqlContext.Workshop.Add(insertEntry);
-                if (sqlContext.Database.CanConnect())
-                {
-                    //m_partcontext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT PartStorage ON"); //ExecuteSqlCommand
-                    sqlContext.SaveChanges();
-                    return insertEntry;
-                }
-                else
-                {
-                    ErrorHandlerLog.WriteError("WorkshopSQLRepository.AddWorkshopToDataSource(): Keine Verbindung zur Datenbank möglich");
-                    return null;
+                    //Existiert Datenbank und ist der Zugriff gewährt?
+                    if (sqlContext.Database.CanConnect())
+                    {
+                        WorkshopModel insertEntry = new WorkshopModel()
+                        {
+                            Name = newWorkshop.Name,
+                            Number = newWorkshop.Number,
+                            Firm = newWorkshop.Firm,
+                            LastUpdate = newWorkshop.LastUpdate,
+                        };
+                        sqlContext.Workshop.Add(insertEntry);
+
+                        //Änderungen speichern
+                        //m_partcontext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT PartStorage ON"); //ExecuteSqlCommand
+                        sqlContext.SaveChanges();
+                        return insertEntry;
+                    }
+                    else
+                    {
+                        ErrorHandlerLog.WriteError("FirmSQLRepository.AddWorkshopToDataSource(): Keine Verbindung zur Datenbank möglich");
+                        return null;
+                    }
                 }
             }
             catch (Exception ex)
@@ -52,24 +54,31 @@ namespace TimeCore.ModelService.EFC.SQL
         {
             try
             {
-                WorkshopModel insertEntry = new WorkshopModel()
+                //Context setzen
+                using (SQLContext sqlContext = new SQLContext())
                 {
-                    Name = newWorkshop.Name,
-                    Number = newWorkshop.Number,
-                    Firm = newWorkshop.Firm,
-                    LastUpdate = newWorkshop.LastUpdate,
-                };
-                sqlContext.Workshop.Add(insertEntry);
-                if (sqlContext.Database.CanConnect())
-                {
-                    //m_partcontext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT PartStorage ON"); //ExecuteSqlCommand
-                    sqlContext.SaveChanges();
-                    return Task.FromResult<IWorkshopModel>(insertEntry);
-                }
-                else
-                {
-                    ErrorHandlerLog.WriteError("WorkshopSQLRepository.AddWorkshopToDataSource_Async(): Keine Verbindung zur Datenbank möglich");
-                    return null;
+                    //Existiert Datenbank und ist der Zugriff gewährt?
+                    if (sqlContext.Database.CanConnect())
+                    {
+                        WorkshopModel insertEntry = new WorkshopModel()
+                        {
+                            Name = newWorkshop.Name,
+                            Number = newWorkshop.Number,
+                            Firm = newWorkshop.Firm,
+                            LastUpdate = newWorkshop.LastUpdate,
+                        };
+                        sqlContext.Workshop.Add(insertEntry);
+
+                        //Änderungen speichern
+                        //m_partcontext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT PartStorage ON"); //ExecuteSqlCommand
+                        sqlContext.SaveChanges();
+                        return Task.FromResult<IWorkshopModel>(insertEntry);
+                    }
+                    else
+                    {
+                        ErrorHandlerLog.WriteError("FirmSQLRepository.AddWorkshopToDataSource_Async(): Keine Verbindung zur Datenbank möglich");
+                        return null;
+                    }
                 }
             }
             catch (Exception ex)
@@ -83,15 +92,20 @@ namespace TimeCore.ModelService.EFC.SQL
         {
             try
             {
-                if (sqlContext.Database.CanConnect())
+                //Context setzen
+                using (SQLContext sqlContext = new SQLContext())
                 {
-                    return sqlContext.Workshop.Find(searchWorkshopID);
-                }
-                else
-                {
-                    ErrorHandlerLog.WriteError("WorkshopSQLRepository.GetWorkshopByIDFromDataSource(): Keine Verbindung zur Datenbank möglich");
-                    return null;
-                }
+                    //Existiert Datenbank und ist der Zugriff gewährt?
+                    if (sqlContext.Database.CanConnect())
+                    {
+                        return sqlContext.Workshop.Find(searchWorkshopID);
+                    }
+                    else
+                    {
+                        ErrorHandlerLog.WriteError("FirmSQLRepository.GetWorkshopByIDFromDataSource(): Keine Verbindung zur Datenbank möglich");
+                        return null;
+                    }
+                }           
             }
             catch (Exception ex)
             {
@@ -104,14 +118,19 @@ namespace TimeCore.ModelService.EFC.SQL
         {
             try
             {
-                if (sqlContext.Database.CanConnect())
+                //Context setzen
+                using (SQLContext sqlContext = new SQLContext())
                 {
-                    return Task.FromResult<IWorkshopModel>(sqlContext.Workshop.Find(searchWorkshopID));
-                }
-                else
-                {
-                    ErrorHandlerLog.WriteError("WorkshopSQLRepository.GetWorkshopByIDFromDataSource_Async(): Keine Verbindung zur Datenbank möglich");
-                    return null;
+                    //Existiert Datenbank und ist der Zugriff gewährt?
+                    if (sqlContext.Database.CanConnect())
+                    {
+                        return Task.FromResult<IWorkshopModel>(sqlContext.Workshop.Find(searchWorkshopID));
+                    }
+                    else
+                    {
+                        ErrorHandlerLog.WriteError("FirmSQLRepository.GetWorkshopByIDFromDataSource_Async(): Keine Verbindung zur Datenbank möglich");
+                        return null;
+                    }
                 }
             }
             catch (Exception ex)
@@ -125,26 +144,31 @@ namespace TimeCore.ModelService.EFC.SQL
         {
             try
             {
-                if (sqlContext.Database.CanConnect())
+                //Context setzen
+                using (SQLContext sqlContext = new SQLContext())
                 {
-                    IWorkshopModel existingWorkshop = sqlContext.Workshop.Find(updateWorkshop.ID);
-                    if (existingWorkshop != null)
+                    //Existiert Datenbank und ist der Zugriff gewährt?
+                    if (sqlContext.Database.CanConnect())
                     {
-                        existingWorkshop.ID = updateWorkshop.ID;
-                        existingWorkshop.Name = updateWorkshop.Name;
-                        existingWorkshop.Number = updateWorkshop.Number;
-                        existingWorkshop.Firm = updateWorkshop.Firm;
-                        existingWorkshop.LastUpdate = updateWorkshop.LastUpdate;
-                        sqlContext.SaveChanges();
-                        return existingWorkshop;
+                        IWorkshopModel existingWorkshop = sqlContext.Workshop.Find(updateWorkshop.ID);
+                        if (existingWorkshop != null)
+                        {
+                            existingWorkshop.ID = updateWorkshop.ID;
+                            existingWorkshop.Name = updateWorkshop.Name;
+                            existingWorkshop.Number = updateWorkshop.Number;
+                            existingWorkshop.Firm = updateWorkshop.Firm;
+                            existingWorkshop.LastUpdate = updateWorkshop.LastUpdate;
+                            sqlContext.SaveChanges();
+                            return existingWorkshop;
+                        }
+                        else
+                            return AddWorkshopToDataSource(updateWorkshop);
                     }
                     else
-                        return AddWorkshopToDataSource(updateWorkshop);
-                }
-                else
-                {
-                    ErrorHandlerLog.WriteError("WorkshopSQLRepository.UpdateWorkshopToDataSource(): Keine Verbindung zur Datenbank möglich");
-                    return null;
+                    {
+                        ErrorHandlerLog.WriteError("FirmSQLRepository.UpdateWorkshopToDataSource(): Keine Verbindung zur Datenbank möglich");
+                        return null;
+                    }
                 }
             }
             catch (Exception ex)
@@ -158,26 +182,31 @@ namespace TimeCore.ModelService.EFC.SQL
         {
             try
             {
-                if (sqlContext.Database.CanConnect())
+                //Context setzen
+                using (SQLContext sqlContext = new SQLContext())
                 {
-                    IWorkshopModel existingWorkshop = sqlContext.Workshop.Find(updateWorkshop.ID);
-                    if (existingWorkshop != null)
+                    //Existiert Datenbank und ist der Zugriff gewährt?
+                    if (sqlContext.Database.CanConnect())
                     {
-                        existingWorkshop.ID = updateWorkshop.ID;
-                        existingWorkshop.Name = updateWorkshop.Name;
-                        existingWorkshop.Number = updateWorkshop.Number;
-                        existingWorkshop.Firm = updateWorkshop.Firm;
-                        existingWorkshop.LastUpdate = updateWorkshop.LastUpdate;
-                        sqlContext.SaveChanges();
-                        return Task.FromResult(existingWorkshop);
+                        IWorkshopModel existingWorkshop = sqlContext.Workshop.Find(updateWorkshop.ID);
+                        if (existingWorkshop != null)
+                        {
+                            existingWorkshop.ID = updateWorkshop.ID;
+                            existingWorkshop.Name = updateWorkshop.Name;
+                            existingWorkshop.Number = updateWorkshop.Number;
+                            existingWorkshop.Firm = updateWorkshop.Firm;
+                            existingWorkshop.LastUpdate = updateWorkshop.LastUpdate;
+                            sqlContext.SaveChanges();
+                            return Task.FromResult(existingWorkshop);
+                        }
+                        else
+                            return AddWorkshopToDataSource_Async(updateWorkshop);
                     }
                     else
-                        return AddWorkshopToDataSource_Async(updateWorkshop);
-                }
-                else
-                {
-                    ErrorHandlerLog.WriteError("WorkshopSQLRepository.UpdateWorkshopToDataSource_Async(): Keine Verbindung zur Datenbank möglich");
-                    return null;
+                    {
+                        ErrorHandlerLog.WriteError("FirmSQLRepository.UpdateWorkshopToDataSource_Async(): Keine Verbindung zur Datenbank möglich");
+                        return null;
+                    }
                 }
             }
             catch (Exception ex)

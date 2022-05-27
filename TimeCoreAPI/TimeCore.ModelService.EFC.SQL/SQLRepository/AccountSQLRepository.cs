@@ -9,36 +9,38 @@ namespace TimeCore.ModelService.EFC.SQL
 {
     public class AccountSQLRepository : IAccountSQLRepository
     {
-        //Context
-        private readonly SQLContext sqlContext;
-
-        public AccountSQLRepository(SQLContext selSQLContext)
-        {
-            sqlContext = selSQLContext;
-        }
+        public AccountSQLRepository()
+        { }
 
         public IAccountModel AddAccountToDataSource(IAccountModel newAccount)
         {
             try
             {
-                AccountModel insertEntry = new AccountModel()
+                //Context setzen
+                using (SQLContext sqlContext = new SQLContext())
                 {
-                    Username = newAccount.Username,
-                    Password = newAccount.Password,
-                    Workshop = newAccount.Workshop,
-                    LastUpdate = newAccount.LastUpdate,
-                };
-                sqlContext.Account.Add(insertEntry);
-                if (sqlContext.Database.CanConnect())
-                {
-                    //m_partcontext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT PartStorage ON"); //ExecuteSqlCommand
-                    sqlContext.SaveChanges();
-                    return insertEntry;
-                }
-                else
-                {
-                    ErrorHandlerLog.WriteError("AccountSQLRepository.AddAccountToDataSource(): Keine Verbindung zur Datenbank möglich");
-                    return null;
+                    //Existiert Datenbank und ist der Zugriff gewährt?
+                    if (sqlContext.Database.CanConnect())
+                    {
+                        AccountModel insertEntry = new AccountModel()
+                        {
+                            Username = newAccount.Username,
+                            Password = newAccount.Password,
+                            Workshop = newAccount.Workshop,
+                            LastUpdate = newAccount.LastUpdate,
+                        };
+                        sqlContext.Account.Add(insertEntry);
+
+                        //Änderungen speichern
+                        //m_partcontext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT PartStorage ON"); //ExecuteSqlCommand
+                        sqlContext.SaveChanges();
+                        return insertEntry;
+                    }
+                    else
+                    {
+                        ErrorHandlerLog.WriteError("FirmSQLRepository.AddAccountToDataSource(): Keine Verbindung zur Datenbank möglich");
+                        return null;
+                    }
                 }
             }
             catch (Exception ex)
@@ -52,24 +54,31 @@ namespace TimeCore.ModelService.EFC.SQL
         {
             try
             {
-                AccountModel insertEntry = new AccountModel()
+                //Context setzen
+                using (SQLContext sqlContext = new SQLContext())
                 {
-                    Username = newAccount.Username,
-                    Password = newAccount.Password,
-                    Workshop = newAccount.Workshop,
-                    LastUpdate = newAccount.LastUpdate,
-                };
-                sqlContext.Account.Add(insertEntry);
-                if (sqlContext.Database.CanConnect())
-                {
-                    //m_partcontext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT PartStorage ON"); //ExecuteSqlCommand
-                    sqlContext.SaveChanges();
-                    return Task.FromResult<IAccountModel>(insertEntry);
-                }
-                else
-                {
-                    ErrorHandlerLog.WriteError("AccountSQLRepository.AddAccountToDataSource_Async(): Keine Verbindung zur Datenbank möglich");
-                    return null;
+                    //Existiert Datenbank und ist der Zugriff gewährt?
+                    if (sqlContext.Database.CanConnect())
+                    {
+                        AccountModel insertEntry = new AccountModel()
+                        {
+                            Username = newAccount.Username,
+                            Password = newAccount.Password,
+                            Workshop = newAccount.Workshop,
+                            LastUpdate = newAccount.LastUpdate,
+                        };
+                        sqlContext.Account.Add(insertEntry);
+
+                        //Änderungen speichern
+                        //m_partcontext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT PartStorage ON"); //ExecuteSqlCommand
+                        sqlContext.SaveChanges();
+                        return Task.FromResult<IAccountModel>(insertEntry);
+                    }
+                    else
+                    {
+                        ErrorHandlerLog.WriteError("FirmSQLRepository.AddAccountToDataSource_Async(): Keine Verbindung zur Datenbank möglich");
+                        return null;
+                    }
                 }
             }
             catch (Exception ex)
@@ -83,14 +92,19 @@ namespace TimeCore.ModelService.EFC.SQL
         {
             try
             {
-                if (sqlContext.Database.CanConnect())
+                //Context setzen
+                using (SQLContext sqlContext = new SQLContext())
                 {
-                    return sqlContext.Account.Find(searchAccountID);
-                }
-                else
-                {
-                    ErrorHandlerLog.WriteError("AccountSQLRepository.GetAccountByIDFromDataSource(): Keine Verbindung zur Datenbank möglich");
-                    return null;
+                    //Existiert Datenbank und ist der Zugriff gewährt?
+                    if (sqlContext.Database.CanConnect())
+                    {
+                        return sqlContext.Account.Find(searchAccountID);
+                    }
+                    else
+                    {
+                        ErrorHandlerLog.WriteError("FirmSQLRepository.GetAccountByIDFromDataSource(): Keine Verbindung zur Datenbank möglich");
+                        return null;
+                    }
                 }
             }
             catch (Exception ex)
@@ -104,14 +118,19 @@ namespace TimeCore.ModelService.EFC.SQL
         {
             try
             {
-                if (sqlContext.Database.CanConnect())
+                //Context setzen
+                using (SQLContext sqlContext = new SQLContext())
                 {
-                    return Task.FromResult<IAccountModel>(sqlContext.Account.Find(searchAccountID));
-                }
-                else
-                {
-                    ErrorHandlerLog.WriteError("AccountSQLRepository.GetAccountByIDFromDataSource_Async(): Keine Verbindung zur Datenbank möglich");
-                    return null;
+                    //Existiert Datenbank und ist der Zugriff gewährt?
+                    if (sqlContext.Database.CanConnect())
+                    {
+                        return Task.FromResult<IAccountModel>(sqlContext.Account.Find(searchAccountID));
+                    }
+                    else
+                    {
+                        ErrorHandlerLog.WriteError("FirmSQLRepository.GetAccountByIDFromDataSource_Async(): Keine Verbindung zur Datenbank möglich");
+                        return null;
+                    }
                 }
             }
             catch (Exception ex)
@@ -125,26 +144,31 @@ namespace TimeCore.ModelService.EFC.SQL
         {
             try
             {
-                if (sqlContext.Database.CanConnect())
+                //Context setzen
+                using (SQLContext sqlContext = new SQLContext())
                 {
-                    IAccountModel existingAccount = sqlContext.Account.Find(updateAccount.ID);
-                    if (existingAccount != null)
+                    //Existiert Datenbank und ist der Zugriff gewährt?
+                    if (sqlContext.Database.CanConnect())
                     {
-                        existingAccount.ID = updateAccount.ID;
-                        existingAccount.Username = updateAccount.Username;
-                        existingAccount.Password = updateAccount.Password;
-                        existingAccount.Workshop = updateAccount.Workshop;
-                        existingAccount.LastUpdate = updateAccount.LastUpdate;
-                        sqlContext.SaveChanges();
-                        return existingAccount;
+                        IAccountModel existingAccount = sqlContext.Account.Find(updateAccount.ID);
+                        if (existingAccount != null)
+                        {
+                            existingAccount.ID = updateAccount.ID;
+                            existingAccount.Username = updateAccount.Username;
+                            existingAccount.Password = updateAccount.Password;
+                            existingAccount.Workshop = updateAccount.Workshop;
+                            existingAccount.LastUpdate = updateAccount.LastUpdate;
+                            sqlContext.SaveChanges();
+                            return existingAccount;
+                        }
+                        else
+                            return AddAccountToDataSource(updateAccount);
                     }
                     else
-                        return AddAccountToDataSource(updateAccount);
-                }
-                else
-                {
-                    ErrorHandlerLog.WriteError("AccountSQLRepository.UpdateAccountToDataSource(): Keine Verbindung zur Datenbank möglich");
-                    return null;
+                    {
+                        ErrorHandlerLog.WriteError("FirmSQLRepository.UpdateAccountToDataSource(): Keine Verbindung zur Datenbank möglich");
+                        return null;
+                    }
                 }
             }
             catch (Exception ex)
@@ -158,26 +182,31 @@ namespace TimeCore.ModelService.EFC.SQL
         {
             try
             {
-                if (sqlContext.Database.CanConnect())
+                //Context setzen
+                using (SQLContext sqlContext = new SQLContext())
                 {
-                    IAccountModel existingAccount = sqlContext.Account.Find(updateAccount.ID);
-                    if (existingAccount != null)
+                    //Existiert Datenbank und ist der Zugriff gewährt?
+                    if (sqlContext.Database.CanConnect())
                     {
-                        existingAccount.ID = updateAccount.ID;
-                        existingAccount.Username = updateAccount.Username;
-                        existingAccount.Password = updateAccount.Password;
-                        existingAccount.Workshop = updateAccount.Workshop;
-                        existingAccount.LastUpdate = updateAccount.LastUpdate;
-                        sqlContext.SaveChanges();
-                        return Task.FromResult(existingAccount);
+                        IAccountModel existingAccount = sqlContext.Account.Find(updateAccount.ID);
+                        if (existingAccount != null)
+                        {
+                            existingAccount.ID = updateAccount.ID;
+                            existingAccount.Username = updateAccount.Username;
+                            existingAccount.Password = updateAccount.Password;
+                            existingAccount.Workshop = updateAccount.Workshop;
+                            existingAccount.LastUpdate = updateAccount.LastUpdate;
+                            sqlContext.SaveChanges();
+                            return Task.FromResult(existingAccount);
+                        }
+                        else
+                            return AddAccountToDataSource_Async(updateAccount);
                     }
                     else
-                        return AddAccountToDataSource_Async(updateAccount);
-                }
-                else
-                {
-                    ErrorHandlerLog.WriteError("AccountSQLRepository.UpdateAccountToDataSource_Async(): Keine Verbindung zur Datenbank möglich");
-                    return null;
+                    {
+                        ErrorHandlerLog.WriteError("FirmSQLRepository.UpdateAccountToDataSource_Async(): Keine Verbindung zur Datenbank möglich");
+                        return null;
+                    }
                 }
             }
             catch (Exception ex)

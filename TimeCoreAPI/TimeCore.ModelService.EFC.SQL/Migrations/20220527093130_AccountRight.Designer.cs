@@ -10,8 +10,8 @@ using TimeCore.ModelService.EFC.SQL;
 namespace TimeCore.ModelService.EFC.SQL.Migrations
 {
     [DbContext(typeof(SQLContext))]
-    [Migration("20220526143544_Account")]
-    partial class Account
+    [Migration("20220527093130_AccountRight")]
+    partial class AccountRight
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,6 +47,29 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                     b.ToTable("Account");
                 });
 
+            modelBuilder.Entity("Model.AccountRightModel", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AccountID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastUpdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RightID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("AccountID");
+
+                    b.ToTable("AccountRight");
+                });
+
             modelBuilder.Entity("Model.FirmModel", b =>
                 {
                     b.Property<int>("ID")
@@ -66,6 +89,27 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Firm");
+                });
+
+            modelBuilder.Entity("Model.RightModel", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LastUpdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RightID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Right");
                 });
 
             modelBuilder.Entity("Model.WorkshopModel", b =>
@@ -101,6 +145,15 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                         .HasForeignKey("WorkshopID");
 
                     b.Navigation("Workshop");
+                });
+
+            modelBuilder.Entity("Model.AccountRightModel", b =>
+                {
+                    b.HasOne("Model.AccountModel", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountID");
+
+                    b.Navigation("Account");
                 });
 
             modelBuilder.Entity("Model.WorkshopModel", b =>

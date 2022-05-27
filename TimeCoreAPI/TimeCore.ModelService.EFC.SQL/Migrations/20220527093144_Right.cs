@@ -2,7 +2,7 @@
 
 namespace TimeCore.ModelService.EFC.SQL.Migrations
 {
-    public partial class Account : Migration
+    public partial class Right : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

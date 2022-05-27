@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace TimeCoreAPI.Controllers
 {
+    //http://localhost:XXXX/api/Account
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase

@@ -42,8 +42,16 @@ namespace TimeCore.ModelService.EFC.SQL
             optionsBuilder.UseSqlServer(connString);
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //Pflichtfeld Recht
+            modelBuilder.Entity<RightModel>(entity => { entity.Property(e => e.RightID).IsRequired(); });
+        }
+
         public virtual DbSet<FirmModel> Firm { get; set; }
         public virtual DbSet<WorkshopModel> Workshop { get; set; }
         public virtual DbSet<AccountModel> Account { get; set; }
+        public virtual DbSet<RightModel> Right { get; set; }
+        public virtual DbSet<AccountRightModel> AccountRight { get; set; }
     }
 }
