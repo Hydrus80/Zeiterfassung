@@ -1,11 +1,12 @@
 ﻿using Model;
 using System;
+using System.Collections.Generic;
 
 namespace TimeCore.Test
 {
     public class MockData
     {
-        public DateTime mockDate = new DateTime(2020, 5, 21, 15, 40, 0);
+        public DateTime mockDate = new DateTime(2020, 5, 21, 15, 40, 23);
 
         public FirmModel GetFirmOne()
         {
@@ -35,6 +36,42 @@ namespace TimeCore.Test
         public AccountModel GetAccountTwo()
         {
             return new AccountModel() { ID = 2, Username = "New", Password = "XXX", LastUpdate = mockDate, Workshop = GetWorkshopOne() };
+        }
+
+        public TimeStampModel GetStampInForAccountOne()
+        {
+            return new TimeStampModel() { 
+                ID = 1, 
+                Account = GetAccountOne(), 
+                TimeStampYear = mockDate.Year,
+                TimeStampMonth = mockDate.Month,
+                TimeStampDay = mockDate.Day,
+                TimeStampHour = mockDate.Hour,
+                TimeStampMinute = mockDate.Minute,
+                TimeStampSecond = mockDate.Second,
+                LastUpdate = mockDate };
+        }
+
+        public TimeStampModel GetStampOutOneHourForAccountOne()
+        {
+            return new TimeStampModel() { 
+                ID = 2, 
+                Account = GetAccountOne(),
+                TimeStampYear = mockDate.Year,
+                TimeStampMonth = mockDate.Month,
+                TimeStampDay = mockDate.Day,
+                TimeStampHour = mockDate.Hour + 1,
+                TimeStampMinute = mockDate.Minute,
+                TimeStampSecond = mockDate.Second,
+                LastUpdate = mockDate.AddHours(1) };
+        }
+
+        public List<TimeStampModel> GetStampLidtForAccountOne()
+        {
+            List<TimeStampModel> returnList = new List<TimeStampModel>();
+            returnList.Add(GetStampInForAccountOne());
+            returnList.Add(GetStampOutOneHourForAccountOne());
+            return returnList;
         }
 
     }

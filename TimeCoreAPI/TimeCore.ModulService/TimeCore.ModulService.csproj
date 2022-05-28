@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TimeCore.ModelService\TimeCore.ModelService.csproj" />
     <ProjectReference Include="..\TimeCore.Model\TimeCore.Model.csproj" />
   </ItemGroup>
 

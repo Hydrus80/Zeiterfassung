@@ -42,7 +42,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public IRightModel GetRightByIDFromDataSource(int searchID)
+        public RightModel GetRightByIDFromDataSource(int searchID)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public Task<IRightModel> GetRightByIDFromDataSource_Async(int searchID)
+        public async Task<RightModel> GetRightByIDFromDataSource_Async(int searchID)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace TimeCore.ModelService.EFC.SQL
                     //Existiert Datenbank und ist der Zugriff gewährt?
                     if (sqlContext.Database.CanConnect())
                     {
-                        return Task.FromResult<IRightModel>(sqlContext.Right.Find(searchID));
+                        return await Task.FromResult<RightModel>(sqlContext.Right.Find(searchID)).ConfigureAwait(false);
                     }
                     else
                     {
@@ -94,7 +94,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public IRightModel GetRightByRightIDFromDataSource(int searchRightID)
+        public RightModel GetRightByRightIDFromDataSource(int searchRightID)
         {
             try
             {
@@ -120,7 +120,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public Task<IRightModel> GetRightByRightIDFromDataSource_Async(int searchRightID)
+        public async Task<RightModel> GetRightByRightIDFromDataSource_Async(int searchRightID)
         {
             try
             {
@@ -130,7 +130,7 @@ namespace TimeCore.ModelService.EFC.SQL
                     //Existiert Datenbank und ist der Zugriff gewährt?
                     if (sqlContext.Database.CanConnect())
                     {
-                        return Task.FromResult<IRightModel>(sqlContext.Right.Where(b => b.RightID == searchRightID).FirstOrDefault());
+                        return await Task.FromResult<RightModel>(sqlContext.Right.Where(b => b.RightID == searchRightID).FirstOrDefault()).ConfigureAwait(false);
                     }
                     else
                     {

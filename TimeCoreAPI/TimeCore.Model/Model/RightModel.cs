@@ -10,11 +10,9 @@ namespace Model
         Benutzer = 3
     }
 
-    public class RightModel : IRightModel
+    public class RightModel : BasicModel
     {
-        public int ID { get; set; }
         public int RightID { get; set; }
         public string Description { get; set; }
-        public DateTime LastUpdate { get; set; }
     }
 }

@@ -1,7 +1,8 @@
-﻿
+﻿using System;
+
 namespace Model
 {
-    public interface IFirmModel : IBasicModel
+    public class FirmModel : BasicModel
     {
         public string Name { get; set; }
         public int Number { get; set; }

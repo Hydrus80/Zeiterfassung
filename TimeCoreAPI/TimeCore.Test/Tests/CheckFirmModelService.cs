@@ -27,10 +27,10 @@ namespace TimeCore.Test
         {
             //Arrange
             Mock<IFirmModulService> firmModulService = new Mock<IFirmModulService>();
-            firmModulService.Setup(x => x.GetFirmByNumber_Async(1)).Returns(Task.FromResult<IFirmModel>(mockData.GetFirmOne()));
+            firmModulService.Setup(x => x.GetFirmByNumber_Async(1)).Returns(Task.FromResult<FirmModel>(mockData.GetFirmOne()));
 
             //Act
-            IFirmModel MockResult = firmModulService.Object.GetFirmByNumber_Async(1).GetAwaiter().GetResult();
+            FirmModel MockResult = firmModulService.Object.GetFirmByNumber_Async(1).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.ID == mockData.GetFirmOne().ID);
@@ -46,10 +46,10 @@ namespace TimeCore.Test
         {
             //Arrange
             Mock<IFirmModulService> firmModulService = new Mock<IFirmModulService>();
-            firmModulService.Setup(x => x.GetFirmByNumber_Async(2)).Returns(Task.FromResult<IFirmModel>(null));
+            firmModulService.Setup(x => x.GetFirmByNumber_Async(2)).Returns(Task.FromResult<FirmModel>(null));
 
             //Act
-            IFirmModel MockResult = firmModulService.Object.GetFirmByNumber_Async(2).GetAwaiter().GetResult();
+            FirmModel MockResult = firmModulService.Object.GetFirmByNumber_Async(2).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult is null);
@@ -66,7 +66,7 @@ namespace TimeCore.Test
             firmModulService.Setup(x => x.GetFirmByNumber(1)).Returns(mockData.GetFirmOne());
 
             //Act
-            IFirmModel MockResult = firmModulService.Object.GetFirmByNumber(1);
+            FirmModel MockResult = firmModulService.Object.GetFirmByNumber(1);
 
             //Assert
             Assert.IsTrue(MockResult.ID == mockData.GetFirmOne().ID);
@@ -85,7 +85,7 @@ namespace TimeCore.Test
             firmModulService.Setup(x => x.GetFirmByNumber(2));
 
             //Act
-            IFirmModel MockResult = firmModulService.Object.GetFirmByNumber(2);
+            FirmModel MockResult = firmModulService.Object.GetFirmByNumber(2);
 
             //Assert
             Assert.IsTrue(MockResult is null);
@@ -99,10 +99,10 @@ namespace TimeCore.Test
         {
             //Arrange
             Mock<IFirmModulService> firmModulService = new Mock<IFirmModulService>();
-            firmModulService.Setup(x => x.CreateFirm_Async(It.IsAny<IFirmModel>())).Returns(Task.FromResult<IFirmModel>(mockData.GetFirmOne()));
+            firmModulService.Setup(x => x.CreateFirm_Async(It.IsAny<FirmModel>())).Returns(Task.FromResult<FirmModel>(mockData.GetFirmOne()));
 
             //Act
-            IFirmModel MockResult = firmModulService.Object.CreateFirm_Async(new FirmModel()).GetAwaiter().GetResult();
+            FirmModel MockResult = firmModulService.Object.CreateFirm_Async(new FirmModel()).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.ID == mockData.GetFirmOne().ID);
@@ -117,10 +117,10 @@ namespace TimeCore.Test
         {
             //Arrange
             Mock<IFirmModulService> firmModulService = new Mock<IFirmModulService>();
-            firmModulService.Setup(x => x.CreateFirm(It.IsAny<IFirmModel>())).Returns(mockData.GetFirmOne());
+            firmModulService.Setup(x => x.CreateFirm(It.IsAny<FirmModel>())).Returns(mockData.GetFirmOne());
 
             //Act
-            IFirmModel MockResult = firmModulService.Object.CreateFirm(new FirmModel());
+            FirmModel MockResult = firmModulService.Object.CreateFirm(new FirmModel());
 
             //Assert
             Assert.IsTrue(MockResult.ID == mockData.GetFirmOne().ID);
@@ -134,10 +134,10 @@ namespace TimeCore.Test
         {
             //Arrange
             Mock<IFirmModulService> firmModulService = new Mock<IFirmModulService>();
-            firmModulService.Setup(x => x.UpdateFirm_Async(It.IsAny<IFirmModel>())).Returns<IFirmModel>(x => Task.FromResult<IFirmModel>(x));
+            firmModulService.Setup(x => x.UpdateFirm_Async(It.IsAny<FirmModel>())).Returns<FirmModel>(x => Task.FromResult<FirmModel>(x));
 
             //Act
-            IFirmModel MockResult = firmModulService.Object.UpdateFirm_Async(mockData.GetFirmTwo()).GetAwaiter().GetResult();
+            FirmModel MockResult = firmModulService.Object.UpdateFirm_Async(mockData.GetFirmTwo()).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.ID == mockData.GetFirmTwo().ID);
@@ -154,10 +154,10 @@ namespace TimeCore.Test
         {
             //Arrange
             Mock<IFirmModulService> firmModulService = new Mock<IFirmModulService>();
-            firmModulService.Setup(x => x.UpdateFirm(It.IsAny<IFirmModel>())).Returns<IFirmModel>(x => x);
+            firmModulService.Setup(x => x.UpdateFirm(It.IsAny<FirmModel>())).Returns<FirmModel>(x => x);
 
             //Act
-            IFirmModel MockResult = firmModulService.Object.UpdateFirm(mockData.GetFirmTwo());
+            FirmModel MockResult = firmModulService.Object.UpdateFirm(mockData.GetFirmTwo());
 
             //Assert
             Assert.IsTrue(MockResult.ID == mockData.GetFirmTwo().ID);

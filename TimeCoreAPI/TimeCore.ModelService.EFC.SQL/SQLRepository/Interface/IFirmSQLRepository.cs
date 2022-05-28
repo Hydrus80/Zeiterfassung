@@ -5,11 +5,11 @@ namespace TimeCore.ModelService.EFC.SQL
 {
     public interface IFirmSQLRepository
     {
-        Task<IFirmModel> AddFirmToDataSource_Async(IFirmModel newFirm);
-        IFirmModel AddFirmToDataSource(IFirmModel newFirm);
-        Task<IFirmModel> GetFirmByIDFromDataSource_Async(int searchFirmID);
-        IFirmModel GetFirmByIDFromDataSource(int searchFirmID);
-        Task<IFirmModel> UpdateFirmToDataSource_Async(IFirmModel updateFirm);
-        IFirmModel UpdateFirmToDataSource(IFirmModel updateFirm);
+        Task<FirmModel> AddFirmToDataSource_Async(FirmModel newFirm);
+        FirmModel AddFirmToDataSource(FirmModel newFirm);
+        Task<FirmModel> GetFirmByIDFromDataSource_Async(int searchFirmID);
+        FirmModel GetFirmByIDFromDataSource(int searchFirmID);
+        Task<FirmModel> UpdateFirmToDataSource_Async(FirmModel updateFirm);
+        FirmModel UpdateFirmToDataSource(FirmModel updateFirm);
     }
 }

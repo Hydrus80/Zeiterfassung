@@ -5,11 +5,11 @@ namespace TimeCore.ModulService
 {
     public interface IAccountModulService
     {
-        Task<IAccountModel> GetAccountByNumber_Async(int searchAccountID);
-        Task<IAccountModel> CreateAccount_Async(IAccountModel newAccount);
-        Task<IAccountModel> UpdateAccount_Async(IAccountModel newAccount);
-        IAccountModel GetAccountByNumber(int searchAccountID);
-        IAccountModel CreateAccount(IAccountModel newAccount);
-        IAccountModel UpdateAccount(IAccountModel newAccount);
+        Task<AccountModel> GetAccountByNumber_Async(int searchAccountID);
+        Task<AccountModel> CreateAccount_Async(AccountModel newAccount);
+        Task<AccountModel> UpdateAccount_Async(AccountModel newAccount);
+        AccountModel GetAccountByNumber(int searchAccountID);
+        AccountModel CreateAccount(AccountModel newAccount);
+        AccountModel UpdateAccount(AccountModel newAccount);
     }
 }

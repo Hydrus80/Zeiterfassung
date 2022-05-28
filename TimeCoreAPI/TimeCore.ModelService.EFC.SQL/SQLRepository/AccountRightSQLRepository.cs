@@ -12,7 +12,7 @@ namespace TimeCore.ModelService.EFC.SQL
         public AccountRightSQLRepository()
         { }
 
-        public IAccountRightModel AddAccountRightToDataSource(IAccountRightModel newAccountRight)
+        public AccountRightModel AddAccountRightToDataSource(AccountRightModel newAccountRight)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public Task<IAccountRightModel> AddAccountRightToDataSource_Async(IAccountRightModel newAccountRight)
+        public async Task<AccountRightModel> AddAccountRightToDataSource_Async(AccountRightModel newAccountRight)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace TimeCore.ModelService.EFC.SQL
                         //Änderungen speichern
                         //m_partcontext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT PartStorage ON"); //ExecuteSqlCommand
                         sqlContext.SaveChanges();
-                        return Task.FromResult<IAccountRightModel>(insertEntry);
+                        return await Task.FromResult<AccountRightModel>(insertEntry).ConfigureAwait(false);
                     }
                     else
                     {
@@ -86,7 +86,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public IAccountRightModel GetAccountRightByIDFromDataSource(int searchAccountRightID)
+        public AccountRightModel GetAccountRightByIDFromDataSource(int searchAccountRightID)
         {
             try
             {
@@ -112,7 +112,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public Task<IAccountRightModel> GetAccountRightByIDFromDataSource_Async(int searchAccountRightID)
+        public async Task<AccountRightModel> GetAccountRightByIDFromDataSource_Async(int searchAccountRightID)
         {
             try
             {
@@ -122,7 +122,7 @@ namespace TimeCore.ModelService.EFC.SQL
                     //Existiert Datenbank und ist der Zugriff gewährt?
                     if (sqlContext.Database.CanConnect())
                     {
-                        return Task.FromResult<IAccountRightModel>(sqlContext.AccountRight.Find(searchAccountRightID));
+                        return await Task.FromResult<AccountRightModel>(sqlContext.AccountRight.Find(searchAccountRightID)).ConfigureAwait(false);
                     }
                     else
                     {
@@ -138,7 +138,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public IAccountRightModel UpdateAccountRightToDataSource(IAccountRightModel updateAccountRight)
+        public AccountRightModel UpdateAccountRightToDataSource(AccountRightModel updateAccountRight)
         {
             try
             {
@@ -148,7 +148,7 @@ namespace TimeCore.ModelService.EFC.SQL
                     //Existiert Datenbank und ist der Zugriff gewährt?
                     if (sqlContext.Database.CanConnect())
                     {
-                        IAccountRightModel existingAccountRight = sqlContext.AccountRight.Find(updateAccountRight.ID);
+                        AccountRightModel existingAccountRight = sqlContext.AccountRight.Find(updateAccountRight.ID);
                         if (existingAccountRight != null)
                         {
                             existingAccountRight.ID = updateAccountRight.ID;
@@ -175,7 +175,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public Task<IAccountRightModel> UpdateAccountRightToDataSource_Async(IAccountRightModel updateAccountRight)
+        public async Task<AccountRightModel> UpdateAccountRightToDataSource_Async(AccountRightModel updateAccountRight)
         {
             try
             {
@@ -185,7 +185,7 @@ namespace TimeCore.ModelService.EFC.SQL
                     //Existiert Datenbank und ist der Zugriff gewährt?
                     if (sqlContext.Database.CanConnect())
                     {
-                        IAccountRightModel existingAccountRight = sqlContext.AccountRight.Find(updateAccountRight.ID);
+                        AccountRightModel existingAccountRight = sqlContext.AccountRight.Find(updateAccountRight.ID);
                         if (existingAccountRight != null)
                         {
                             existingAccountRight.ID = updateAccountRight.ID;
@@ -193,10 +193,10 @@ namespace TimeCore.ModelService.EFC.SQL
                             existingAccountRight.Account = updateAccountRight.Account;
                             existingAccountRight.LastUpdate = updateAccountRight.LastUpdate;
                             sqlContext.SaveChanges();
-                            return Task.FromResult(existingAccountRight);
+                            return await Task.FromResult(existingAccountRight).ConfigureAwait(false);
                         }
                         else
-                            return AddAccountRightToDataSource_Async(updateAccountRight);
+                            return await AddAccountRightToDataSource_Async(updateAccountRight).ConfigureAwait(false);
                     }
                     else
                     {

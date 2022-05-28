@@ -27,10 +27,10 @@ namespace TimeCore.Test
         {
             //Arrange
             Mock<IAccountModulService> AccountModulService = new Mock<IAccountModulService>();
-            AccountModulService.Setup(x => x.GetAccountByNumber_Async(1)).Returns(Task.FromResult<IAccountModel>(mockData.GetAccountOne()));
+            AccountModulService.Setup(x => x.GetAccountByNumber_Async(1)).Returns(Task.FromResult<AccountModel>(mockData.GetAccountOne()));
 
             //Act
-            IAccountModel MockResult = AccountModulService.Object.GetAccountByNumber_Async(1).GetAwaiter().GetResult();
+            AccountModel MockResult = AccountModulService.Object.GetAccountByNumber_Async(1).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.ID == mockData.GetAccountOne().ID);
@@ -46,10 +46,10 @@ namespace TimeCore.Test
         {
             //Arrange
             Mock<IAccountModulService> AccountModulService = new Mock<IAccountModulService>();
-            AccountModulService.Setup(x => x.GetAccountByNumber_Async(2)).Returns(Task.FromResult<IAccountModel>(null));
+            AccountModulService.Setup(x => x.GetAccountByNumber_Async(2)).Returns(Task.FromResult<AccountModel>(null));
 
             //Act
-            IAccountModel MockResult = AccountModulService.Object.GetAccountByNumber_Async(2).GetAwaiter().GetResult();
+            AccountModel MockResult = AccountModulService.Object.GetAccountByNumber_Async(2).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult is null);
@@ -66,7 +66,7 @@ namespace TimeCore.Test
             AccountModulService.Setup(x => x.GetAccountByNumber(1)).Returns(mockData.GetAccountOne());
 
             //Act
-            IAccountModel MockResult = AccountModulService.Object.GetAccountByNumber(1);
+            AccountModel MockResult = AccountModulService.Object.GetAccountByNumber(1);
 
             //Assert
             Assert.IsTrue(MockResult.ID == mockData.GetAccountOne().ID);
@@ -85,7 +85,7 @@ namespace TimeCore.Test
             AccountModulService.Setup(x => x.GetAccountByNumber(2));
 
             //Act
-            IAccountModel MockResult = AccountModulService.Object.GetAccountByNumber(2);
+            AccountModel MockResult = AccountModulService.Object.GetAccountByNumber(2);
 
             //Assert
             Assert.IsTrue(MockResult is null);
@@ -99,10 +99,10 @@ namespace TimeCore.Test
         {
             //Arrange
             Mock<IAccountModulService> AccountModulService = new Mock<IAccountModulService>();
-            AccountModulService.Setup(x => x.CreateAccount_Async(It.IsAny<IAccountModel>())).Returns(Task.FromResult<IAccountModel>(mockData.GetAccountOne()));
+            AccountModulService.Setup(x => x.CreateAccount_Async(It.IsAny<AccountModel>())).Returns(Task.FromResult<AccountModel>(mockData.GetAccountOne()));
 
             //Act
-            IAccountModel MockResult = AccountModulService.Object.CreateAccount_Async(new AccountModel()).GetAwaiter().GetResult();
+            AccountModel MockResult = AccountModulService.Object.CreateAccount_Async(new AccountModel()).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.ID == mockData.GetAccountOne().ID);
@@ -117,10 +117,10 @@ namespace TimeCore.Test
         {
             //Arrange
             Mock<IAccountModulService> AccountModulService = new Mock<IAccountModulService>();
-            AccountModulService.Setup(x => x.CreateAccount(It.IsAny<IAccountModel>())).Returns(mockData.GetAccountOne());
+            AccountModulService.Setup(x => x.CreateAccount(It.IsAny<AccountModel>())).Returns(mockData.GetAccountOne());
 
             //Act
-            IAccountModel MockResult = AccountModulService.Object.CreateAccount(new AccountModel());
+            AccountModel MockResult = AccountModulService.Object.CreateAccount(new AccountModel());
 
             //Assert
             Assert.IsTrue(MockResult.ID == mockData.GetAccountOne().ID);
@@ -134,10 +134,10 @@ namespace TimeCore.Test
         {
             //Arrange
             Mock<IAccountModulService> AccountModulService = new Mock<IAccountModulService>();
-            AccountModulService.Setup(x => x.UpdateAccount_Async(It.IsAny<IAccountModel>())).Returns<IAccountModel>(x => Task.FromResult<IAccountModel>(x));
+            AccountModulService.Setup(x => x.UpdateAccount_Async(It.IsAny<AccountModel>())).Returns<AccountModel>(x => Task.FromResult<AccountModel>(x));
 
             //Act
-            IAccountModel MockResult = AccountModulService.Object.UpdateAccount_Async(mockData.GetAccountTwo()).GetAwaiter().GetResult();
+            AccountModel MockResult = AccountModulService.Object.UpdateAccount_Async(mockData.GetAccountTwo()).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.ID == mockData.GetAccountTwo().ID);
@@ -153,10 +153,10 @@ namespace TimeCore.Test
         {
             //Arrange
             Mock<IAccountModulService> AccountModulService = new Mock<IAccountModulService>();
-            AccountModulService.Setup(x => x.UpdateAccount(It.IsAny<IAccountModel>())).Returns<IAccountModel>(x => x);
+            AccountModulService.Setup(x => x.UpdateAccount(It.IsAny<AccountModel>())).Returns<AccountModel>(x => x);
 
             //Act
-            IAccountModel MockResult = AccountModulService.Object.UpdateAccount(mockData.GetAccountTwo());
+            AccountModel MockResult = AccountModulService.Object.UpdateAccount(mockData.GetAccountTwo());
 
             //Assert
             Assert.IsTrue(MockResult.ID == mockData.GetAccountTwo().ID);

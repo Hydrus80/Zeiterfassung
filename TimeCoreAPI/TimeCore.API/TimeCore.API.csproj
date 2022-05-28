@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TimeCore.ModelService\TimeCore.ModelService.csproj" />
+    <ProjectReference Include="..\TimeCore.ModulService\TimeCore.ModulService.csproj" />
   </ItemGroup>
 
 </Project>

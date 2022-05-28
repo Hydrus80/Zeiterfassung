@@ -5,11 +5,11 @@ namespace TimeCore.ModelService.EFC.SQL
 {
     public interface IAccountRightSQLRepository
     {
-        Task<IAccountRightModel> AddAccountRightToDataSource_Async(IAccountRightModel newAccountRight);
-        IAccountRightModel AddAccountRightToDataSource(IAccountRightModel newAccountRight);
-        Task<IAccountRightModel> GetAccountRightByIDFromDataSource_Async(int searchAccountRightID);
-        IAccountRightModel GetAccountRightByIDFromDataSource(int searchAccountRightID);
-        Task<IAccountRightModel> UpdateAccountRightToDataSource_Async(IAccountRightModel updateAccountRight);
-        IAccountRightModel UpdateAccountRightToDataSource(IAccountRightModel updateAccountRight);
+        Task<AccountRightModel> AddAccountRightToDataSource_Async(AccountRightModel newAccountRight);
+        AccountRightModel AddAccountRightToDataSource(AccountRightModel newAccountRight);
+        Task<AccountRightModel> GetAccountRightByIDFromDataSource_Async(int searchAccountRightID);
+        AccountRightModel GetAccountRightByIDFromDataSource(int searchAccountRightID);
+        Task<AccountRightModel> UpdateAccountRightToDataSource_Async(AccountRightModel updateAccountRight);
+        AccountRightModel UpdateAccountRightToDataSource(AccountRightModel updateAccountRight);
     }
 }

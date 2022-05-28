@@ -12,7 +12,7 @@ namespace TimeCore.ModelService.EFC.SQL
         public WorkshopSQLRepository()
         { }
 
-        public IWorkshopModel AddWorkshopToDataSource(IWorkshopModel newWorkshop)
+        public WorkshopModel AddWorkshopToDataSource(WorkshopModel newWorkshop)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public Task<IWorkshopModel> AddWorkshopToDataSource_Async(IWorkshopModel newWorkshop)
+        public async Task<WorkshopModel> AddWorkshopToDataSource_Async(WorkshopModel newWorkshop)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace TimeCore.ModelService.EFC.SQL
                         //Änderungen speichern
                         //m_partcontext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT PartStorage ON"); //ExecuteSqlCommand
                         sqlContext.SaveChanges();
-                        return Task.FromResult<IWorkshopModel>(insertEntry);
+                        return await Task.FromResult<WorkshopModel>(insertEntry).ConfigureAwait(false);
                     }
                     else
                     {
@@ -88,7 +88,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public IWorkshopModel GetWorkshopByIDFromDataSource(int searchWorkshopID)
+        public WorkshopModel GetWorkshopByIDFromDataSource(int searchWorkshopID)
         {
             try
             {
@@ -114,7 +114,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public Task<IWorkshopModel> GetWorkshopByIDFromDataSource_Async(int searchWorkshopID)
+        public async Task<WorkshopModel> GetWorkshopByIDFromDataSource_Async(int searchWorkshopID)
         {
             try
             {
@@ -124,7 +124,7 @@ namespace TimeCore.ModelService.EFC.SQL
                     //Existiert Datenbank und ist der Zugriff gewährt?
                     if (sqlContext.Database.CanConnect())
                     {
-                        return Task.FromResult<IWorkshopModel>(sqlContext.Workshop.Find(searchWorkshopID));
+                        return await Task.FromResult<WorkshopModel>(sqlContext.Workshop.Find(searchWorkshopID)).ConfigureAwait(false);
                     }
                     else
                     {
@@ -140,7 +140,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public IWorkshopModel UpdateWorkshopToDataSource(IWorkshopModel updateWorkshop)
+        public WorkshopModel UpdateWorkshopToDataSource(WorkshopModel updateWorkshop)
         {
             try
             {
@@ -150,7 +150,7 @@ namespace TimeCore.ModelService.EFC.SQL
                     //Existiert Datenbank und ist der Zugriff gewährt?
                     if (sqlContext.Database.CanConnect())
                     {
-                        IWorkshopModel existingWorkshop = sqlContext.Workshop.Find(updateWorkshop.ID);
+                        WorkshopModel existingWorkshop = sqlContext.Workshop.Find(updateWorkshop.ID);
                         if (existingWorkshop != null)
                         {
                             existingWorkshop.ID = updateWorkshop.ID;
@@ -178,7 +178,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public Task<IWorkshopModel> UpdateWorkshopToDataSource_Async(IWorkshopModel updateWorkshop)
+        public async Task<WorkshopModel> UpdateWorkshopToDataSource_Async(WorkshopModel updateWorkshop)
         {
             try
             {
@@ -188,7 +188,7 @@ namespace TimeCore.ModelService.EFC.SQL
                     //Existiert Datenbank und ist der Zugriff gewährt?
                     if (sqlContext.Database.CanConnect())
                     {
-                        IWorkshopModel existingWorkshop = sqlContext.Workshop.Find(updateWorkshop.ID);
+                        WorkshopModel existingWorkshop = sqlContext.Workshop.Find(updateWorkshop.ID);
                         if (existingWorkshop != null)
                         {
                             existingWorkshop.ID = updateWorkshop.ID;
@@ -197,10 +197,10 @@ namespace TimeCore.ModelService.EFC.SQL
                             existingWorkshop.Firm = updateWorkshop.Firm;
                             existingWorkshop.LastUpdate = updateWorkshop.LastUpdate;
                             sqlContext.SaveChanges();
-                            return Task.FromResult(existingWorkshop);
+                            return await Task.FromResult(existingWorkshop).ConfigureAwait(false);
                         }
                         else
-                            return AddWorkshopToDataSource_Async(updateWorkshop);
+                            return await AddWorkshopToDataSource_Async(updateWorkshop).ConfigureAwait(false);
                     }
                     else
                     {

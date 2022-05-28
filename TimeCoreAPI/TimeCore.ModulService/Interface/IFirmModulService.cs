@@ -5,11 +5,11 @@ namespace TimeCore.ModulService
 {
     public interface IFirmModulService
     {
-        Task<IFirmModel> GetFirmByNumber_Async(int searchFirmID);
-        Task<IFirmModel> CreateFirm_Async(IFirmModel newFirm);
-        Task<IFirmModel> UpdateFirm_Async(IFirmModel newFirm);
-        IFirmModel GetFirmByNumber(int searchFirmID);
-        IFirmModel CreateFirm(IFirmModel newFirm);
-        IFirmModel UpdateFirm(IFirmModel newFirm);
+        Task<FirmModel> GetFirmByNumber_Async(int searchFirmID);
+        Task<FirmModel> CreateFirm_Async(FirmModel newFirm);
+        Task<FirmModel> UpdateFirm_Async(FirmModel newFirm);
+        FirmModel GetFirmByNumber(int searchFirmID);
+        FirmModel CreateFirm(FirmModel newFirm);
+        FirmModel UpdateFirm(FirmModel newFirm);
     }
 }

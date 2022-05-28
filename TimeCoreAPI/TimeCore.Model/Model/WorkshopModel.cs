@@ -2,11 +2,10 @@
 
 namespace Model
 {
-    public class FirmModel : IFirmModel
+    public class WorkshopModel : BasicModel
     {
-        public int ID { get; set; }
-        public DateTime LastUpdate { get; set; }
         public string Name { get; set; }
         public int Number { get; set; }
+        public virtual FirmModel Firm { get; set; }
     }
 }

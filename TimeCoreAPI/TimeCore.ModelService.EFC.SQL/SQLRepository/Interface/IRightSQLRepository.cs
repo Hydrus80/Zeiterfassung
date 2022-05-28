@@ -6,11 +6,11 @@ namespace TimeCore.ModelService.EFC.SQL
     public interface IRightSQLRepository
     {
         void DataSeeding();
-        Task<IRightModel> GetRightByIDFromDataSource_Async(int searchID);
-        IRightModel GetRightByIDFromDataSource(int searchID);
+        Task<RightModel> GetRightByIDFromDataSource_Async(int searchID);
+        RightModel GetRightByIDFromDataSource(int searchID);
 
-        Task<IRightModel> GetRightByRightIDFromDataSource_Async(int searchRightID);
-        IRightModel GetRightByRightIDFromDataSource(int searchRightID);
+        Task<RightModel> GetRightByRightIDFromDataSource_Async(int searchRightID);
+        RightModel GetRightByRightIDFromDataSource(int searchRightID);
 
     }
 }

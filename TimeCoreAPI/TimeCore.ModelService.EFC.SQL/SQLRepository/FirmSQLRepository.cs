@@ -13,7 +13,7 @@ namespace TimeCore.ModelService.EFC.SQL
         public FirmSQLRepository()
         { }
 
-        public IFirmModel AddFirmToDataSource(IFirmModel newFirm)
+        public FirmModel AddFirmToDataSource(FirmModel newFirm)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public Task<IFirmModel> AddFirmToDataSource_Async(IFirmModel newFirm)
+        public async Task<FirmModel> AddFirmToDataSource_Async(FirmModel newFirm)
         {
             try
             {
@@ -71,7 +71,7 @@ namespace TimeCore.ModelService.EFC.SQL
                         //Änderungen speichern
                         //m_partcontext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT PartStorage ON"); //ExecuteSqlCommand
                         sqlContext.SaveChanges();
-                        return Task.FromResult<IFirmModel>(insertEntry);
+                        return await Task.FromResult<FirmModel>(insertEntry).ConfigureAwait(false);
                     }
                     else
                     {
@@ -87,7 +87,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public IFirmModel GetFirmByIDFromDataSource(int searchFirmID)
+        public FirmModel GetFirmByIDFromDataSource(int searchFirmID)
         {
             try
             {
@@ -113,7 +113,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public Task<IFirmModel> GetFirmByIDFromDataSource_Async(int searchFirmID)
+        public async Task<FirmModel> GetFirmByIDFromDataSource_Async(int searchFirmID)
         {
             try
             {
@@ -123,7 +123,7 @@ namespace TimeCore.ModelService.EFC.SQL
                     //Existiert Datenbank und ist der Zugriff gewährt?
                     if (sqlContext.Database.CanConnect())
                     {
-                        return Task.FromResult<IFirmModel>(sqlContext.Firm.Find(searchFirmID));
+                        return await Task.FromResult<FirmModel>(sqlContext.Firm.Find(searchFirmID)).ConfigureAwait(false);
                     }
                     else
                     {
@@ -139,7 +139,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public IFirmModel UpdateFirmToDataSource(IFirmModel updateFirm)
+        public FirmModel UpdateFirmToDataSource(FirmModel updateFirm)
         {
             try
             {
@@ -149,7 +149,7 @@ namespace TimeCore.ModelService.EFC.SQL
                     //Existiert Datenbank und ist der Zugriff gewährt?
                     if (sqlContext.Database.CanConnect())
                     {
-                        IFirmModel existingFirm = sqlContext.Firm.Find(updateFirm.ID);
+                        FirmModel existingFirm = sqlContext.Firm.Find(updateFirm.ID);
                         if (existingFirm != null)
                         {
                             existingFirm.ID = updateFirm.ID;
@@ -176,7 +176,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public Task<IFirmModel> UpdateFirmToDataSource_Async(IFirmModel updateFirm)
+        public async Task<FirmModel> UpdateFirmToDataSource_Async(FirmModel updateFirm)
         {
             try
             {
@@ -186,7 +186,7 @@ namespace TimeCore.ModelService.EFC.SQL
                     //Existiert Datenbank und ist der Zugriff gewährt?
                     if (sqlContext.Database.CanConnect())
                     {
-                        IFirmModel existingFirm = sqlContext.Firm.Find(updateFirm.ID);
+                        FirmModel existingFirm = sqlContext.Firm.Find(updateFirm.ID);
                         if (existingFirm != null)
                         {
                             existingFirm.ID = updateFirm.ID;
@@ -194,10 +194,10 @@ namespace TimeCore.ModelService.EFC.SQL
                             existingFirm.Number = updateFirm.Number;
                             existingFirm.LastUpdate = updateFirm.LastUpdate;
                             sqlContext.SaveChanges();
-                            return Task.FromResult(existingFirm);
+                            return await Task.FromResult(existingFirm).ConfigureAwait(false);
                         }
                         else
-                            return AddFirmToDataSource_Async(updateFirm);
+                            return await AddFirmToDataSource_Async(updateFirm).ConfigureAwait(false);
                     }
                     else
                     {

@@ -5,11 +5,11 @@ namespace TimeCore.ModelService.EFC.SQL
 {
     public interface IWorkshopSQLRepository
     {
-        Task<IWorkshopModel> AddWorkshopToDataSource_Async(IWorkshopModel newWorkshop);
-        IWorkshopModel AddWorkshopToDataSource(IWorkshopModel newWorkshop);
-        Task<IWorkshopModel> GetWorkshopByIDFromDataSource_Async(int searchWorkshopID);
-        IWorkshopModel GetWorkshopByIDFromDataSource(int searchWorkshopID);
-        Task<IWorkshopModel> UpdateWorkshopToDataSource_Async(IWorkshopModel updateWorkshop);
-        IWorkshopModel UpdateWorkshopToDataSource(IWorkshopModel updateWorkshop);
+        Task<WorkshopModel> AddWorkshopToDataSource_Async(WorkshopModel newWorkshop);
+        WorkshopModel AddWorkshopToDataSource(WorkshopModel newWorkshop);
+        Task<WorkshopModel> GetWorkshopByIDFromDataSource_Async(int searchWorkshopID);
+        WorkshopModel GetWorkshopByIDFromDataSource(int searchWorkshopID);
+        Task<WorkshopModel> UpdateWorkshopToDataSource_Async(WorkshopModel updateWorkshop);
+        WorkshopModel UpdateWorkshopToDataSource(WorkshopModel updateWorkshop);
     }
 }

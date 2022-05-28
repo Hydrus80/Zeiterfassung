@@ -5,11 +5,11 @@ namespace TimeCore.ModulService
 {
     public interface IWorkshopModulService
     {
-        Task<IWorkshopModel> GetWorkshopByNumber_Async(int searchWorkshopID);
-        Task<IWorkshopModel> CreateWorkshop_Async(IWorkshopModel newWorkshop);
-        Task<IWorkshopModel> UpdateWorkshop_Async(IWorkshopModel newWorkshop);
-        IWorkshopModel GetWorkshopByNumber(int searchWorkshopID);
-        IWorkshopModel CreateWorkshop(IWorkshopModel newWorkshop);
-        IWorkshopModel UpdateWorkshop(IWorkshopModel newWorkshop);
+        Task<WorkshopModel> GetWorkshopByNumber_Async(int searchWorkshopID);
+        Task<WorkshopModel> CreateWorkshop_Async(WorkshopModel newWorkshop);
+        Task<WorkshopModel> UpdateWorkshop_Async(WorkshopModel newWorkshop);
+        WorkshopModel GetWorkshopByNumber(int searchWorkshopID);
+        WorkshopModel CreateWorkshop(WorkshopModel newWorkshop);
+        WorkshopModel UpdateWorkshop(WorkshopModel newWorkshop);
     }
 }

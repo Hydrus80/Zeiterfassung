@@ -27,10 +27,10 @@ namespace TimeCore.Test
         {
             //Arrange
             Mock<IWorkshopModulService> WorkshopModulService = new Mock<IWorkshopModulService>();
-            WorkshopModulService.Setup(x => x.GetWorkshopByNumber_Async(1)).Returns(Task.FromResult<IWorkshopModel>(mockData.GetWorkshopOne()));
+            WorkshopModulService.Setup(x => x.GetWorkshopByNumber_Async(1)).Returns(Task.FromResult<WorkshopModel>(mockData.GetWorkshopOne()));
 
             //Act
-            IWorkshopModel MockResult = WorkshopModulService.Object.GetWorkshopByNumber_Async(1).GetAwaiter().GetResult();
+            WorkshopModel MockResult = WorkshopModulService.Object.GetWorkshopByNumber_Async(1).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.ID == mockData.GetWorkshopOne().ID);
@@ -46,10 +46,10 @@ namespace TimeCore.Test
         {
             //Arrange
             Mock<IWorkshopModulService> WorkshopModulService = new Mock<IWorkshopModulService>();
-            WorkshopModulService.Setup(x => x.GetWorkshopByNumber_Async(2)).Returns(Task.FromResult<IWorkshopModel>(null));
+            WorkshopModulService.Setup(x => x.GetWorkshopByNumber_Async(2)).Returns(Task.FromResult<WorkshopModel>(null));
 
             //Act
-            IWorkshopModel MockResult = WorkshopModulService.Object.GetWorkshopByNumber_Async(2).GetAwaiter().GetResult();
+            WorkshopModel MockResult = WorkshopModulService.Object.GetWorkshopByNumber_Async(2).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult is null);
@@ -66,7 +66,7 @@ namespace TimeCore.Test
             WorkshopModulService.Setup(x => x.GetWorkshopByNumber(1)).Returns(mockData.GetWorkshopOne());
 
             //Act
-            IWorkshopModel MockResult = WorkshopModulService.Object.GetWorkshopByNumber(1);
+            WorkshopModel MockResult = WorkshopModulService.Object.GetWorkshopByNumber(1);
 
             //Assert
             Assert.IsTrue(MockResult.ID == mockData.GetWorkshopOne().ID);
@@ -85,7 +85,7 @@ namespace TimeCore.Test
             WorkshopModulService.Setup(x => x.GetWorkshopByNumber(2));
 
             //Act
-            IWorkshopModel MockResult = WorkshopModulService.Object.GetWorkshopByNumber(2);
+            WorkshopModel MockResult = WorkshopModulService.Object.GetWorkshopByNumber(2);
 
             //Assert
             Assert.IsTrue(MockResult is null);
@@ -99,10 +99,10 @@ namespace TimeCore.Test
         {
             //Arrange
             Mock<IWorkshopModulService> WorkshopModulService = new Mock<IWorkshopModulService>();
-            WorkshopModulService.Setup(x => x.CreateWorkshop_Async(It.IsAny<IWorkshopModel>())).Returns(Task.FromResult<IWorkshopModel>(mockData.GetWorkshopOne()));
+            WorkshopModulService.Setup(x => x.CreateWorkshop_Async(It.IsAny<WorkshopModel>())).Returns(Task.FromResult<WorkshopModel>(mockData.GetWorkshopOne()));
 
             //Act
-            IWorkshopModel MockResult = WorkshopModulService.Object.CreateWorkshop_Async(new WorkshopModel()).GetAwaiter().GetResult();
+            WorkshopModel MockResult = WorkshopModulService.Object.CreateWorkshop_Async(new WorkshopModel()).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.ID == mockData.GetWorkshopOne().ID);
@@ -117,10 +117,10 @@ namespace TimeCore.Test
         {
             //Arrange
             Mock<IWorkshopModulService> WorkshopModulService = new Mock<IWorkshopModulService>();
-            WorkshopModulService.Setup(x => x.CreateWorkshop(It.IsAny<IWorkshopModel>())).Returns(mockData.GetWorkshopOne());
+            WorkshopModulService.Setup(x => x.CreateWorkshop(It.IsAny<WorkshopModel>())).Returns(mockData.GetWorkshopOne());
 
             //Act
-            IWorkshopModel MockResult = WorkshopModulService.Object.CreateWorkshop(new WorkshopModel());
+            WorkshopModel MockResult = WorkshopModulService.Object.CreateWorkshop(new WorkshopModel());
 
             //Assert
             Assert.IsTrue(MockResult.ID == mockData.GetWorkshopOne().ID);
@@ -134,10 +134,10 @@ namespace TimeCore.Test
         {
             //Arrange
             Mock<IWorkshopModulService> WorkshopModulService = new Mock<IWorkshopModulService>();
-            WorkshopModulService.Setup(x => x.UpdateWorkshop_Async(It.IsAny<IWorkshopModel>())).Returns<IWorkshopModel>(x => Task.FromResult<IWorkshopModel>(x));
+            WorkshopModulService.Setup(x => x.UpdateWorkshop_Async(It.IsAny<WorkshopModel>())).Returns<WorkshopModel>(x => Task.FromResult<WorkshopModel>(x));
 
             //Act
-            IWorkshopModel MockResult = WorkshopModulService.Object.UpdateWorkshop_Async(mockData.GetWorkshopTwo()).GetAwaiter().GetResult();
+            WorkshopModel MockResult = WorkshopModulService.Object.UpdateWorkshop_Async(mockData.GetWorkshopTwo()).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.ID == mockData.GetWorkshopTwo().ID);
@@ -154,10 +154,10 @@ namespace TimeCore.Test
         {
             //Arrange
             Mock<IWorkshopModulService> WorkshopModulService = new Mock<IWorkshopModulService>();
-            WorkshopModulService.Setup(x => x.UpdateWorkshop(It.IsAny<IWorkshopModel>())).Returns<IWorkshopModel>(x => x);
+            WorkshopModulService.Setup(x => x.UpdateWorkshop(It.IsAny<WorkshopModel>())).Returns<WorkshopModel>(x => x);
 
             //Act
-            IWorkshopModel MockResult = WorkshopModulService.Object.UpdateWorkshop(mockData.GetWorkshopTwo());
+            WorkshopModel MockResult = WorkshopModulService.Object.UpdateWorkshop(mockData.GetWorkshopTwo());
 
             //Assert
             Assert.IsTrue(MockResult.ID == mockData.GetWorkshopTwo().ID);

@@ -53,5 +53,6 @@ namespace TimeCore.ModelService.EFC.SQL
         public virtual DbSet<AccountModel> Account { get; set; }
         public virtual DbSet<RightModel> Right { get; set; }
         public virtual DbSet<AccountRightModel> AccountRight { get; set; }
+        public virtual DbSet<TimeStampModel> TimeStamp { get; set; }
     }
 }

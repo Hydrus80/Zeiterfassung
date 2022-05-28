@@ -25,7 +25,7 @@ namespace TimeCore.ModelService
             return modelFirmSQLRepository;
         }
 
-        public IFirmModel AddFirm(IFirmModel newFirm)
+        public FirmModel AddFirm(FirmModel newFirm)
         {
             if (modelDatabaseType == eDatabaseType.SQL)
                 return GetCurrentFirmSQLRepository().AddFirmToDataSource(newFirm);
@@ -33,15 +33,15 @@ namespace TimeCore.ModelService
                 return null;
         }
 
-        public Task<IFirmModel> AddFirm_Async(IFirmModel newFirm)
+        public async Task<FirmModel> AddFirm_Async(FirmModel newFirm)
         {
             if (modelDatabaseType == eDatabaseType.SQL)
-                return GetCurrentFirmSQLRepository().AddFirmToDataSource_Async(newFirm);
+                return await GetCurrentFirmSQLRepository().AddFirmToDataSource_Async(newFirm).ConfigureAwait(false);
             else
                 return null;
         }
 
-        public IFirmModel GetFirmByID(int searchFirmID)
+        public FirmModel GetFirmByID(int searchFirmID)
         {
             if (modelDatabaseType == eDatabaseType.SQL)
                 return GetCurrentFirmSQLRepository().GetFirmByIDFromDataSource(searchFirmID);
@@ -49,15 +49,15 @@ namespace TimeCore.ModelService
                 return null;
         }
 
-        public Task<IFirmModel> GetFirmByID_Async(int searchFirmID)
+        public async Task<FirmModel> GetFirmByID_Async(int searchFirmID)
         {
             if (modelDatabaseType == eDatabaseType.SQL)
-                return GetCurrentFirmSQLRepository().GetFirmByIDFromDataSource_Async(searchFirmID);
+                return await GetCurrentFirmSQLRepository().GetFirmByIDFromDataSource_Async(searchFirmID).ConfigureAwait(false);
             else
                 return null;
         }
 
-        public IFirmModel UpdateFirm(IFirmModel updateFirm)
+        public FirmModel UpdateFirm(FirmModel updateFirm)
         {
             if (modelDatabaseType == eDatabaseType.SQL)
                 return GetCurrentFirmSQLRepository().UpdateFirmToDataSource(updateFirm);
@@ -65,10 +65,10 @@ namespace TimeCore.ModelService
                 return null;
         }
 
-        public Task<IFirmModel> UpdateFirm_Async(IFirmModel updateFirm)
+        public async Task<FirmModel> UpdateFirm_Async(FirmModel updateFirm)
         {
             if (modelDatabaseType == eDatabaseType.SQL)
-                return GetCurrentFirmSQLRepository().UpdateFirmToDataSource_Async(updateFirm);
+                return await GetCurrentFirmSQLRepository().UpdateFirmToDataSource_Async(updateFirm).ConfigureAwait(false);
             else
                 return null;
         }
