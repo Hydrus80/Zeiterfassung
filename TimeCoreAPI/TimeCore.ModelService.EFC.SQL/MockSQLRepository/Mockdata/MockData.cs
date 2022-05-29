@@ -30,12 +30,20 @@ namespace TimeCore.ModelService.EFC.SQL
 
         public AccountModel GetAccountOne()
         {
-            return new AccountModel() { ID = 1, Username = "MockAccount", Password = "XXX", LastUpdate = mockDate, Workshop = GetWorkshopOne() };
+            return new AccountModel() { ID = 1, Username = "MockAccount", Password = "MockPassword", LastUpdate = mockDate, Workshop = GetWorkshopOne() };
         }
 
         public AccountModel GetAccountTwo()
         {
-            return new AccountModel() { ID = 2, Username = "New", Password = "XXX", LastUpdate = mockDate, Workshop = GetWorkshopOne() };
+            return new AccountModel() { ID = 2, Username = "New", Password = "MockPassword", LastUpdate = mockDate, Workshop = GetWorkshopOne() };
+        }
+
+        public List<AccountModel> GetAccounts()
+        {
+            List<AccountModel> returnList = new List<AccountModel>();
+            returnList.Add(GetAccountOne());
+            returnList.Add(GetAccountTwo());
+            return returnList;
         }
 
         public TimeStampModel GetStampInForAccountOne()

@@ -10,7 +10,7 @@ using TimeCore.ModulService;
 namespace TimeCore.Test
 {
     [TestClass]
-    public class CheckTimeCoreModulService
+    public class CheckTimeCoreModulService_Mock
     {
         //Felder
         public static MockData mockData = new MockData();

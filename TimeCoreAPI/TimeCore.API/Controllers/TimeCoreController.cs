@@ -15,14 +15,13 @@ namespace TimeCore.API.Controllers
     public class TimeCoreController : ControllerBase
     {
         public ITimeCoreModulService timeCoreModulService;
-        public IAccountSQLRepository accountSQLRepository = new AccountSQLRepository();
-        public ITimeStampSQLRepository timeStampSQLRepository = new TimeStampSQLRepository();
 
-        public ITimeCoreModulService GetCurrentTimeCoreModulService()
+        public ITimeCoreModulService GetCurrentTimeCoreSQLModulService()
         {
             if (timeCoreModulService is null)
-                timeCoreModulService = new TimeCoreModulService(SupportedDatabaseType.eDatabaseType.SQL, 
-                    accountSQLRepository, timeStampSQLRepository);
+                timeCoreModulService = new TimeCoreSQLModulService(
+                    new TimeStampModelService(SupportedDatabaseType.eDatabaseType.SQL,new TimeStampSQLRepository()), 
+                    new AccountModelService(SupportedDatabaseType.eDatabaseType.SQL, new AccountSQLRepository()));
             return timeCoreModulService;
         }
 

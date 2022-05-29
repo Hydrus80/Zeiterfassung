@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ModulService\CheckTimeCoreModulService_Mock.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="ModulService\CheckTimeCoreModulService_Mock.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
     <PackageReference Include="Moq" Version="4.18.1" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.3" />
@@ -17,10 +25,6 @@
   <ItemGroup>
     <ProjectReference Include="..\TimeCore.ModulService\TimeCore.ModulService.csproj" />
     <ProjectReference Include="..\TimeCore.Model\TimeCore.Model.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ModelService\" />
   </ItemGroup>
 
 </Project>
