@@ -12,7 +12,7 @@ namespace TimeCore.ModelService.EFC.SQL
         Task<TimeStampModel> GetTimeStampByIDFromDataSource_Async(int searchTimeStampID);
         TimeStampModel UpdateTimeStampToDataSource(TimeStampModel updateTimeStamp);
         Task<TimeStampModel> UpdateTimeStampToDataSource_Async(TimeStampModel updateTimeStamp);
-        List<TimeStampModel> GetTimeStampListFromDataSource(AccountModel userAccount, int selectedMonth);
-        Task<List<TimeStampModel>> GetTimeStampListFromDataSource_Async(AccountModel userAccount, int selectedMonth);
+        List<TimeStampModel> GetTimeStampListFromDataSource(AccountModel userAccount, int selectedYear, int selectedMonth);
+        Task<List<TimeStampModel>> GetTimeStampListFromDataSource_Async(AccountModel userAccount, int selectedYear, int selectedMonth);
     }
 }

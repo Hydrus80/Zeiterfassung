@@ -13,40 +13,29 @@ namespace TimeCore.ModulService
         public IAccountSQLRepository accountSQLRepository;
         public ITimeStampSQLRepository timeStampSQLRepository;
 
-        public TimeCoreModulService(eDatabaseType selectedDatabaseType)
+        public TimeCoreModulService(eDatabaseType selectedDatabaseType, 
+            IAccountSQLRepository selectAccountSQLRepository, ITimeStampSQLRepository selectTimeStampSQLRepository)
         {
             modelDatabaseType = selectedDatabaseType;
+            accountSQLRepository = selectAccountSQLRepository;
+            timeStampSQLRepository = selectTimeStampSQLRepository;
         }
 
-        public IAccountSQLRepository GetCurrentAccountSQLRepository()
-        {
-            if (accountSQLRepository is null)
-                accountSQLRepository = new AccountSQLRepository();
-            return accountSQLRepository;
-        }
-
-        public ITimeStampSQLRepository GetCurrentTimeStampSQLRepository()
-        {
-            if (timeStampSQLRepository is null)
-                timeStampSQLRepository = new TimeStampSQLRepository();
-            return timeStampSQLRepository;
-        }
-
-        public List<TimeStampModel> GetStampTimesMonthList(AccountModel userAccount, int selectedMonth)
+        public List<TimeStampModel> GetStampTimesMonthList(AccountModel userAccount, int selectedYear, int selectedMonth)
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return GetCurrentTimeStampSQLRepository().GetTimeStampListFromDataSource(userAccount, selectedMonth);
+                return timeStampSQLRepository.GetTimeStampListFromDataSource(userAccount, selectedYear, selectedMonth);
             }
             else
                 return null;
         }
 
-        public async Task<List<TimeStampModel>> GetStampTimesMonthList_Async(AccountModel userAccount, int selectedMonth)
+        public async Task<List<TimeStampModel>> GetStampTimesMonthList_Async(AccountModel userAccount, int selectedYear, int selectedMonth)
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return await GetCurrentTimeStampSQLRepository().GetTimeStampListFromDataSource_Async(userAccount, selectedMonth).ConfigureAwait(false);
+                return await timeStampSQLRepository.GetTimeStampListFromDataSource_Async(userAccount, selectedYear, selectedMonth).ConfigureAwait(false);
             }
             else
                 return null;
@@ -56,7 +45,7 @@ namespace TimeCore.ModulService
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return GetCurrentAccountSQLRepository().GetAccountByCredentialsFromDataSource(accountUserName, accountPassword, workshopID);
+                return accountSQLRepository.GetAccountByCredentialsFromDataSource(accountUserName, accountPassword, workshopID);
             }
             else
                 return null;
@@ -66,7 +55,7 @@ namespace TimeCore.ModulService
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return await GetCurrentAccountSQLRepository().GetAccountByCredentialsFromDataSource_Async(accountUserName, accountPassword, workshopID).ConfigureAwait(false);
+                return await accountSQLRepository.GetAccountByCredentialsFromDataSource_Async(accountUserName, accountPassword, workshopID).ConfigureAwait(false);
             }
             else
                 return null;
@@ -86,7 +75,7 @@ namespace TimeCore.ModulService
                 stampIn.TimeStampMinute = stampTime.Minute;
                 stampIn.TimeStampSecond = stampTime.Second;
                 stampIn.LastUpdate = stampTime;
-                return GetCurrentTimeStampSQLRepository().AddTimeStampToDataSource(stampIn);
+                return timeStampSQLRepository.AddTimeStampToDataSource(stampIn);
             }
             else
                 return null;
@@ -106,7 +95,7 @@ namespace TimeCore.ModulService
                 stampIn.TimeStampMinute = stampTime.Minute;
                 stampIn.TimeStampSecond = stampTime.Second;
                 stampIn.LastUpdate = stampTime;
-                return await Task.FromResult(GetCurrentTimeStampSQLRepository().AddTimeStampToDataSource(stampIn)).ConfigureAwait(false);
+                return await timeStampSQLRepository.AddTimeStampToDataSource_Async(stampIn).ConfigureAwait(false);
             }
             else
                 return null;
@@ -126,7 +115,7 @@ namespace TimeCore.ModulService
                 stampOut.TimeStampMinute = stampTime.Minute;
                 stampOut.TimeStampSecond = stampTime.Second;
                 stampOut.LastUpdate = stampTime;
-                return GetCurrentTimeStampSQLRepository().AddTimeStampToDataSource(stampOut);
+                return timeStampSQLRepository.AddTimeStampToDataSource(stampOut);
             }
             else
                 return null;
@@ -147,7 +136,7 @@ namespace TimeCore.ModulService
                 stampOut.TimeStampMinute = stampTime.Minute;
                 stampOut.TimeStampSecond = stampTime.Second;
                 stampOut.LastUpdate = stampTime;
-                return await Task.FromResult(GetCurrentTimeStampSQLRepository().AddTimeStampToDataSource(stampOut)).ConfigureAwait(false);
+                return await timeStampSQLRepository.AddTimeStampToDataSource_Async(stampOut).ConfigureAwait(false);
             }
             else
                 return null;

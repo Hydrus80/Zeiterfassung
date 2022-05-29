@@ -4,6 +4,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TimeCore.ModelService.EFC.SQL;
 using TimeCore.ModulService;
 
 namespace TimeCore.Test
@@ -496,13 +497,14 @@ namespace TimeCore.Test
             //Init
             AccountModel userAccount = mockData.GetAccountOne();
             int selectedMonth = mockData.mockDate.Month;
+            int selectedYear = mockData.mockDate.Year;
 
-            //Arrange
-            Mock<ITimeCoreModulService> WorkshopModulService = new Mock<ITimeCoreModulService>();
-            WorkshopModulService.Setup(x => x.GetStampTimesMonthList(userAccount, selectedMonth)).Returns(mockData.GetStampLidtForAccountOne());
+           //Arrange
+           Mock<ITimeCoreModulService> WorkshopModulService = new Mock<ITimeCoreModulService>();
+            WorkshopModulService.Setup(x => x.GetStampTimesMonthList(userAccount, selectedYear, selectedMonth)).Returns(mockData.GetTimeStampsForAccountOne());
 
             //Act
-            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthList(userAccount, selectedMonth);
+            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthList(userAccount, selectedYear, selectedMonth);
 
             //Assert
             Assert.IsTrue(MockResult.Count == 2);
@@ -519,13 +521,14 @@ namespace TimeCore.Test
             //Init
             AccountModel userAccount = mockData.GetAccountOne();
             int selectedMonth = mockData.mockDate.Month;
+            int selectedYear = mockData.mockDate.Year;
 
             //Arrange
             Mock<ITimeCoreModulService> WorkshopModulService = new Mock<ITimeCoreModulService>();
-            WorkshopModulService.Setup(x => x.GetStampTimesMonthList_Async(userAccount, selectedMonth)).Returns(Task.FromResult<List<TimeStampModel>>(mockData.GetStampLidtForAccountOne()));
+            WorkshopModulService.Setup(x => x.GetStampTimesMonthList_Async(userAccount, selectedYear, selectedMonth)).Returns(Task.FromResult<List<TimeStampModel>>(mockData.GetTimeStampsForAccountOne()));
 
             //Act
-            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthList_Async(userAccount, selectedMonth).GetAwaiter().GetResult();
+            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthList_Async(userAccount, selectedYear, selectedMonth).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.Count == 2);
@@ -542,13 +545,14 @@ namespace TimeCore.Test
             //Init
             AccountModel userAccount = new AccountModel();
             int selectedMonth = mockData.mockDate.Month;
+            int selectedYear = mockData.mockDate.Year;
 
             //Arrange
             Mock<ITimeCoreModulService> WorkshopModulService = new Mock<ITimeCoreModulService>();
-            WorkshopModulService.Setup(x => x.GetStampTimesMonthList(userAccount, selectedMonth)).Returns(new List<TimeStampModel>());
+            WorkshopModulService.Setup(x => x.GetStampTimesMonthList(userAccount, selectedYear, selectedMonth)).Returns(new List<TimeStampModel>());
 
             //Act
-            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthList(userAccount, selectedMonth);
+            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthList(userAccount, selectedYear, selectedMonth);
 
             //Assert
             Assert.IsTrue(MockResult.Count == 0);
@@ -563,13 +567,14 @@ namespace TimeCore.Test
             //Init
             AccountModel userAccount = new AccountModel();
             int selectedMonth = mockData.mockDate.Month;
+            int selectedYear = mockData.mockDate.Year;
 
             //Arrange
             Mock<ITimeCoreModulService> WorkshopModulService = new Mock<ITimeCoreModulService>();
-            WorkshopModulService.Setup(x => x.GetStampTimesMonthList_Async(userAccount, selectedMonth)).Returns(Task.FromResult<List<TimeStampModel>>(new List<TimeStampModel>()));
+            WorkshopModulService.Setup(x => x.GetStampTimesMonthList_Async(userAccount, selectedYear, selectedMonth)).Returns(Task.FromResult<List<TimeStampModel>>(new List<TimeStampModel>()));
 
             //Act
-            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthList_Async(userAccount, selectedMonth).GetAwaiter().GetResult();
+            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthList_Async(userAccount, selectedYear, selectedMonth).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.Count == 0);
@@ -584,13 +589,14 @@ namespace TimeCore.Test
             //Init
             AccountModel userAccount = mockData.GetAccountOne();
             int selectedMonth = mockData.mockDate.Month - 1;
+            int selectedYear = mockData.mockDate.Year;
 
             //Arrange
             Mock<ITimeCoreModulService> WorkshopModulService = new Mock<ITimeCoreModulService>();
-            WorkshopModulService.Setup(x => x.GetStampTimesMonthList(userAccount, selectedMonth)).Returns(new List<TimeStampModel>());
+            WorkshopModulService.Setup(x => x.GetStampTimesMonthList(userAccount, selectedYear, selectedMonth)).Returns(new List<TimeStampModel>());
 
             //Act
-            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthList(userAccount, selectedMonth);
+            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthList(userAccount, selectedYear, selectedMonth);
 
             //Assert
             Assert.IsTrue(MockResult.Count == 0);
@@ -605,13 +611,14 @@ namespace TimeCore.Test
             //Init
             AccountModel userAccount = mockData.GetAccountOne();
             int selectedMonth = mockData.mockDate.Month - 1;
+            int selectedYear = mockData.mockDate.Year;
 
             //Arrange
             Mock<ITimeCoreModulService> WorkshopModulService = new Mock<ITimeCoreModulService>();
-            WorkshopModulService.Setup(x => x.GetStampTimesMonthList_Async(userAccount, selectedMonth)).Returns(Task.FromResult<List<TimeStampModel>>(new List<TimeStampModel>()));
+            WorkshopModulService.Setup(x => x.GetStampTimesMonthList_Async(userAccount, selectedYear, selectedMonth)).Returns(Task.FromResult<List<TimeStampModel>>(new List<TimeStampModel>()));
 
             //Act
-            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthList_Async(userAccount, selectedMonth).GetAwaiter().GetResult();
+            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthList_Async(userAccount, selectedYear,  selectedMonth).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.Count == 0);
@@ -627,13 +634,14 @@ namespace TimeCore.Test
             AccountModel userAccount = mockData.GetAccountOne();
             userAccount.Password = "XXX";
             int selectedMonth = mockData.mockDate.Month;
+            int selectedYear = mockData.mockDate.Year;
 
             //Arrange
             Mock<ITimeCoreModulService> WorkshopModulService = new Mock<ITimeCoreModulService>();
-            WorkshopModulService.Setup(x => x.GetStampTimesMonthList(userAccount, selectedMonth)).Returns(new List<TimeStampModel>());
+            WorkshopModulService.Setup(x => x.GetStampTimesMonthList(userAccount, selectedYear, selectedMonth)).Returns(new List<TimeStampModel>());
 
             //Act
-            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthList(userAccount, selectedMonth);
+            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthList(userAccount, selectedYear, selectedMonth);
             
             //Assert
             Assert.IsTrue(MockResult.Count == 0);
@@ -649,13 +657,14 @@ namespace TimeCore.Test
             AccountModel userAccount = mockData.GetAccountOne();
             userAccount.Password = "XXX";
             int selectedMonth = mockData.mockDate.Month;
+            int selectedYear = mockData.mockDate.Year;
 
             //Arrange
             Mock<ITimeCoreModulService> WorkshopModulService = new Mock<ITimeCoreModulService>();
-            WorkshopModulService.Setup(x => x.GetStampTimesMonthList_Async(userAccount, selectedMonth)).Returns(Task.FromResult<List<TimeStampModel>>(new List<TimeStampModel>()));
+            WorkshopModulService.Setup(x => x.GetStampTimesMonthList_Async(userAccount, selectedYear,selectedMonth)).Returns(Task.FromResult<List<TimeStampModel>>(new List<TimeStampModel>()));
 
             //Act
-            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthList_Async(userAccount, selectedMonth).GetAwaiter().GetResult();
+            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthList_Async(userAccount, selectedYear, selectedMonth).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.Count == 0);

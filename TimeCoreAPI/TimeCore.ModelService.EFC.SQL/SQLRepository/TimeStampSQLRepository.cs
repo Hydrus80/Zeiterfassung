@@ -233,7 +233,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public List<TimeStampModel> GetTimeStampListFromDataSource(AccountModel userAccount, int selectedMonth)
+        public List<TimeStampModel> GetTimeStampListFromDataSource(AccountModel userAccount, int selectedYear, int selectedMonth)
         {
             try
             {
@@ -244,7 +244,8 @@ namespace TimeCore.ModelService.EFC.SQL
                     if (sqlContext.Database.CanConnect())
                     {
                         return sqlContext.TimeStamp.Where(s => s.Account.ID == userAccount.ID &&
-                        s.TimeStampMonth == selectedMonth).ToList();
+                        s.TimeStampMonth == selectedMonth &&
+                        s.TimeStampYear == selectedYear).ToList();
                     }
                     else
                     {
@@ -260,7 +261,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public async Task<List<TimeStampModel>> GetTimeStampListFromDataSource_Async(AccountModel userAccount, int selectedMonth)
+        public async Task<List<TimeStampModel>> GetTimeStampListFromDataSource_Async(AccountModel userAccount, int selectedYear, int selectedMonth)
         {
             try
             {
@@ -271,7 +272,8 @@ namespace TimeCore.ModelService.EFC.SQL
                     if (sqlContext.Database.CanConnect())
                     {
                         return await Task.FromResult(sqlContext.TimeStamp.Where(s => s.Account.ID == userAccount.ID &&
-                         s.TimeStampMonth == selectedMonth).ToList()).ConfigureAwait(false);
+                         s.TimeStampMonth == selectedMonth &&
+                        s.TimeStampYear == selectedYear).ToList()).ConfigureAwait(false);
                     }
                     else
                     {

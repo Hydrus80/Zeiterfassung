@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using TimeCore.ErrorHandler;
 using TimeCore.ModelService;
+using TimeCore.ModelService.EFC.SQL;
 using TimeCore.ModulService;
 
 namespace TimeCore.API.Controllers
@@ -14,11 +15,14 @@ namespace TimeCore.API.Controllers
     public class TimeCoreController : ControllerBase
     {
         public ITimeCoreModulService timeCoreModulService;
+        public IAccountSQLRepository accountSQLRepository = new AccountSQLRepository();
+        public ITimeStampSQLRepository timeStampSQLRepository = new TimeStampSQLRepository();
 
-        public ITimeCoreModulService GetCurrentFirmSQLRepository()
+        public ITimeCoreModulService GetCurrentTimeCoreModulService()
         {
             if (timeCoreModulService is null)
-                timeCoreModulService = new TimeCoreModulService(SupportedDatabaseType.eDatabaseType.SQL);
+                timeCoreModulService = new TimeCoreModulService(SupportedDatabaseType.eDatabaseType.SQL, 
+                    accountSQLRepository, timeStampSQLRepository);
             return timeCoreModulService;
         }
 

@@ -19,4 +19,8 @@
     <ProjectReference Include="..\TimeCore.Model\TimeCore.Model.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ModelService\" />
+  </ItemGroup>
+
 </Project>

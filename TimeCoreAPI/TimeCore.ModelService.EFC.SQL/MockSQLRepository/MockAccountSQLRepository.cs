@@ -8,10 +8,12 @@ using TimeCore.ErrorHandler;
 
 namespace TimeCore.ModelService.EFC.SQL
 {
-    public class AccountSQLRepository : IAccountSQLRepository
+    public class MockAccountSQLRepository : IAccountSQLRepository
     {
-        public AccountSQLRepository()
+        public MockAccountSQLRepository()
         { }
+
+    
 
         public AccountModel GetAccountByCredentialsFromDataSource(string accountUserName, string accountPassword, int workshopID)
         {
@@ -29,14 +31,14 @@ namespace TimeCore.ModelService.EFC.SQL
                     }
                     else
                     {
-                        ErrorHandlerLog.WriteError("AccountSQLRepository.GetAccountByCredentialsFromDataSource(): Keine Verbindung zur Datenbank möglich");
+                        ErrorHandlerLog.WriteError("MockAccountSQLRepository.GetAccountByCredentialsFromDataSource(): Keine Verbindung zur Datenbank möglich");
                         return null;
                     }
                 }
             }
             catch (Exception ex)
             {
-                ErrorHandlerLog.WriteError($"AccountSQLRepository.GetAccountByIDFromDataSource(): {ex.Message}");
+                ErrorHandlerLog.WriteError($"MockAccountSQLRepository.GetAccountByIDFromDataSource(): {ex.Message}");
                 return null;
             }
         }
@@ -45,15 +47,29 @@ namespace TimeCore.ModelService.EFC.SQL
         {
             try
             {
-                return await Task.FromResult<AccountModel>(GetAccountByCredentialsFromDataSource(accountUserName, accountPassword, workshopID)).ConfigureAwait(false);
+                //Context setzen
+                using (SQLContext sqlContext = new SQLContext())
+                {
+                    //Existiert Datenbank und ist der Zugriff gewährt?
+                    if (sqlContext.Database.CanConnect())
+                    {
+                        return await Task.FromResult<AccountModel>(sqlContext.Account.Where(s => s.Username == accountUserName &&
+                        s.Password == accountPassword &&
+                        s.Workshop.ID == workshopID).FirstOrDefault<AccountModel>()).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        ErrorHandlerLog.WriteError("MockAccountSQLRepository.GetAccountByCredentialsFromDataSource_Async(): Keine Verbindung zur Datenbank möglich");
+                        return null;
+                    }
+                }
             }
             catch (Exception ex)
             {
-                ErrorHandlerLog.WriteError($"AccountSQLRepository.GetAccountByIDFromDataSource_Async(): {ex.Message}");
+                ErrorHandlerLog.WriteError($"MockAccountSQLRepository.GetAccountByIDFromDataSource_Async(): {ex.Message}");
                 return null;
             }
         }
 
-      
     }
 }

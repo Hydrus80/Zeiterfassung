@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TimeCore.Test
+namespace TimeCore.ModelService.EFC.SQL
 {
     public class MockData
     {
@@ -66,11 +66,80 @@ namespace TimeCore.Test
                 LastUpdate = mockDate.AddHours(1) };
         }
 
-        public List<TimeStampModel> GetStampLidtForAccountOne()
+        public List<TimeStampModel> GetTimeStampsForAccountOne()
         {
             List<TimeStampModel> returnList = new List<TimeStampModel>();
             returnList.Add(GetStampInForAccountOne());
             returnList.Add(GetStampOutOneHourForAccountOne());
+            return returnList;
+        }
+
+        public AccountRightModel GetUserRightInForAccountOne()
+        {
+            return new AccountRightModel()
+            {
+                ID = 1,
+                Account = GetAccountOne(),
+                RightID = (int)eRights.Benutzer,
+                LastUpdate = mockDate
+            };
+        }
+
+        public AccountRightModel GetUserRightInForAccountTwo()
+        {
+            return new AccountRightModel()
+            {
+                ID = 2,
+                Account = GetAccountTwo(),
+                RightID = (int)eRights.Administrator,
+                LastUpdate = mockDate
+            };
+        }
+
+        public List<AccountRightModel> GetUserRights()
+        {
+            List<AccountRightModel> returnList = new List<AccountRightModel>();
+            returnList.Add(GetUserRightInForAccountOne());
+            returnList.Add(GetUserRightInForAccountTwo());
+            return returnList;
+        }
+
+        public RightModel GetUserRight()
+        {
+            return new RightModel()
+            {
+                ID = 1,
+                RightID = (int)eRights.Benutzer,
+                LastUpdate = mockDate
+            };
+        }
+
+        public RightModel GetAccountantRight()
+        {
+            return new RightModel()
+            {
+                ID = 2,
+                RightID = (int)eRights.Buchhaltung,
+                LastUpdate = mockDate
+            };
+        }
+
+        public RightModel GetAdministratorRight()
+        {
+            return new RightModel()
+            {
+                ID = 3,
+                RightID = (int)eRights.Administrator,
+                LastUpdate = mockDate
+            };
+        }
+
+        public List<RightModel> GetRights()
+        {
+            List<RightModel> returnList = new List<RightModel>();
+            returnList.Add(GetUserRight());
+            returnList.Add(GetAccountantRight());
+            returnList.Add(GetAdministratorRight());
             return returnList;
         }
 
