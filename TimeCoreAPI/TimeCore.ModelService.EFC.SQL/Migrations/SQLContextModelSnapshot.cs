@@ -35,7 +35,7 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("WorkshopID")
+                    b.Property<int>("WorkshopID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
@@ -52,7 +52,7 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AccountID")
+                    b.Property<int>("AccountID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastUpdate")
@@ -117,11 +117,14 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AccountID")
+                    b.Property<int>("AccountID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastUpdate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("StampIn")
+                        .HasColumnType("bit");
 
                     b.Property<int>("TimeStampDay")
                         .HasColumnType("int");
@@ -155,7 +158,7 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("FirmID")
+                    b.Property<int>("FirmID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastUpdate")
@@ -178,7 +181,9 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                 {
                     b.HasOne("Model.WorkshopModel", "Workshop")
                         .WithMany()
-                        .HasForeignKey("WorkshopID");
+                        .HasForeignKey("WorkshopID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Workshop");
                 });
@@ -187,7 +192,9 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                 {
                     b.HasOne("Model.AccountModel", "Account")
                         .WithMany()
-                        .HasForeignKey("AccountID");
+                        .HasForeignKey("AccountID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Account");
                 });
@@ -196,7 +203,9 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                 {
                     b.HasOne("Model.AccountModel", "Account")
                         .WithMany()
-                        .HasForeignKey("AccountID");
+                        .HasForeignKey("AccountID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Account");
                 });
@@ -205,7 +214,9 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                 {
                     b.HasOne("Model.FirmModel", "Firm")
                         .WithMany()
-                        .HasForeignKey("FirmID");
+                        .HasForeignKey("FirmID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Firm");
                 });

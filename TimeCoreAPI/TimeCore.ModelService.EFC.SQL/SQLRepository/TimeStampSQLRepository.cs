@@ -107,9 +107,21 @@ namespace TimeCore.ModelService.EFC.SQL
                     //Existiert Datenbank und ist der Zugriff gewährt?
                     if (sqlContext.Database.CanConnect())
                     {
-                        return sqlContext.TimeStamp.Where(s => s.Account.ID == userAccount.ID &&
+                        //Init
+                        List<TimeStampModel> returnValue = new List<TimeStampModel>();
+
+                        //Liste holen
+                        returnValue = sqlContext.TimeStamp.Where(s => s.Account.ID == userAccount.ID &&
                         s.TimeStampMonth == selectedMonth &&
                         s.TimeStampYear == selectedYear).ToList();
+
+                        //Accounts ergänzen
+                        for (int i = 0; i < returnValue.Count; i++)
+                        {
+                            TimeStampModel updateTimeStamp = returnValue[i];
+                            updateTimeStamp.Account = sqlContext.Account.Find(updateTimeStamp.AccountID);
+                        }
+                        return returnValue;
                     }
                     else
                     {

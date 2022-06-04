@@ -23,9 +23,13 @@ namespace TimeCore.ModelService.EFC.SQL
                     //Existiert Datenbank und ist der Zugriff gewährt?
                     if (sqlContext.Database.CanConnect())
                     {
-                        return sqlContext.Account.Where(s => s.Username == accountUserName && 
+                        AccountModel returnValue = sqlContext.Account.Where(s => s.Username == accountUserName &&
                         s.Password == accountPassword &&
                         s.Workshop.ID == workshopID).FirstOrDefault<AccountModel>();
+
+                        //Add Workshop
+                        returnValue.Workshop = sqlContext.Workshop.Find(returnValue.WorkshopID);
+                        return returnValue;
                     }
                     else
                     {

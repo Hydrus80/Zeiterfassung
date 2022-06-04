@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,12 @@ using TimeCore.ModulService;
 
 namespace TimeCore.API.Controllers
 {
-    //http://localhost:XXXX/api/Firm
-    [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
+    [Route("api/[controller]")]
     public class TimeCoreController : ControllerBase
     {
+        //Felder
         public ITimeCoreModulService timeCoreModulService;
 
         public ITimeCoreModulService GetCurrentTimeCoreSQLModulService()
@@ -26,7 +28,7 @@ namespace TimeCore.API.Controllers
             return timeCoreModulService;
         }
 
-        //http://localhost:8558/api/TimeCore/Login/
+        [AllowAnonymous]
         [HttpGet]
         [Route("SQL/Login/{accountUserName}/{accountPassword}/{workshopID}")]
         public IActionResult Login(string accountUserName, string accountPassword, int workshopID)
@@ -48,7 +50,7 @@ namespace TimeCore.API.Controllers
             }
         }
 
-        //http://localhost:8558/api/TimeCore/Async/Login/
+        [AllowAnonymous]
         [HttpGet]
         [Route("SQL/Async/Login/{accountUserName}/{accountPassword}/{workshopID}")]
         public async Task<IActionResult> Login_Async(string accountUserName, string accountPassword, int workshopID)
@@ -66,6 +68,28 @@ namespace TimeCore.API.Controllers
             catch (Exception ex)
             {
                 ErrorHandlerLog.WriteError($"TimeCoreController.Login_Async(): {ex.Message}");
+                return StatusCode(500);
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("Authenticate")]
+        public IActionResult Authenticate([FromBody] AccountModel accountModel)
+        {
+            try
+            {
+                if ((string.IsNullOrEmpty(accountModel.Username)) && (string.IsNullOrEmpty(accountModel.Password)) && (accountModel.Workshop.ID == 0))
+                    return BadRequest();
+                AccountModel foundResult = GetCurrentTimeCoreSQLModulService().Login(accountModel.Username, accountModel.Password, accountModel.Workshop.ID);
+                if (foundResult is AccountModel)
+                    return new OkObjectResult(foundResult);
+                else
+                    return new NotFoundObjectResult(new AccountModel());
+            }
+            catch (Exception ex)
+            {
+                ErrorHandlerLog.WriteError($"TimeCoreController.Authenticate(): {ex.Message}");
                 return StatusCode(500);
             }
         }

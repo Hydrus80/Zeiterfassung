@@ -37,7 +37,7 @@ namespace TimeCore.ModulService
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return timeCoreModelService.GetStampTimesMonthList(userAccount, selectedYear, selectedMonth);
+                return GetCurrentTimeCoreModelService().GetStampTimesMonthList(userAccount, selectedYear, selectedMonth);
             }
             else
                 return null;
@@ -47,7 +47,7 @@ namespace TimeCore.ModulService
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return await timeCoreModelService.GetStampTimesMonthList_Async(userAccount, selectedYear, selectedMonth).ConfigureAwait(false);
+                return await GetCurrentTimeCoreModelService().GetStampTimesMonthList_Async(userAccount, selectedYear, selectedMonth).ConfigureAwait(false);
             }
             else
                 return null;
@@ -57,7 +57,7 @@ namespace TimeCore.ModulService
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return timeCoreModelService.Login(accountUserName, accountPassword, workshopID);
+                return GetCurrentTimeCoreModelService().Login(accountUserName, accountPassword, workshopID);
             }
             else
                 return null;
@@ -67,7 +67,7 @@ namespace TimeCore.ModulService
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return await timeCoreModelService.Login_Async(accountUserName, accountPassword, workshopID).ConfigureAwait(false);
+                return await GetCurrentTimeCoreModelService().Login_Async(accountUserName, accountPassword, workshopID).ConfigureAwait(false);
             }
             else
                 return null;
@@ -77,7 +77,7 @@ namespace TimeCore.ModulService
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return timeCoreModelService.StampIn(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond);
+                return GetCurrentTimeCoreModelService().StampIn(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond);
             }
             else
                 return null;
@@ -87,7 +87,7 @@ namespace TimeCore.ModulService
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return await timeCoreModelService.StampIn_Async(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond).ConfigureAwait(false);
+                return await GetCurrentTimeCoreModelService().StampIn_Async(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond).ConfigureAwait(false);
             }
             else
                 return null;
@@ -97,7 +97,7 @@ namespace TimeCore.ModulService
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return timeCoreModelService.StampOut(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond);
+                return GetCurrentTimeCoreModelService().StampOut(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond);
             }
             else
                 return null;
@@ -108,7 +108,7 @@ namespace TimeCore.ModulService
 
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return await timeCoreModelService.StampOut_Async(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond).ConfigureAwait(false);
+                return await GetCurrentTimeCoreModelService().StampOut_Async(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond).ConfigureAwait(false);
             }
             else
                 return null;

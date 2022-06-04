@@ -10,8 +10,8 @@ using TimeCore.ModelService.EFC.SQL;
 namespace TimeCore.ModelService.EFC.SQL.Migrations
 {
     [DbContext(typeof(SQLContext))]
-    [Migration("20220527093120_Workshop")]
-    partial class Workshop
+    [Migration("20220604101624_Firm")]
+    partial class Firm
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,7 +37,7 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("WorkshopID")
+                    b.Property<int>("WorkshopID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
@@ -54,7 +54,7 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AccountID")
+                    b.Property<int>("AccountID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastUpdate")
@@ -112,6 +112,47 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                     b.ToTable("Right");
                 });
 
+            modelBuilder.Entity("Model.TimeStampModel", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AccountID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastUpdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("StampIn")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("TimeStampDay")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TimeStampHour")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TimeStampMinute")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TimeStampMonth")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TimeStampSecond")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TimeStampYear")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("AccountID");
+
+                    b.ToTable("TimeStamp");
+                });
+
             modelBuilder.Entity("Model.WorkshopModel", b =>
                 {
                     b.Property<int>("ID")
@@ -119,7 +160,7 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("FirmID")
+                    b.Property<int>("FirmID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastUpdate")
@@ -142,7 +183,9 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                 {
                     b.HasOne("Model.WorkshopModel", "Workshop")
                         .WithMany()
-                        .HasForeignKey("WorkshopID");
+                        .HasForeignKey("WorkshopID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Workshop");
                 });
@@ -151,7 +194,20 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                 {
                     b.HasOne("Model.AccountModel", "Account")
                         .WithMany()
-                        .HasForeignKey("AccountID");
+                        .HasForeignKey("AccountID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("Model.TimeStampModel", b =>
+                {
+                    b.HasOne("Model.AccountModel", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Account");
                 });
@@ -160,7 +216,9 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                 {
                     b.HasOne("Model.FirmModel", "Firm")
                         .WithMany()
-                        .HasForeignKey("FirmID");
+                        .HasForeignKey("FirmID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Firm");
                 });

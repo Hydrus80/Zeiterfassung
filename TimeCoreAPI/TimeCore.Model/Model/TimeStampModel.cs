@@ -10,6 +10,8 @@ namespace Model
         public int TimeStampHour { get; set; }
         public int TimeStampMinute { get; set; }
         public int TimeStampSecond { get; set; }
+        public bool StampIn { get; set; }
+        public int AccountID { get; set; }
         public AccountModel Account { get; set; }
     }
 }

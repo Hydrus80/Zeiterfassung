@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TimeCore.ModelService.EFC.SQL.Migrations
 {
-    public partial class Account : Migration
+    public partial class Firm : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,9 +13,9 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    LastUpdate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Number = table.Column<int>(type: "int", nullable: false)
+                    Number = table.Column<int>(type: "int", nullable: false),
+                    LastUpdate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -43,10 +43,10 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    LastUpdate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Number = table.Column<int>(type: "int", nullable: false),
-                    FirmID = table.Column<int>(type: "int", nullable: true)
+                    FirmID = table.Column<int>(type: "int", nullable: false),
+                    LastUpdate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,7 +56,7 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                         column: x => x.FirmID,
                         principalTable: "Firm",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -65,10 +65,10 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    LastUpdate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    WorkshopID = table.Column<int>(type: "int", nullable: true)
+                    WorkshopID = table.Column<int>(type: "int", nullable: false),
+                    LastUpdate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -78,7 +78,7 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                         column: x => x.WorkshopID,
                         principalTable: "Workshop",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -88,7 +88,7 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RightID = table.Column<int>(type: "int", nullable: false),
-                    AccountID = table.Column<int>(type: "int", nullable: true),
+                    AccountID = table.Column<int>(type: "int", nullable: false),
                     LastUpdate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -99,7 +99,34 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                         column: x => x.AccountID,
                         principalTable: "Account",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TimeStamp",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TimeStampYear = table.Column<int>(type: "int", nullable: false),
+                    TimeStampMonth = table.Column<int>(type: "int", nullable: false),
+                    TimeStampDay = table.Column<int>(type: "int", nullable: false),
+                    TimeStampHour = table.Column<int>(type: "int", nullable: false),
+                    TimeStampMinute = table.Column<int>(type: "int", nullable: false),
+                    TimeStampSecond = table.Column<int>(type: "int", nullable: false),
+                    StampIn = table.Column<bool>(type: "bit", nullable: false),
+                    AccountID = table.Column<int>(type: "int", nullable: false),
+                    LastUpdate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TimeStamp", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_TimeStamp_Account_AccountID",
+                        column: x => x.AccountID,
+                        principalTable: "Account",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -110,6 +137,11 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_AccountRight_AccountID",
                 table: "AccountRight",
+                column: "AccountID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TimeStamp_AccountID",
+                table: "TimeStamp",
                 column: "AccountID");
 
             migrationBuilder.CreateIndex(
@@ -125,6 +157,9 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Right");
+
+            migrationBuilder.DropTable(
+                name: "TimeStamp");
 
             migrationBuilder.DropTable(
                 name: "Account");

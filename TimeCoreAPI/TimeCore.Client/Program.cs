@@ -12,7 +12,7 @@ namespace TimeCoreClient
             Console.ReadLine();
             using (HttpClient client = new HttpClient())
             {
-                var respone = await client.GetAsync("http://localhost:5000/api/Firm/GetFirmByID/3");
+                var respone = await client.GetAsync("http://localhost:5000/api/TimeCore/SQL/Login/bach/bach/1");
                 respone.EnsureSuccessStatusCode();
                 if (respone.IsSuccessStatusCode)
                 {

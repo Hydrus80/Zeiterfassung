@@ -6,6 +6,7 @@ namespace Model
     {
         public string Username { get; set; }
         public string Password { get; set; }
+        public int WorkshopID { get; set; }
         public virtual WorkshopModel Workshop { get; set; }
     }
 }
