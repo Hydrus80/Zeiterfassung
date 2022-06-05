@@ -24,19 +24,19 @@ namespace TimeCore.ModelService
             return timeStapSQLRepository.AddTimeStampToDataSource(newTimeStamp);
         }
 
-        public async Task<TimeStampModel> AddTimeStamp_Async(TimeStampModel newTimeStamp)
+        public async Task<TimeStampModel> AddTimeStampAsync(TimeStampModel newTimeStamp)
         {
-            return await timeStapSQLRepository.AddTimeStampToDataSource_Async(newTimeStamp).ConfigureAwait(false);
+            return await timeStapSQLRepository.AddTimeStampToDataSourceAsync(newTimeStamp).ConfigureAwait(false);
         }
 
-        public List<TimeStampModel> GetTimeStampList(AccountModel userAccount, int selectedYear, int selectedMonth)
+        public List<TimeStampModel> GetTimeStampList(string userGUID, int selectedYear, int selectedMonth)
         {
-            return timeStapSQLRepository.GetTimeStampListFromDataSource(userAccount, selectedYear, selectedMonth);
+            return timeStapSQLRepository.GetTimeStampListFromDataSource(userGUID, selectedYear, selectedMonth);
         }
 
-        public async Task<List<TimeStampModel>> GetTimeStampList_Async(AccountModel userAccount, int selectedYear, int selectedMonth)
+        public async Task<List<TimeStampModel>> GetTimeStampListAsync(string userGUID, int selectedYear, int selectedMonth)
         {
-            return await timeStapSQLRepository.GetTimeStampListFromDataSource_Async(userAccount, selectedYear, selectedMonth).ConfigureAwait(false);
+            return await timeStapSQLRepository.GetTimeStampListFromDataSourceAsync(userGUID, selectedYear, selectedMonth).ConfigureAwait(false);
         }
     }
 }

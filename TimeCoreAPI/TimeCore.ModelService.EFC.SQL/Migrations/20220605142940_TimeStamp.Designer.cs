@@ -10,8 +10,8 @@ using TimeCore.ModelService.EFC.SQL;
 namespace TimeCore.ModelService.EFC.SQL.Migrations
 {
     [DbContext(typeof(SQLContext))]
-    [Migration("20220604101624_Firm")]
-    partial class Firm
+    [Migration("20220605142940_TimeStamp")]
+    partial class TimeStamp
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,6 +27,9 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("GUID")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("LastUpdate")
                         .HasColumnType("datetime2");

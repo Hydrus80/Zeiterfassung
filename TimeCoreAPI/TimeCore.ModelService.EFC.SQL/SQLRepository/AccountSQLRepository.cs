@@ -1,8 +1,6 @@
 ﻿using Model;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TimeCore.ErrorHandler;
 
@@ -13,7 +11,7 @@ namespace TimeCore.ModelService.EFC.SQL
         public AccountSQLRepository()
         { }
 
-        public AccountModel GetAccountByCredentialsFromDataSource(string accountUserName, string accountPassword, int workshopID)
+        public AccountModel GetAccountByCredentialsFromDataSource(string accountUserName, string accountPassword)
         {
             try
             {
@@ -24,8 +22,7 @@ namespace TimeCore.ModelService.EFC.SQL
                     if (sqlContext.Database.CanConnect())
                     {
                         AccountModel returnValue = sqlContext.Account.Where(s => s.Username == accountUserName &&
-                        s.Password == accountPassword &&
-                        s.Workshop.ID == workshopID).FirstOrDefault<AccountModel>();
+                        s.Password == accountPassword).FirstOrDefault<AccountModel>();
 
                         //Add Workshop
                         returnValue.Workshop = sqlContext.Workshop.Find(returnValue.WorkshopID);
@@ -45,19 +42,62 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public async Task<AccountModel> GetAccountByCredentialsFromDataSource_Async(string accountUserName, string accountPassword, int workshopID)
+        public async Task<AccountModel> GetAccountByCredentialsFromDataSourceAsync(string accountUserName, string accountPassword)
         {
             try
             {
-                return await Task.FromResult<AccountModel>(GetAccountByCredentialsFromDataSource(accountUserName, accountPassword, workshopID)).ConfigureAwait(false);
+                return await Task.FromResult<AccountModel>(GetAccountByCredentialsFromDataSource(accountUserName, accountPassword)).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                ErrorHandlerLog.WriteError($"AccountSQLRepository.GetAccountByIDFromDataSource_Async(): {ex.Message}");
+                ErrorHandlerLog.WriteError($"AccountSQLRepository.GetAccountByIDFromDataSourceAsync(): {ex.Message}");
                 return null;
             }
         }
 
-      
+        public AccountModel GetAccountByGUIDFromDataSource(string accountGUID)
+        {
+            try
+            {
+                //Context setzen
+                using (SQLContext sqlContext = new SQLContext())
+                {
+                    //Existiert Datenbank und ist der Zugriff gewährt?
+                    if (sqlContext.Database.CanConnect())
+                    {
+                        AccountModel returnValue = sqlContext.Account.Where(s => s.GUID == accountGUID).FirstOrDefault<AccountModel>();
+
+                        //Add Workshop
+                        returnValue.Workshop = sqlContext.Workshop.Find(returnValue.WorkshopID);
+                        return returnValue;
+                    }
+                    else
+                    {
+                        ErrorHandlerLog.WriteError("AccountSQLRepository.GetAccountByGUIDFromDataSource(): Keine Verbindung zur Datenbank möglich");
+                        return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorHandlerLog.WriteError($"AccountSQLRepository.GetAccountByGUIDFromDataSource(): {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<AccountModel> GetAccountByGUIDFromDataSourceAsync(string accountGUID)
+        {
+            try
+            {
+                return await Task.FromResult<AccountModel>(GetAccountByGUIDFromDataSource(accountGUID)).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                ErrorHandlerLog.WriteError($"AccountSQLRepository.GetAccountByIDFromDataSourceAsync(): {ex.Message}");
+                return null;
+            }
+        }
+
+
     }
 }

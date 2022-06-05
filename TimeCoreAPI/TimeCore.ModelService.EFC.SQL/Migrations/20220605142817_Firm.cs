@@ -67,6 +67,7 @@ namespace TimeCore.ModelService.EFC.SQL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GUID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     WorkshopID = table.Column<int>(type: "int", nullable: false),
                     LastUpdate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },

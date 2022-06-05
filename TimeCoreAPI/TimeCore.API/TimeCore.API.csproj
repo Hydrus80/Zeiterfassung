@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\TimeCoreControllerOld.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Controllers\TimeCoreControllerOld.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TimeCore.ModelService\TimeCore.ModelService.csproj" />
     <ProjectReference Include="..\TimeCore.ModulService\TimeCore.ModulService.csproj" />
   </ItemGroup>

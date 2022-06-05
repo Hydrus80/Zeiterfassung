@@ -7,8 +7,8 @@ namespace TimeCore.ModelService.EFC.SQL
     public interface ITimeStampSQLRepository
     {
         TimeStampModel AddTimeStampToDataSource(TimeStampModel newTimeStamp);
-        Task<TimeStampModel> AddTimeStampToDataSource_Async(TimeStampModel newTimeStamp);
-        List<TimeStampModel> GetTimeStampListFromDataSource(AccountModel userAccount, int selectedYear, int selectedMonth);
-        Task<List<TimeStampModel>> GetTimeStampListFromDataSource_Async(AccountModel userAccount, int selectedYear, int selectedMonth);
+        Task<TimeStampModel> AddTimeStampToDataSourceAsync(TimeStampModel newTimeStamp);
+        List<TimeStampModel> GetTimeStampListFromDataSource(string userGUID, int selectedYear, int selectedMonth);
+        Task<List<TimeStampModel>> GetTimeStampListFromDataSourceAsync(string userGUID, int selectedYear, int selectedMonth);
     }
 }

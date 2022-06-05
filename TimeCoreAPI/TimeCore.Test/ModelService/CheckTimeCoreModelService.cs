@@ -24,7 +24,7 @@ namespace TimeCore.ModelService
             if (accountModelService is null)
                 accountModelService = new AccountModelService(eDatabaseType.SQL, new MockAccountSQLRepository());
             if (timeCoreModelService is null)
-                timeCoreModelService = new TimeCoreModelService(eDatabaseType.SQL, timeStampModelService, accountModelService);
+                timeCoreModelService = new TimeCoreModelService(eDatabaseType.SQL);
         }
 
         #region Login
@@ -32,15 +32,14 @@ namespace TimeCore.ModelService
         /// Prueft ob gueltiger Account gefunden wird
         /// </summary>
         [TestMethod]
-        public void Login_CheckExistingLogin_ResultIsFoundAccount()
+        public void Authenticate_CheckExistingLogin_ResultIsFoundAccount()
         {
             //Init
             string accountUserName = mockData.GetAccountOne().Username;
             string accountPassword = mockData.GetAccountOne().Password;
-            int workshopID = mockData.GetAccountOne().Workshop.ID;
 
             //Act
-            AccountModel MockResult = timeCoreModelService.Login(accountUserName, accountPassword, workshopID);
+            AccountModel MockResult = timeCoreModelService.Authenticate(accountUserName, accountPassword);
 
             //Assert
             Assert.IsTrue(MockResult.ID == mockData.GetAccountOne().ID);
@@ -53,7 +52,7 @@ namespace TimeCore.ModelService
         /// Prueft ob gueltiger Account gefunden wird
         /// </summary>
         [TestMethod]
-        public void Login_Async_CheckExistingLogin_ResultIsFoundAccount()
+        public void AuthenticateAsync_CheckExistingLogin_ResultIsFoundAccount()
         {
             //Init
             string accountUserName = mockData.GetAccountOne().Username;
@@ -61,7 +60,7 @@ namespace TimeCore.ModelService
             int workshopID = mockData.GetAccountOne().Workshop.ID;
 
             //Act
-            AccountModel MockResult = timeCoreModelService.Login_Async(accountUserName, accountPassword, workshopID).GetAwaiter().GetResult();
+            AccountModel MockResult = timeCoreModelService.AuthenticateAsync(accountUserName, accountPassword).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.ID == mockData.GetAccountOne().ID);
@@ -80,10 +79,9 @@ namespace TimeCore.ModelService
             //Init
             string accountUserName = mockData.GetAccountOne().Username;
             string accountPassword = "XXX";
-            int workshopID = mockData.GetAccountOne().Workshop.ID;
 
             //Act
-            AccountModel MockResult = timeCoreModelService.Login(accountUserName, accountPassword, workshopID);
+            AccountModel MockResult = timeCoreModelService.Authenticate(accountUserName, accountPassword);
 
             //Assert
             Assert.IsTrue(MockResult.ID == 0);
@@ -93,15 +91,14 @@ namespace TimeCore.ModelService
         /// Prueft ob falsches Passwort abgefangen wird
         /// </summary>
         [TestMethod]
-        public void Login_Async_CheckExistingLoginWithWrongPassword_ResultIsEmtpy()
+        public void LoginAsync_CheckExistingLoginWithWrongPassword_ResultIsEmtpy()
         {
             //Init
             string accountUserName = mockData.GetAccountOne().Username;
             string accountPassword = "XXX";
-            int workshopID = mockData.GetAccountOne().Workshop.ID;
 
             //Act
-            AccountModel MockResult = timeCoreModelService.Login_Async(accountUserName, accountPassword, workshopID).GetAwaiter().GetResult();
+            AccountModel MockResult = timeCoreModelService.AuthenticateAsync(accountUserName, accountPassword).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.ID == 0);
@@ -116,10 +113,9 @@ namespace TimeCore.ModelService
             //Init
             string accountUserName = "Uknown";
             string accountPassword = "XXX";
-            int workshopID = mockData.GetAccountOne().Workshop.ID;
 
             //Act
-            AccountModel MockResult = timeCoreModelService.Login(accountUserName, accountPassword, workshopID);
+            AccountModel MockResult = timeCoreModelService.Authenticate(accountUserName, accountPassword);
 
             //Assert
             Assert.IsTrue(MockResult.ID == 0);
@@ -129,55 +125,17 @@ namespace TimeCore.ModelService
         /// Prueft ob nicht bekannter Benutzer abgefangen wird
         /// </summary>
         [TestMethod]
-        public void Login_Async_CheckNonExistingLogin_ResultIsEmtpy()
+        public void LoginAsync_CheckNonExistingLogin_ResultIsEmtpy()
         {
             //Init
             string accountUserName = "Uknown";
             string accountPassword = "XXX";
-            int workshopID = mockData.GetAccountOne().Workshop.ID;
 
             //Act
-            AccountModel MockResult = timeCoreModelService.Login_Async(accountUserName, accountPassword, workshopID).GetAwaiter().GetResult();
+            AccountModel MockResult = timeCoreModelService.AuthenticateAsync(accountUserName, accountPassword).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.ID == 0);
-        }
-
-        /// <summary>
-        /// Prueft ob nicht falsche Filiale abgefangen wird
-        /// </summary>
-        [TestMethod]
-        public void Login_CheckExistingLoginWithWrongWorkshop_ResultIsEmpty()
-        {
-            //Init
-            string accountUserName = mockData.GetAccountOne().Username;
-            string accountPassword = mockData.GetAccountOne().Password;
-            int workshopID = 9;
-
-            //Act
-            AccountModel MockResult = timeCoreModelService.Login(accountUserName, accountPassword, workshopID);
-
-            //Assert
-            Assert.IsTrue(MockResult.ID == 0);
-        }
-
-        /// <summary>
-        /// Prueft ob nicht falsche Filiale abgefangen wird
-        /// </summary>
-        [TestMethod]
-        public void Login_Async_CheckExistingLoginWithWrongWorkshop_ResultIsEmpty()
-        {
-            //Init
-            string accountUserName = mockData.GetAccountOne().Username;
-            string accountPassword = mockData.GetAccountOne().Password;
-            int workshopID = 9;
-
-            //Act
-            AccountModel MockResult = timeCoreModelService.Login_Async(accountUserName, accountPassword, workshopID).GetAwaiter().GetResult();
-
-            //Assert
-            Assert.IsTrue(MockResult.ID == 0);
-
         }
         #endregion
 
@@ -189,7 +147,7 @@ namespace TimeCore.ModelService
         public void StampIn_CheckExistingAccount_ResultIsTimeStamp()
         {
             //Init
-            AccountModel userAccount = mockData.GetAccountOne();
+            string userGUID = mockData.GetAccountOne().GUID;
             int timeStampYear = mockData.GetStampInForAccountOne().TimeStampYear;
             int timeStampMonth = mockData.GetStampInForAccountOne().TimeStampMonth;
             int timeStampDay = mockData.GetStampInForAccountOne().TimeStampDay;
@@ -198,7 +156,7 @@ namespace TimeCore.ModelService
             int timeStampSecond = mockData.GetStampInForAccountOne().TimeStampSecond;
 
             //Act
-            TimeStampModel MockResult = timeCoreModelService.StampIn(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond);
+            TimeStampModel MockResult = timeCoreModelService.StampIn(userGUID, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond);
 
             //Assert
             Assert.IsTrue(MockResult.ID == mockData.GetStampInForAccountOne().ID);
@@ -215,10 +173,10 @@ namespace TimeCore.ModelService
         ///  Zeiterfassung mit gueltigem Account
         /// </summary>
         [TestMethod]
-        public void StampIn_Async_CheckExistingAccount_ResultIsTimeStamp()
+        public void StampInAsync_CheckExistingAccount_ResultIsTimeStamp()
         {
             //Init
-            AccountModel userAccount = mockData.GetAccountOne();
+            string userGUID = mockData.GetAccountOne().GUID;
             int timeStampYear = mockData.GetStampInForAccountOne().TimeStampYear;
             int timeStampMonth = mockData.GetStampInForAccountOne().TimeStampMonth;
             int timeStampDay = mockData.GetStampInForAccountOne().TimeStampDay;
@@ -227,7 +185,7 @@ namespace TimeCore.ModelService
             int timeStampSecond = mockData.GetStampInForAccountOne().TimeStampSecond;
 
             //Act
-            TimeStampModel MockResult = timeCoreModelService.StampIn_Async(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond).GetAwaiter().GetResult();
+            TimeStampModel MockResult = timeCoreModelService.StampInAsync(userGUID, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond).GetAwaiter().GetResult();
 
             //Assert
             //Assert
@@ -248,7 +206,7 @@ namespace TimeCore.ModelService
         public void StampIn_CheckUnknownAccount_ResultIsEmpty()
         {
             //Init
-            AccountModel userAccount = new AccountModel();
+            string userGUID = string.Empty;
             int timeStampYear = mockData.GetStampInForAccountOne().TimeStampYear;
             int timeStampMonth = mockData.GetStampInForAccountOne().TimeStampMonth;
             int timeStampDay = mockData.GetStampInForAccountOne().TimeStampDay;
@@ -257,7 +215,7 @@ namespace TimeCore.ModelService
             int timeStampSecond = mockData.GetStampInForAccountOne().TimeStampSecond;
 
             //Act
-            TimeStampModel MockResult = timeCoreModelService.StampIn(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond);
+            TimeStampModel MockResult = timeCoreModelService.StampIn(userGUID, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond);
 
             //Assert
             Assert.IsTrue(MockResult.ID == 0);
@@ -267,10 +225,10 @@ namespace TimeCore.ModelService
         ///  Zeiterfassung mit ungueltigem Account
         /// </summary>
         [TestMethod]
-        public void StampIn_Async_CheckUnknownAccount_ResultIsEmpty()
+        public void StampInAsync_CheckUnknownAccount_ResultIsEmpty()
         {
             //Init
-            AccountModel userAccount = new AccountModel();
+            string userGUID = string.Empty;
             int timeStampYear = mockData.GetStampInForAccountOne().TimeStampYear;
             int timeStampMonth = mockData.GetStampInForAccountOne().TimeStampMonth;
             int timeStampDay = mockData.GetStampInForAccountOne().TimeStampDay;
@@ -279,53 +237,7 @@ namespace TimeCore.ModelService
             int timeStampSecond = mockData.GetStampInForAccountOne().TimeStampSecond;
 
             //Act
-            TimeStampModel MockResult = timeCoreModelService.StampIn_Async(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond).GetAwaiter().GetResult();
-
-            //Assert
-            Assert.IsTrue(MockResult.ID == 0);
-        }
-
-        /// <summary>
-        /// Zeiterfassung mit gueltigem Account aber falschem Passwort
-        /// </summary>
-        [TestMethod]
-        public void StampIn_CheckExistingLoginWithWrongPassword_ResultIsEmpty()
-        {
-            //Init
-            AccountModel userAccount = mockData.GetAccountOne();
-            userAccount.Password = "XXX";
-            int timeStampYear = mockData.GetStampInForAccountOne().TimeStampYear;
-            int timeStampMonth = mockData.GetStampInForAccountOne().TimeStampMonth;
-            int timeStampDay = mockData.GetStampInForAccountOne().TimeStampDay;
-            int timeStampHour = mockData.GetStampInForAccountOne().TimeStampHour;
-            int timeStampMinute = mockData.GetStampInForAccountOne().TimeStampMinute;
-            int timeStampSecond = mockData.GetStampInForAccountOne().TimeStampSecond;
-
-            //Act
-            TimeStampModel MockResult = timeCoreModelService.StampIn(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond);
-
-            //Assert
-            Assert.IsTrue(MockResult.ID == 0);
-        }
-
-        /// <summary>
-        ///  Zeiterfassung mit gueltigem Account aber falschem Passwort
-        /// </summary>
-        [TestMethod]
-        public void StampIn_Async_CheckExistingLoginWithWrongPassword_ResultIsEmpty()
-        {
-            //Init
-            AccountModel userAccount = mockData.GetAccountOne();
-            userAccount.Password = "XXX";
-            int timeStampYear = mockData.GetStampInForAccountOne().TimeStampYear;
-            int timeStampMonth = mockData.GetStampInForAccountOne().TimeStampMonth;
-            int timeStampDay = mockData.GetStampInForAccountOne().TimeStampDay;
-            int timeStampHour = mockData.GetStampInForAccountOne().TimeStampHour;
-            int timeStampMinute = mockData.GetStampInForAccountOne().TimeStampMinute;
-            int timeStampSecond = mockData.GetStampInForAccountOne().TimeStampSecond;
-
-            //Act
-            TimeStampModel MockResult = timeCoreModelService.StampIn_Async(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond).GetAwaiter().GetResult();
+            TimeStampModel MockResult = timeCoreModelService.StampInAsync(userGUID, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.ID == 0);
@@ -340,7 +252,7 @@ namespace TimeCore.ModelService
         public void StampOut_CheckExistingAccount_ResultIsTimeStamp()
         {
             //Init
-            AccountModel userAccount = mockData.GetAccountOne();
+            string userGUID = mockData.GetAccountOne().GUID;
             int timeStampYear = mockData.GetStampOutOneHourForAccountOne().TimeStampYear;
             int timeStampMonth = mockData.GetStampOutOneHourForAccountOne().TimeStampMonth;
             int timeStampDay = mockData.GetStampOutOneHourForAccountOne().TimeStampDay;
@@ -349,7 +261,7 @@ namespace TimeCore.ModelService
             int timeStampSecond = mockData.GetStampOutOneHourForAccountOne().TimeStampSecond;
 
             //Act
-            TimeStampModel MockResult = timeCoreModelService.StampOut(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond);
+            TimeStampModel MockResult = timeCoreModelService.StampOut(userGUID, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond);
 
             //Assert
             Assert.IsTrue(MockResult.ID == 1);
@@ -366,10 +278,10 @@ namespace TimeCore.ModelService
         ///  Zeiterfassung mit gueltigem Account
         /// </summary>
         [TestMethod]
-        public void StampOut_Async_CheckExistingAccount_ResultIsTimeStamp()
+        public void StampOutAsync_CheckExistingAccount_ResultIsTimeStamp()
         {
             //Init
-            AccountModel userAccount = mockData.GetAccountOne();
+            string userGUID = mockData.GetAccountOne().GUID;
             int timeStampYear = mockData.GetStampOutOneHourForAccountOne().TimeStampYear;
             int timeStampMonth = mockData.GetStampOutOneHourForAccountOne().TimeStampMonth;
             int timeStampDay = mockData.GetStampOutOneHourForAccountOne().TimeStampDay;
@@ -378,7 +290,7 @@ namespace TimeCore.ModelService
             int timeStampSecond = mockData.GetStampOutOneHourForAccountOne().TimeStampSecond;
 
             //Act
-            TimeStampModel MockResult = timeCoreModelService.StampOut_Async(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond).GetAwaiter().GetResult();
+            TimeStampModel MockResult = timeCoreModelService.StampOutAsync(userGUID, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond).GetAwaiter().GetResult();
 
             //Assert
             //Assert
@@ -399,7 +311,7 @@ namespace TimeCore.ModelService
         public void StampOut_CheckUnknownAccount_ResultIsEmpty()
         {
             //Init
-            AccountModel userAccount = new AccountModel();
+            string userGUID = string.Empty;
             int timeStampYear = mockData.GetStampInForAccountOne().TimeStampYear;
             int timeStampMonth = mockData.GetStampInForAccountOne().TimeStampMonth;
             int timeStampDay = mockData.GetStampInForAccountOne().TimeStampDay;
@@ -408,7 +320,7 @@ namespace TimeCore.ModelService
             int timeStampSecond = mockData.GetStampInForAccountOne().TimeStampSecond;
 
             //Act
-            TimeStampModel MockResult = timeCoreModelService.StampOut(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond);
+            TimeStampModel MockResult = timeCoreModelService.StampOut(userGUID, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond);
 
             //Assert
             Assert.IsTrue(MockResult.ID == 0);
@@ -418,10 +330,10 @@ namespace TimeCore.ModelService
         ///  Zeiterfassung mit ungueltigem Account
         /// </summary>
         [TestMethod]
-        public void StampOut_Async_CheckUnknownAccount_ResultIsEmpty()
+        public void StampOutAsync_CheckUnknownAccount_ResultIsEmpty()
         {
             //Init
-            AccountModel userAccount = new AccountModel();
+            string userGUID = string.Empty;
             int timeStampYear = mockData.GetStampInForAccountOne().TimeStampYear;
             int timeStampMonth = mockData.GetStampInForAccountOne().TimeStampMonth;
             int timeStampDay = mockData.GetStampInForAccountOne().TimeStampDay;
@@ -430,55 +342,8 @@ namespace TimeCore.ModelService
             int timeStampSecond = mockData.GetStampInForAccountOne().TimeStampSecond;
 
             //Act
-            TimeStampModel MockResult = timeCoreModelService.StampOut_Async(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond).GetAwaiter().GetResult();
+            TimeStampModel MockResult = timeCoreModelService.StampOutAsync(userGUID, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond).GetAwaiter().GetResult();
 
-            //Assert
-            Assert.IsTrue(MockResult.ID == 0);
-        }
-
-        /// <summary>
-        /// Zeiterfassung mit gueltigem Account aber falschem Passwort
-        /// </summary>
-        [TestMethod]
-        public void StampOut_CheckExistingLoginWithWrongPassword_ResultIsEmpty()
-        {
-            //Init
-            AccountModel userAccount = mockData.GetAccountOne();
-            userAccount.Password = "XXX";
-            int timeStampYear = mockData.GetStampInForAccountOne().TimeStampYear;
-            int timeStampMonth = mockData.GetStampInForAccountOne().TimeStampMonth;
-            int timeStampDay = mockData.GetStampInForAccountOne().TimeStampDay;
-            int timeStampHour = mockData.GetStampInForAccountOne().TimeStampHour;
-            int timeStampMinute = mockData.GetStampInForAccountOne().TimeStampMinute;
-            int timeStampSecond = mockData.GetStampInForAccountOne().TimeStampSecond;
-
-            //Act
-            TimeStampModel MockResult = timeCoreModelService.StampOut(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond);
-
-            //Assert
-            Assert.IsTrue(MockResult.ID == 0);
-        }
-
-        /// <summary>
-        ///  Zeiterfassung mit gueltigem Account aber falschem Passwort
-        /// </summary>
-        [TestMethod]
-        public void StampOut_Async_CheckExistingLoginWithWrongPassword_ResultIsEmpty()
-        {
-            //Init
-            AccountModel userAccount = mockData.GetAccountOne();
-            userAccount.Password = "XXX";
-            int timeStampYear = mockData.GetStampInForAccountOne().TimeStampYear;
-            int timeStampMonth = mockData.GetStampInForAccountOne().TimeStampMonth;
-            int timeStampDay = mockData.GetStampInForAccountOne().TimeStampDay;
-            int timeStampHour = mockData.GetStampInForAccountOne().TimeStampHour;
-            int timeStampMinute = mockData.GetStampInForAccountOne().TimeStampMinute;
-            int timeStampSecond = mockData.GetStampInForAccountOne().TimeStampSecond;
-
-            //Act
-            TimeStampModel MockResult = timeCoreModelService.StampOut_Async(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond).GetAwaiter().GetResult();
-
-            //Assert
             //Assert
             Assert.IsTrue(MockResult.ID == 0);
         }
@@ -492,12 +357,12 @@ namespace TimeCore.ModelService
         public void GetStampTimesMonthList_CheckExistingAccountAndValidMonth_ResultIsListOfTimeStamp()
         {
             //Init
-            AccountModel userAccount = mockData.GetAccountOne();
+            string userGUID = mockData.GetAccountOne().GUID;
             int selectedMonth = mockData.mockDate.Month;
             int selectedYear = mockData.mockDate.Year;
 
             //Act
-            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesMonthList(userAccount, selectedYear, selectedMonth);
+            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesMonthList(userGUID, selectedYear, selectedMonth);
 
             //Assert
             Assert.IsTrue(MockResult.Count == 2);
@@ -509,15 +374,15 @@ namespace TimeCore.ModelService
         /// Zeitauflistung mit gueltigem Account und vorhandener Liste
         /// </summary>
         [TestMethod]
-        public void GetStampTimesMonthList_Async_CheckExistingAccountAndValidMonth_ResultIsListOfTimeStamp()
+        public void GetStampTimesMonthListAsync_CheckExistingAccountAndValidMonth_ResultIsListOfTimeStamp()
         {
             //Init
-            AccountModel userAccount = mockData.GetAccountOne();
+            string userGUID = mockData.GetAccountOne().GUID;
             int selectedMonth = mockData.mockDate.Month;
             int selectedYear = mockData.mockDate.Year;
 
             //Act
-            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesMonthList_Async(userAccount, selectedYear, selectedMonth).GetAwaiter().GetResult();
+            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesMonthListAsync(userGUID, selectedYear, selectedMonth).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.Count == 2);
@@ -532,12 +397,12 @@ namespace TimeCore.ModelService
         public void GetStampTimesMonthList_CheckUnknownAccount_ResultIsEmptyList()
         {
             //Init
-            AccountModel userAccount = new AccountModel();
+            string userGUID = string.Empty;
             int selectedMonth = mockData.mockDate.Month;
             int selectedYear = mockData.mockDate.Year;
 
             //Act
-            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesMonthList(userAccount, selectedYear, selectedMonth);
+            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesMonthList(userGUID, selectedYear, selectedMonth);
 
             //Assert
             Assert.IsTrue(MockResult.Count == 0);
@@ -547,15 +412,15 @@ namespace TimeCore.ModelService
         ///  Zeitauflistung mit ungueltigem Account
         /// </summary>
         [TestMethod]
-        public void GetStampTimesMonthList_Async_CheckUnknownAccount_ResultIsEmptyList()
+        public void GetStampTimesMonthListAsync_CheckUnknownAccount_ResultIsEmptyList()
         {
             //Init
-            AccountModel userAccount = new AccountModel();
+            string userGUID = string.Empty;
             int selectedMonth = mockData.mockDate.Month;
             int selectedYear = mockData.mockDate.Year;
 
             //Act
-            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesMonthList_Async(userAccount, selectedYear, selectedMonth).GetAwaiter().GetResult();
+            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesMonthListAsync(userGUID, selectedYear, selectedMonth).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.Count == 0);
@@ -568,12 +433,12 @@ namespace TimeCore.ModelService
         public void GetStampTimesMonthList_CheckAccountWithEmtpyMonth_ResultIsEmptyList()
         {
             //Init
-            AccountModel userAccount = mockData.GetAccountOne();
+            string userGUID = mockData.GetAccountOne().GUID;
             int selectedMonth = mockData.mockDate.Month - 1;
             int selectedYear = mockData.mockDate.Year;
 
             //Act
-            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesMonthList(userAccount, selectedYear, selectedMonth);
+            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesMonthList(userGUID, selectedYear, selectedMonth);
 
             //Assert
             Assert.IsTrue(MockResult.Count == 0);
@@ -583,53 +448,15 @@ namespace TimeCore.ModelService
         ///  Zeitauflistung mit gueltigem Account aber leerem Monat
         /// </summary>
         [TestMethod]
-        public void GetStampTimesMonthList_Async_CheckAccountWithEmtpyMonth_ResultIsEmptyList()
+        public void GetStampTimesMonthListAsync_CheckAccountWithEmtpyMonth_ResultIsEmptyList()
         {
             //Init
-            AccountModel userAccount = mockData.GetAccountOne();
+            string userGUID = mockData.GetAccountOne().GUID;
             int selectedMonth = mockData.mockDate.Month - 1;
             int selectedYear = mockData.mockDate.Year;
 
             //Act
-            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesMonthList_Async(userAccount, selectedYear, selectedMonth).GetAwaiter().GetResult();
-
-            //Assert
-            Assert.IsTrue(MockResult.Count == 0);
-        }
-
-        /// <summary>
-        /// Zeitauflistung mit gueltigem Account aber falschem Passwort
-        /// </summary>
-        [TestMethod]
-        public void GetStampTimesMonthList_CheckExistingLoginWithWrongPassword_ResultIsEmptyList()
-        {
-            //Init
-            AccountModel userAccount = mockData.GetAccountOne();
-            userAccount.Password = "XXX";
-            int selectedMonth = mockData.mockDate.Month;
-            int selectedYear = mockData.mockDate.Year;
-
-            //Act
-            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesMonthList(userAccount, selectedYear, selectedMonth);
-
-            //Assert
-            Assert.IsTrue(MockResult.Count == 0);
-        }
-
-        /// <summary>
-        ///  Zeitauflistung mit gueltigem Account aber falschem Passwort
-        /// </summary>
-        [TestMethod]
-        public void GetStampTimesMonthList_Async_CheckExistingLoginWithWrongPassword_ResultIsEmptyList()
-        {
-            //Init
-            AccountModel userAccount = mockData.GetAccountOne();
-            userAccount.Password = "XXX";
-            int selectedYear = mockData.mockDate.Year;
-            int selectedMonth = mockData.mockDate.Month;
-
-            //Act
-            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesMonthList_Async(userAccount, selectedYear, selectedMonth).GetAwaiter().GetResult();
+            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesMonthListAsync(userGUID, selectedYear, selectedMonth).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.Count == 0);

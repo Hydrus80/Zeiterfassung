@@ -19,21 +19,53 @@ namespace TimeCore.ModelService
             accountSQLRepository = selectAccountSQLRepository;
         }
 
-        public AccountModel GetAccountByCredentials(string accountUserName, string accountPassword, int workshopID)
+        public AccountModelService()
+        {
+            modelDatabaseType = eDatabaseType.SQL; ;
+            accountSQLRepository = new AccountSQLRepository();
+        }
+
+        public AccountModel Authenticate(string accountUserName, string accountPassword)
+        {
+            //Daten holen
+            AccountModel authAccount = accountSQLRepository.GetAccountByCredentialsFromDataSource(accountUserName, accountPassword);
+
+            //Wenn gefunden, ohne Passwort zurück geben
+            if (authAccount.ID > 0)
+                authAccount.WithoutPassword();
+
+            //zurück
+           return authAccount;
+        }
+
+        public async Task<AccountModel> AuthenticateAsync(string accountUserName, string accountPassword)
+        {
+            //Daten holen
+            AccountModel authAccount = await accountSQLRepository.GetAccountByCredentialsFromDataSourceAsync(accountUserName, accountPassword).ConfigureAwait(false);
+
+            //Wenn gefunden, ohne Passwort zurück geben
+            if (authAccount.ID > 0)
+                authAccount.WithoutPassword();
+
+            //zurück
+            return authAccount;
+        }
+
+        public AccountModel GetAccountByGUID(string accountGUID)
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return accountSQLRepository.GetAccountByCredentialsFromDataSource(accountUserName, accountPassword, workshopID);
+                return accountSQLRepository.GetAccountByGUIDFromDataSource(accountGUID);
             }
             else
                 return null;
         }
 
-        public async Task<AccountModel> GetAccountByCredentials_Async(string accountUserName, string accountPassword, int workshopID)
+        public async Task<AccountModel> GetAccountByGUIDAsync(string accountGUID)
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return await Task.FromResult(accountSQLRepository.GetAccountByCredentialsFromDataSource(accountUserName, accountPassword, workshopID)).ConfigureAwait(false);
+                return await accountSQLRepository.GetAccountByGUIDFromDataSourceAsync(accountGUID).ConfigureAwait(false);
             }
             else
                 return null;

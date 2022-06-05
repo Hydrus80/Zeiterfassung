@@ -15,11 +15,9 @@ namespace TimeCore.ModulService
         public ITimeStampModelService timeStampModelService;
         public IAccountModelService accountAccountModelService;
 
-        public TimeCoreSQLModulService(ITimeStampModelService selectedTimeStampModelService, IAccountModelService selectedAccountAccountModelService)
+        public TimeCoreSQLModulService()
         {
             modelDatabaseType = eDatabaseType.SQL;
-            timeStampModelService = selectedTimeStampModelService;
-            accountAccountModelService = selectedAccountAccountModelService;
         }
 
         public ITimeCoreModelService GetCurrentTimeCoreModelService()
@@ -27,88 +25,90 @@ namespace TimeCore.ModulService
             if (modelDatabaseType == eDatabaseType.SQL)
             {
                 if (timeCoreModelService is null)
-                    timeCoreModelService = new TimeCoreModelService(modelDatabaseType, timeStampModelService, accountAccountModelService);
+                    timeCoreModelService = new TimeCoreModelService(modelDatabaseType);
                                      
             }
             return timeCoreModelService;
         }
 
-        public List<TimeStampModel> GetStampTimesMonthList(AccountModel userAccount, int selectedYear, int selectedMonth)
+        public List<TimeStampModel> GetStampTimesMonthList(string userGUID, int selectedYear, int selectedMonth)
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return GetCurrentTimeCoreModelService().GetStampTimesMonthList(userAccount, selectedYear, selectedMonth);
+                return GetCurrentTimeCoreModelService().GetStampTimesMonthList(userGUID, selectedYear, selectedMonth);
             }
             else
                 return null;
         }
 
-        public async Task<List<TimeStampModel>> GetStampTimesMonthList_Async(AccountModel userAccount, int selectedYear, int selectedMonth)
+        public async Task<List<TimeStampModel>> GetStampTimesMonthListAsync(string userGUID, int selectedYear, int selectedMonth)
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return await GetCurrentTimeCoreModelService().GetStampTimesMonthList_Async(userAccount, selectedYear, selectedMonth).ConfigureAwait(false);
+                return await GetCurrentTimeCoreModelService().GetStampTimesMonthListAsync(userGUID, selectedYear, selectedMonth).ConfigureAwait(false);
             }
             else
                 return null;
         }
 
-        public AccountModel Login(string accountUserName, string accountPassword, int workshopID)
+        public string Login(string accountUserName, string accountPassword)
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return GetCurrentTimeCoreModelService().Login(accountUserName, accountPassword, workshopID);
+                AccountModel foundAccount = GetCurrentTimeCoreModelService().Authenticate(accountUserName, accountPassword);
+                return foundAccount?.GUID;
             }
             else
                 return null;
         }
 
-        public async Task<AccountModel> Login_Async(string accountUserName, string accountPassword, int workshopID)
+        public async Task<string> LoginAsync(string accountUserName, string accountPassword)
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return await GetCurrentTimeCoreModelService().Login_Async(accountUserName, accountPassword, workshopID).ConfigureAwait(false);
+                AccountModel foundAccount = await GetCurrentTimeCoreModelService().AuthenticateAsync(accountUserName, accountPassword).ConfigureAwait(false);
+                return foundAccount?.GUID;
             }
             else
                 return null;
         }
 
-        public TimeStampModel StampIn(AccountModel userAccount, int timeStampYear, int timeStampMonth, int timeStampDay, int timeStampHour, int timeStampMinute, int timeStampSecond)
+        public TimeStampModel StampIn(string userGUID, int timeStampYear, int timeStampMonth, int timeStampDay, int timeStampHour, int timeStampMinute, int timeStampSecond)
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return GetCurrentTimeCoreModelService().StampIn(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond);
+                return GetCurrentTimeCoreModelService().StampIn(userGUID, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond);
             }
             else
                 return null;
         }
 
-        public async Task<TimeStampModel> StampIn_Async(AccountModel userAccount, int timeStampYear, int timeStampMonth, int timeStampDay, int timeStampHour, int timeStampMinute, int timeStampSecond)
+        public async Task<TimeStampModel> StampInAsync(string userGUID, int timeStampYear, int timeStampMonth, int timeStampDay, int timeStampHour, int timeStampMinute, int timeStampSecond)
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return await GetCurrentTimeCoreModelService().StampIn_Async(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond).ConfigureAwait(false);
+                return await GetCurrentTimeCoreModelService().StampInAsync(userGUID, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond).ConfigureAwait(false);
             }
             else
                 return null;
         }
 
-        public TimeStampModel StampOut(AccountModel userAccount, int timeStampYear, int timeStampMonth, int timeStampDay, int timeStampHour, int timeStampMinute, int timeStampSecond)
+        public TimeStampModel StampOut(string userGUID, int timeStampYear, int timeStampMonth, int timeStampDay, int timeStampHour, int timeStampMinute, int timeStampSecond)
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return GetCurrentTimeCoreModelService().StampOut(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond);
+                return GetCurrentTimeCoreModelService().StampOut(userGUID, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond);
             }
             else
                 return null;
         }
 
-        public async Task<TimeStampModel> StampOut_Async(AccountModel userAccount, int timeStampYear, int timeStampMonth, int timeStampDay, int timeStampHour, int timeStampMinute, int timeStampSecond)
+        public async Task<TimeStampModel> StampOutAsync(string userGUID, int timeStampYear, int timeStampMonth, int timeStampDay, int timeStampHour, int timeStampMinute, int timeStampSecond)
         {
 
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return await GetCurrentTimeCoreModelService().StampOut_Async(userAccount, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond).ConfigureAwait(false);
+                return await GetCurrentTimeCoreModelService().StampOutAsync(userGUID, timeStampYear, timeStampMonth, timeStampDay, timeStampHour, timeStampMinute, timeStampSecond).ConfigureAwait(false);
             }
             else
                 return null;

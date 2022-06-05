@@ -55,7 +55,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public async Task<TimeStampModel> AddTimeStampToDataSource_Async(TimeStampModel newTimeStamp)
+        public async Task<TimeStampModel> AddTimeStampToDataSourceAsync(TimeStampModel newTimeStamp)
         {
             try
             {
@@ -85,19 +85,19 @@ namespace TimeCore.ModelService.EFC.SQL
                     }
                     else
                     {
-                        ErrorHandlerLog.WriteError("TimeStampSQLRepository.AddTimeStampToDataSource_Async(): Keine Verbindung zur Datenbank möglich");
+                        ErrorHandlerLog.WriteError("TimeStampSQLRepository.AddTimeStampToDataSourceAsync(): Keine Verbindung zur Datenbank möglich");
                         return null;
                     }
                 }
             }
             catch (Exception ex)
             {
-                ErrorHandlerLog.WriteError($"TimeStampSQLRepository.AddTimeStampToDataSource_Async(): {ex.Message}");
+                ErrorHandlerLog.WriteError($"TimeStampSQLRepository.AddTimeStampToDataSourceAsync(): {ex.Message}");
                 return null;
             }
         }
 
-        public List<TimeStampModel> GetTimeStampListFromDataSource(AccountModel userAccount, int selectedYear, int selectedMonth)
+        public List<TimeStampModel> GetTimeStampListFromDataSource(string userGUID, int selectedYear, int selectedMonth)
         {
             try
             {
@@ -111,7 +111,7 @@ namespace TimeCore.ModelService.EFC.SQL
                         List<TimeStampModel> returnValue = new List<TimeStampModel>();
 
                         //Liste holen
-                        returnValue = sqlContext.TimeStamp.Where(s => s.Account.ID == userAccount.ID &&
+                        returnValue = sqlContext.TimeStamp.Where(s => s.Account.GUID == userGUID &&
                         s.TimeStampMonth == selectedMonth &&
                         s.TimeStampYear == selectedYear).ToList();
 
@@ -137,7 +137,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public async Task<List<TimeStampModel>> GetTimeStampListFromDataSource_Async(AccountModel userAccount, int selectedYear, int selectedMonth)
+        public async Task<List<TimeStampModel>> GetTimeStampListFromDataSourceAsync(string userGUID, int selectedYear, int selectedMonth)
         {
             try
             {
@@ -147,20 +147,20 @@ namespace TimeCore.ModelService.EFC.SQL
                     //Existiert Datenbank und ist der Zugriff gewährt?
                     if (sqlContext.Database.CanConnect())
                     {
-                        return await Task.FromResult(sqlContext.TimeStamp.Where(s => s.Account.ID == userAccount.ID &&
+                        return await Task.FromResult(sqlContext.TimeStamp.Where(s => s.Account.GUID == userGUID &&
                          s.TimeStampMonth == selectedMonth &&
                         s.TimeStampYear == selectedYear).ToList()).ConfigureAwait(false);
                     }
                     else
                     {
-                        ErrorHandlerLog.WriteError("TimeStampSQLRepository.GetTimeStampListToDataSource_Async(): Keine Verbindung zur Datenbank möglich");
+                        ErrorHandlerLog.WriteError("TimeStampSQLRepository.GetTimeStampListToDataSourceAsync(): Keine Verbindung zur Datenbank möglich");
                         return null;
                     }
                 }
             }
             catch (Exception ex)
             {
-                ErrorHandlerLog.WriteError($"TimeStampSQLRepository.GetTimeStampListToDataSource_Async(): {ex.Message}");
+                ErrorHandlerLog.WriteError($"TimeStampSQLRepository.GetTimeStampListToDataSourceAsync(): {ex.Message}");
                 return null;
             }
         }

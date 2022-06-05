@@ -31,25 +31,24 @@ namespace TimeCore.ModelService.EFC.SQL
             return newTimeStamp;
         }
 
-        public async Task<TimeStampModel> AddTimeStampToDataSource_Async(TimeStampModel newTimeStamp)
+        public async Task<TimeStampModel> AddTimeStampToDataSourceAsync(TimeStampModel newTimeStamp)
         {
             return await Task.FromResult(AddTimeStampToDataSource(newTimeStamp)).ConfigureAwait(false);
         }
 
-        public List<TimeStampModel> GetTimeStampListFromDataSource(AccountModel userAccount, int selectedYear, int selectedMonth)
+        public List<TimeStampModel> GetTimeStampListFromDataSource(string userGUID, int selectedYear, int selectedMonth)
         {
             List<TimeStampModel> returnList = mockData.GetTimeStampsForAccountOne().Where(s => s.TimeStampYear == selectedYear &&
                         s.TimeStampMonth == selectedMonth &&
-                        s.Account.ID == userAccount.ID &&
-                        s.Account.Password == userAccount.Password).ToList();
+                        s.Account.GUID == userGUID).ToList();
             if (returnList is null)
                 returnList = new List<TimeStampModel>();
             return returnList;
         }
 
-        public async Task<List<TimeStampModel>> GetTimeStampListFromDataSource_Async(AccountModel userAccount, int selectedYear, int selectedMonth)
+        public async Task<List<TimeStampModel>> GetTimeStampListFromDataSourceAsync(string userGUID, int selectedYear, int selectedMonth)
         {
-            return await Task.FromResult(GetTimeStampListFromDataSource(userAccount, selectedYear, selectedMonth)).ConfigureAwait(false);
+            return await Task.FromResult(GetTimeStampListFromDataSource(userGUID, selectedYear, selectedMonth)).ConfigureAwait(false);
         }
     }
 }
