@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Model;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using TimeCore.ErrorHandler;
 
@@ -21,13 +23,12 @@ namespace TimeCore.API.Controllers
             requestModulService = selRequestModulService;
         }
 
-        /*http://localhost:8558/api/TimeCore/SQL/Login/Account
+        /*POST http://localhost:8558/api/TimeCore/SQL/Authenticate
         {
-            "username": "max",
-            "password": "max",
-            "workshopID": 1
+            "requestUserName": "max",
+            "requestPassword": "max"
         }
-         */
+       */
         [AllowAnonymous]
         [HttpPost]
         [Route("SQL/Authenticate")]
@@ -50,12 +51,10 @@ namespace TimeCore.API.Controllers
             }
         }
 
-
-        /*http://localhost:8558/api/TimeCore/SQL/LoginAsync
+        /*POST http://localhost:8558/api/TimeCore/SQL/AuthenticateAsync
         {
-            "username": "max",
-            "password": "max",
-            "workshopID": 1
+            "requestUserName": "max",
+            "requestPassword": "max"
         }
        */
         [AllowAnonymous]
@@ -80,31 +79,97 @@ namespace TimeCore.API.Controllers
             }
         }
 
-
-        /*http://localhost:8558/api/TimeCore/SQL/GetStampTimesMonthList
-       {
-           "accountUserName": "YYY",
-           "accountPassword": "XXX",
-           "workshopID": 1
-       }
+        /*GET http://localhost:8558/api/TimeCore/SQL/GetStampTimesMonthList
+        {
+            "requestYear": 2022,
+            "requestMonth": 6
+        }
+        Authentization -> Bearer Token
        */
         [HttpGet]
         [Route("SQL/GetStampTimesMonthList")]
-        public IActionResult GetStampTimesMonthList()
+        public IActionResult GetStampTimesMonthList([FromBody] RequestModel requestModel)
         {
             try
             {
-                //if (string.IsNullOrEmpty(requestModel.requestGUID))
-                //    return BadRequest();
-                //string foundResult = requestModulService.Authenticate(requestModel);
-                //if (!string.IsNullOrEmpty(foundResult))
-                //    return new OkObjectResult(foundResult);
-                //else
+                requestModel = requestModulService.GetAuthenticatedUser(this.User, requestModel);
+                if (string.IsNullOrEmpty(requestModel.requestGUID))
+                    return BadRequest();
+                List<TimeStampModel> foundResult = requestModulService.GetStampTimesMonthList(requestModel);
+                if (foundResult is List<TimeStampModel>)
+                    return new OkObjectResult(foundResult);
+                else
                     return new NotFoundObjectResult(string.Empty);
             }
             catch (Exception ex)
             {
                 ErrorHandlerLog.WriteError($"TimeCoreController.GetStampTimesMonthList(): {ex.Message}");
+                return StatusCode(500);
+            }
+        }
+
+        /*GET http://localhost:8558/api/TimeCore/SQL/StampIn
+        {
+            "requestYear": 2022,
+            "requestMonth": 6
+            "requestDay": 6,
+            "requestHour": 15
+            "requestMinute": 58,
+            "requestSecond": 23
+        }
+        Authentization -> Bearer Token
+        */
+        [HttpGet]
+        [Route("SQL/StampIn")]
+        public IActionResult StampIn([FromBody] RequestModel requestModel)
+        {
+            try
+            {
+                requestModel = requestModulService.GetAuthenticatedUser(this.User, requestModel);
+                if (string.IsNullOrEmpty(requestModel.requestGUID))
+                    return BadRequest();
+                TimeStampModel foundResult = requestModulService.StampIn(requestModel);
+                if (foundResult is TimeStampModel)
+                    return new OkObjectResult(foundResult);
+                else
+                    return new NotFoundObjectResult(string.Empty);
+            }
+            catch (Exception ex)
+            {
+                ErrorHandlerLog.WriteError($"TimeCoreController.StampIn(): {ex.Message}");
+                return StatusCode(500);
+            }
+        }
+
+        /*GET http://localhost:8558/api/TimeCore/SQL/StampIn
+        {
+            "requestYear": 2022,
+            "requestMonth": 6
+            "requestDay": 6,
+            "requestHour": 15
+            "requestMinute": 58,
+            "requestSecond": 23
+        }
+        Authentization -> Bearer Token
+        */
+        [HttpGet]
+        [Route("SQL/StampOut")]
+        public IActionResult StampOut([FromBody] RequestModel requestModel)
+        {
+            try
+            {
+                requestModel = requestModulService.GetAuthenticatedUser(this.User, requestModel);
+                if (string.IsNullOrEmpty(requestModel.requestGUID))
+                    return BadRequest();
+                TimeStampModel foundResult = requestModulService.StampOut(requestModel);
+                if (foundResult is TimeStampModel)
+                    return new OkObjectResult(foundResult);
+                else
+                    return new NotFoundObjectResult(string.Empty);
+            }
+            catch (Exception ex)
+            {
+                ErrorHandlerLog.WriteError($"TimeCoreController.StampOut(): {ex.Message}");
                 return StatusCode(500);
             }
         }

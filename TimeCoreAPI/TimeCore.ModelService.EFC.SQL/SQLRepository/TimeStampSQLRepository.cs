@@ -31,7 +31,7 @@ namespace TimeCore.ModelService.EFC.SQL
                             TimeStampHour = newTimeStamp.TimeStampHour,
                             TimeStampMinute = newTimeStamp.TimeStampMinute,
                             TimeStampSecond = newTimeStamp.TimeStampSecond,
-                            Account = newTimeStamp.Account,
+                            AccountID = newTimeStamp.Account.ID,
                             LastUpdate = newTimeStamp.LastUpdate,
                         };
                         sqlContext.TimeStamp.Add(insertEntry);
@@ -73,7 +73,7 @@ namespace TimeCore.ModelService.EFC.SQL
                             TimeStampHour = newTimeStamp.TimeStampHour,
                             TimeStampMinute = newTimeStamp.TimeStampMinute,
                             TimeStampSecond = newTimeStamp.TimeStampSecond,
-                            Account = newTimeStamp.Account,
+                            AccountID = newTimeStamp.Account.ID,
                             LastUpdate = newTimeStamp.LastUpdate,
                         };
                         sqlContext.TimeStamp.Add(insertEntry);

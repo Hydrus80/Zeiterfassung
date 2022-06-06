@@ -8,6 +8,8 @@ namespace TimeCore.ModulService
     {
         string Login(string accountUserName, string accountPassword);
         Task<string> LoginAsync(string accountUserName, string accountPassword);
+        AccountModel Login(string accountGUID);
+        Task<AccountModel> LoginAsync(string accountGUID);
         TimeStampModel StampIn(string userGUID, int timeStampYear, int timeStampMonth, int timeStampDay, int timeStampHour, int timeStampMinute, int timeStampSecond);
         Task<TimeStampModel> StampInAsync(string userGUID, int timeStampYear, int timeStampMonth, int timeStampDay, int timeStampHour, int timeStampMinute, int timeStampSecond);
         TimeStampModel StampOut(string userGUID, int timeStampYear, int timeStampMonth, int timeStampDay, int timeStampHour, int timeStampMinute, int timeStampSecond);

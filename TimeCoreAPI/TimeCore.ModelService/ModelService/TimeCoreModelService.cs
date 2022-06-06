@@ -72,7 +72,27 @@ namespace TimeCore.ModelService
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return await accountModelService.AuthenticateAsync(accountUserName, accountPassword).ConfigureAwait(false);
+                return await GetCurrentAccountModelService().AuthenticateAsync(accountUserName, accountPassword).ConfigureAwait(false);
+            }
+            else
+                return null;
+        }
+
+        public AccountModel Authenticate(string accountGUID)
+        {
+            if (modelDatabaseType == eDatabaseType.SQL)
+            {
+                return GetCurrentAccountModelService().GetAccountByGUID(accountGUID);
+            }
+            else
+                return null;
+        }
+
+        public async Task<AccountModel> AuthenticateAsync(string accountGUID)
+        {
+            if (modelDatabaseType == eDatabaseType.SQL)
+            {
+                return await GetCurrentAccountModelService().GetAccountByGUIDAsync(accountGUID).ConfigureAwait(false);
             }
             else
                 return null;

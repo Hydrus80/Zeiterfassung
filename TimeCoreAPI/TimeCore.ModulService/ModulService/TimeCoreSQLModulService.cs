@@ -73,6 +73,22 @@ namespace TimeCore.ModulService
                 return null;
         }
 
+        public AccountModel Login(string accountGUID)
+        {
+            if (modelDatabaseType == eDatabaseType.SQL)
+                return GetCurrentTimeCoreModelService().Authenticate(accountGUID);
+            else
+                return null;
+        }
+
+        public async Task<AccountModel> LoginAsync(string accountGUID)
+        {
+            if (modelDatabaseType == eDatabaseType.SQL)
+               return await GetCurrentTimeCoreModelService().AuthenticateAsync(accountGUID).ConfigureAwait(false);
+            else
+                return null;
+        }
+
         public TimeStampModel StampIn(string userGUID, int timeStampYear, int timeStampMonth, int timeStampDay, int timeStampHour, int timeStampMinute, int timeStampSecond)
         {
             if (modelDatabaseType == eDatabaseType.SQL)

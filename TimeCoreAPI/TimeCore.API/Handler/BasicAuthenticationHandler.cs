@@ -31,7 +31,7 @@ namespace TimeCore.API.Handler
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             //Init
-            RequestModel requestModel = null;
+            AccountModel accountModel = null;
 
             // skip authentication if endpoint has [AllowAnonymous] attribute
             var endpoint = Context.GetEndpoint();
@@ -43,7 +43,7 @@ namespace TimeCore.API.Handler
             try
             {
                 //Init
-                requestModel = new RequestModel();
+                RequestModel requestModel = new RequestModel();
 
                 //var authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
                 //var credentialBytes = Convert.FromBase64String(authHeader.Parameter);
@@ -66,7 +66,7 @@ namespace TimeCore.API.Handler
                     requestModel.requestGUID = authHeader.Parameter;
                     if (string.IsNullOrEmpty(requestModel.requestGUID))
                         return AuthenticateResult.Fail("Invalid Parameter");
-                    requestModel = _requestModulService.CheckGUIDLoggedIn(requestModel.requestGUID);
+                    accountModel = await _requestModulService.GetAccountByGUIDAsync(requestModel).ConfigureAwait(false);
                 }
             }
             catch
@@ -74,16 +74,17 @@ namespace TimeCore.API.Handler
                 return AuthenticateResult.Fail("Invalid Authorization Header");
             }
 
-            if (requestModel == null)
+            if (accountModel == null)
                 return AuthenticateResult.Fail("Invalid Username or Password");
 
             var claims = new[] {
-                new Claim(ClaimTypes.NameIdentifier, requestModel.requestGUID.ToString()),
-                new Claim(ClaimTypes.Name, requestModel.requestUserName),
+                new Claim(ClaimTypes.NameIdentifier, accountModel.GUID.ToString()),
+                new Claim(ClaimTypes.Name, accountModel.Username),
             };
             var identity = new ClaimsIdentity(claims, Scheme.Name);
             var principal = new ClaimsPrincipal(identity);
             var ticket = new AuthenticationTicket(principal, Scheme.Name);
+            Context.User = new ClaimsPrincipal(new[] { identity });
 
             return AuthenticateResult.Success(ticket);
         }
