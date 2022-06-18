@@ -33,6 +33,7 @@ namespace TimeCore.Client.ASPNET
         [HttpPost]
         public IActionResult Login(string username, string password)
         {
+            //https://learningprogramming.net/net/asp-net-core-mvc-5/login-form-with-session-in-asp-net-core-mvc-5/
             try
             {
                 if ((string.IsNullOrEmpty(username)) || (string.IsNullOrEmpty(password)))
@@ -61,6 +62,7 @@ namespace TimeCore.Client.ASPNET
         [HttpPost]
         public async Task<IActionResult> RemoteLogin(string username, string password, string serverport)
         {
+            //https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/calling-a-web-api-from-a-net-client
             try
             {
                 if ((string.IsNullOrEmpty(username)) || (string.IsNullOrEmpty(password)) || (string.IsNullOrEmpty(serverport)))
