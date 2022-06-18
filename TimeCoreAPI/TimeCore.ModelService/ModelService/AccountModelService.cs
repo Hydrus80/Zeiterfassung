@@ -31,7 +31,7 @@ namespace TimeCore.ModelService
             AccountModel authAccount = accountSQLRepository.GetAccountByCredentialsFromDataSource(accountUserName, accountPassword);
 
             //Wenn gefunden, ohne Passwort zurück geben
-            if (authAccount.ID > 0)
+            if (authAccount?.ID > 0)
                 authAccount.WithoutPassword();
 
             //zurück

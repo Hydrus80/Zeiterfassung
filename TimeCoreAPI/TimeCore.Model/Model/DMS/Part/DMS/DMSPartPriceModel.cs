@@ -1,0 +1,91 @@
+﻿using System;
+
+namespace Model
+{
+    public class DMSPartPriceModel : BasicModel, IDMSPartBasicModel
+    {
+        public int PartID { get; set; }
+        public decimal Akt_EK { get; set; }
+        public DateTime Akt_EK_Datum { get; set; }
+        public bool AngebotMitMWST { get; set; }
+        public bool AngebotsPreiseRechnen { get; set; }
+        public decimal AngebotsVK { get; set; }
+        public DateTime AngebotsVK_Bis { get; set; }
+        public decimal AngebotsVK_Incl { get; set; }
+        public decimal AngebotsVK_Marge { get; set; }
+        public decimal AngebotsVK_Mwst { get; set; }
+        public DateTime AngebotsVK_Von { get; set; }
+        public int AnzMonateZumDurchschnittsEK { get; set; }
+        public decimal AufAbschlag1 { get; set; }
+        public decimal AufAbschlag2 { get; set; }
+        public decimal AufAbschlag3 { get; set; }
+        public decimal AufAbschlag4 { get; set; }
+        public bool Auszeichnunggilt { get; set; }
+        public decimal Auszeichnungspreis { get; set; }
+        public decimal Bonus_EK { get; set; }
+        public string Bonuskennung { get; set; }
+        public decimal Durchschn_EK { get; set; }
+        public decimal Durchschn_EK_Fix { get; set; }
+        public decimal EK_Vorschau { get; set; }
+        public bool EKfix { get; set; }
+        public int EKRabGruppe_ID { get; set; }
+        public decimal Garantiepreis { get; set; }
+        public decimal IndividuellerEKRabatt { get; set; }
+        public decimal Internerpreis { get; set; }
+        public bool KeinAuszeichnungspreisErmitteln { get; set; }
+        public decimal Letzter_EK { get; set; }
+        public DateTime Letztes_EK_Datum { get; set; }
+        public decimal Listen_EK { get; set; }
+        public decimal Listen_VK { get; set; }
+        public decimal ListenVK_Incl { get; set; }
+        public decimal ListenVK_Marge { get; set; }
+        public decimal ListenVK_Mwst { get; set; }
+        public bool ManuelleErfassungVKs { get; set; }
+        public decimal Mischpreis { get; set; }
+        public DateTime NeuePreiseAb { get; set; }
+        public decimal NeuerListenEK { get; set; }
+        public decimal NeuerListenVK { get; set; }
+        public DateTime PreiseGeaendert { get; set; }
+        public int Preiseinheit { get; set; }
+        public decimal PreisProGrundeinheit { get; set; }
+        public string Preistyp { get; set; }
+        public decimal Rabatt_auf_ListenVK { get; set; }
+        public bool Rabattausschluss { get; set; }
+        public decimal ShowAktEK { get; set; }
+        public decimal ShowAngebotsVK { get; set; }
+        public decimal ShowAngebotsVK_Incl { get; set; }
+        public decimal ShowDurchschn_EK { get; set; }
+        public decimal ShowDurchschn_EK_Fix { get; set; }
+        public decimal ShowVK { get; set; }
+        public decimal ShowVK_Incl { get; set; }
+        public decimal ShowVK2 { get; set; }
+        public decimal ShowVK2_Incl { get; set; }
+        public decimal ShowVK3 { get; set; }
+        public decimal ShowVK3_Incl { get; set; }
+        public decimal ShowVK4 { get; set; }
+        public decimal ShowVK4_Incl { get; set; }
+        public bool Staffelpreise { get; set; }
+        public decimal VK { get; set; }
+        public decimal VK_Incl { get; set; }
+        public decimal VK_Incl_LL { get; set; }
+        public decimal VK_Marge { get; set; }
+        public decimal VK_Mwst { get; set; }
+        public decimal VK2 { get; set; }
+        public decimal VK2_Incl { get; set; }
+        public decimal VK2_Marge { get; set; }
+        public decimal VK2_Mwst { get; set; }
+        public decimal VK3 { get; set; }
+        public decimal VK3_Incl { get; set; }
+        public decimal VK3_Marge { get; set; }
+        public decimal VK3_Mwst { get; set; }
+        public decimal VK4 { get; set; }
+        public decimal VK4_Incl { get; set; }
+        public decimal VK4_Marge { get; set; }
+        public decimal VK4_Mwst { get; set; }
+        public int VKBasis1 { get; set; }
+        public int VKBasis2 { get; set; }
+        public int VKBasis3 { get; set; }
+        public int VKBasis4 { get; set; }
+        public int VKRabGruppeID { get; set; }
+    }
+}

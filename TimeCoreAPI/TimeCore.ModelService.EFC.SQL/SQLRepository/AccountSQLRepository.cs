@@ -25,7 +25,10 @@ namespace TimeCore.ModelService.EFC.SQL
                         s.Password == accountPassword).FirstOrDefault<AccountModel>();
 
                         //Add Workshop
-                        returnValue.Workshop = sqlContext.Workshop.Find(returnValue.WorkshopID);
+                        if (returnValue != null)
+                            returnValue.Workshop = sqlContext.Workshop.Find(returnValue.WorkshopID);
+
+                        //Zurück
                         return returnValue;
                     }
                     else

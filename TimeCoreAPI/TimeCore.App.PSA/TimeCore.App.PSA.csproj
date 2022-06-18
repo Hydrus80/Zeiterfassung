@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ModelService\CPSAASRModelService.cs" />
+    <Compile Remove="ModelService\Interface\ICPSAASRModelService.cs" />
+    <Compile Remove="ModulService\CPSASurveyModulService.cs" />
+    <Compile Remove="ModulService\Interface\ICPSASurveyModulService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ViewModel\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="ModelService\CPSAASRModelService.cs" />
+    <None Include="ModelService\Interface\ICPSAASRModelService.cs" />
+    <None Include="ModulService\CPSASurveyModulService.cs" />
+    <None Include="ModulService\Interface\ICPSASurveyModulService.cs" />
+  </ItemGroup>
+
+</Project>
