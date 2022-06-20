@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeCore.ConfigurationModul
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeCore.ErrorHandler", "TimeCore.ErrorHandler\TimeCore.ErrorHandler.csproj", "{5A34F981-2955-4914-8832-FA969797731E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeCore.Client.ASPNET", "TimeCore.Client.ASPNET\TimeCore.Client.ASPNET.csproj", "{2A17A4FE-66F4-455B-8E97-28F61FE8AD74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeCore.Client.ASPNET", "TimeCore.Client.ASPNET\TimeCore.Client.ASPNET.csproj", "{2A17A4FE-66F4-455B-8E97-28F61FE8AD74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -5,7 +5,36 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Content\Images\home-showcase.png" />
+    <None Remove="Content\Images\logo.png" />
+    <None Remove="Content\Images\placeholder.gif" />
+    <None Remove="Content\Site.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Content\Images\home-showcase.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Images\logo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Images\placeholder.gif">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TimeCore.API\TimeCore.API.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Content\themes\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\css\site.css">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
