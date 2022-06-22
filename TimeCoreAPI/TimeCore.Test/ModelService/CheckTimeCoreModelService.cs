@@ -360,9 +360,10 @@ namespace TimeCore.ModelService
             string userGUID = mockData.GetAccountOne().GUID;
             int selectedMonth = mockData.mockDate.Month;
             int selectedYear = mockData.mockDate.Year;
+            int selectedDay = mockData.mockDate.Day;
 
             //Act
-            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesMonthList(userGUID, selectedYear, selectedMonth);
+            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesList(userGUID, selectedYear, selectedMonth, selectedDay);
 
             //Assert
             Assert.IsTrue(MockResult.Count == 2);
@@ -380,9 +381,10 @@ namespace TimeCore.ModelService
             string userGUID = mockData.GetAccountOne().GUID;
             int selectedMonth = mockData.mockDate.Month;
             int selectedYear = mockData.mockDate.Year;
+            int selectedDay = mockData.mockDate.Day;
 
             //Act
-            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesMonthListAsync(userGUID, selectedYear, selectedMonth).GetAwaiter().GetResult();
+            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesListAsync(userGUID, selectedYear, selectedMonth, selectedDay).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.Count == 2);
@@ -400,9 +402,10 @@ namespace TimeCore.ModelService
             string userGUID = string.Empty;
             int selectedMonth = mockData.mockDate.Month;
             int selectedYear = mockData.mockDate.Year;
+            int selectedDay = mockData.mockDate.Day;
 
             //Act
-            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesMonthList(userGUID, selectedYear, selectedMonth);
+            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesList(userGUID, selectedYear, selectedMonth, selectedDay);
 
             //Assert
             Assert.IsTrue(MockResult.Count == 0);
@@ -418,9 +421,10 @@ namespace TimeCore.ModelService
             string userGUID = string.Empty;
             int selectedMonth = mockData.mockDate.Month;
             int selectedYear = mockData.mockDate.Year;
+            int selectedDay = mockData.mockDate.Day;
 
             //Act
-            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesMonthListAsync(userGUID, selectedYear, selectedMonth).GetAwaiter().GetResult();
+            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesListAsync(userGUID, selectedYear, selectedMonth, selectedDay).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.Count == 0);
@@ -436,9 +440,10 @@ namespace TimeCore.ModelService
             string userGUID = mockData.GetAccountOne().GUID;
             int selectedMonth = mockData.mockDate.Month - 1;
             int selectedYear = mockData.mockDate.Year;
+            int selectedDay = mockData.mockDate.Day;
 
             //Act
-            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesMonthList(userGUID, selectedYear, selectedMonth);
+            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesList(userGUID, selectedYear, selectedMonth, selectedDay);
 
             //Assert
             Assert.IsTrue(MockResult.Count == 0);
@@ -454,9 +459,10 @@ namespace TimeCore.ModelService
             string userGUID = mockData.GetAccountOne().GUID;
             int selectedMonth = mockData.mockDate.Month - 1;
             int selectedYear = mockData.mockDate.Year;
+            int selectedDay = mockData.mockDate.Day;
 
             //Act
-            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesMonthListAsync(userGUID, selectedYear, selectedMonth).GetAwaiter().GetResult();
+            List<TimeStampModel> MockResult = timeCoreModelService.GetStampTimesListAsync(userGUID, selectedYear, selectedMonth, selectedDay).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.Count == 0);

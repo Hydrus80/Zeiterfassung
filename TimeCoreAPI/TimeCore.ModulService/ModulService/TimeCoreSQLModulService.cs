@@ -31,21 +31,21 @@ namespace TimeCore.ModulService
             return timeCoreModelService;
         }
 
-        public List<TimeStampModel> GetStampTimesMonthList(string userGUID, int selectedYear, int selectedMonth)
+        public List<TimeStampModel> GetStampTimesList(string userGUID, int selectedYear, int selectedMonth, int selectedDay)
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return GetCurrentTimeCoreModelService().GetStampTimesMonthList(userGUID, selectedYear, selectedMonth);
+                return GetCurrentTimeCoreModelService().GetStampTimesList(userGUID, selectedYear, selectedMonth, selectedDay);
             }
             else
                 return null;
         }
 
-        public async Task<List<TimeStampModel>> GetStampTimesMonthListAsync(string userGUID, int selectedYear, int selectedMonth)
+        public async Task<List<TimeStampModel>> GetStampTimesMonthListAsync(string userGUID, int selectedYear, int selectedMonth, int selectedDay)
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return await GetCurrentTimeCoreModelService().GetStampTimesMonthListAsync(userGUID, selectedYear, selectedMonth).ConfigureAwait(false);
+                return await GetCurrentTimeCoreModelService().GetStampTimesListAsync(userGUID, selectedYear, selectedMonth, selectedDay).ConfigureAwait(false);
             }
             else
                 return null;

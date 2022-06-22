@@ -254,15 +254,14 @@ input[type=text], input[type=password], select {
 
 /* Tables */
 table {
-	border: 1px solid #000;
-	border-collapse: collapse;
+	border: none;
 	color: #666666;
 	min-width: 500px;
 	width: 100%;
 }
 
 tr {
-	border: 1px solid #000;
+	border: none;
 	line-height: 25px;
 }
 

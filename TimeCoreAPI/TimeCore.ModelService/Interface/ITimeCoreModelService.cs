@@ -6,8 +6,8 @@ namespace TimeCore.ModelService
 {
     public interface ITimeCoreModelService
     {
-        List<TimeStampModel> GetStampTimesMonthList(string userGUID, int selectedYear, int selectedMonth);
-        Task<List<TimeStampModel>> GetStampTimesMonthListAsync(string userGUID, int selectedYear, int selectedMonth);
+        List<TimeStampModel> GetStampTimesList(string userGUID, int selectedYear, int selectedMonth, int selectedDay);
+        Task<List<TimeStampModel>> GetStampTimesListAsync(string userGUID, int selectedYear, int selectedMonth, int selectedDay);
         AccountModel Authenticate(string accountUserName, string accountPassword);
         Task<AccountModel> AuthenticateAsync(string accountUserName, string accountPassword);
         AccountModel Authenticate(string accountGUID);

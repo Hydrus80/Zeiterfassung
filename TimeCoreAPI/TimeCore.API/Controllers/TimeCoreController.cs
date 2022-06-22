@@ -95,7 +95,7 @@ namespace TimeCore.API.Controllers
                 requestModel = requestModulService.GetAuthenticatedUser(this.User, requestModel);
                 if (string.IsNullOrEmpty(requestModel.requestGUID))
                     return BadRequest();
-                List<TimeStampModel> foundResult = requestModulService.GetStampTimesMonthList(requestModel);
+                List<TimeStampModel> foundResult = requestModulService.GetStampTimesList(requestModel);
                 if (foundResult is List<TimeStampModel>)
                     return new OkObjectResult(foundResult);
                 else

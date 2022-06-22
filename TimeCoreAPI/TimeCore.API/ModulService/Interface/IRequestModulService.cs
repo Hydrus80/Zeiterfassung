@@ -14,7 +14,7 @@ namespace TimeCore.API
         string Authenticate(RequestModel selectedRequest);
         AccountModel GetAccountByGUID(RequestModel selectedRequest);
         Task<AccountModel> GetAccountByGUIDAsync(RequestModel selectedRequest);
-        List<TimeStampModel> GetStampTimesMonthList(RequestModel selectedRequest);
+        List<TimeStampModel> GetStampTimesList(RequestModel selectedRequest);
         TimeStampModel StampIn(RequestModel selectedRequest);
         TimeStampModel StampOut(RequestModel selectedRequest);
     }

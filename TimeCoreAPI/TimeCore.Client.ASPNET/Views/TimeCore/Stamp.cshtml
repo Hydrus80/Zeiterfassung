@@ -1,0 +1,70 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using Model;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Success Page</h3>
+Willkommen @Context.Session.GetString("userUserName")
+@ViewBag.error
+<form method="get" asp-controller="timecore" asp-action="stamp">
+    <table cellpadding="2" cellspacing="2">
+        <tr>
+            <td><input type="submit" value="Stempeln"></td>
+        </tr>
+    </table>
+</form>
+<br />
+<br />
+<table class="table">
+<thead>
+    <tr>
+        <th>
+            Eingestempelt
+        </th>
+        <th>
+            Jahr
+        </th>
+        <th>
+            Monat
+        </th>
+        <th>
+            Tag
+        </th>
+        <th>
+            Stunde
+        </th>
+        <th>
+            Minute
+        </th>
+        <th></th>
+    </tr>
+</thead>
+<tbody>
+    @model List<TimeStampModel>
+    @foreach (var element in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => element.StampIn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => element.TimeStampYear)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => element.TimeStampMonth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => element.TimeStampDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => element.TimeStampHour)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => element.TimeStampMinute)
+            </td>
+        </tr>
+    }
+</tbody>
+</table>

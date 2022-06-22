@@ -38,21 +38,21 @@ namespace TimeCore.ModelService
             return accountModelService;
         }
 
-        public List<TimeStampModel> GetStampTimesMonthList(string userGUID, int selectedYear, int selectedMonth)
+        public List<TimeStampModel> GetStampTimesList(string userGUID, int selectedYear, int selectedMonth, int selectedDay)
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return GetCurrentTimeStampModelService().GetTimeStampList(userGUID, selectedYear, selectedMonth);
+                return GetCurrentTimeStampModelService().GetTimeStampList(userGUID, selectedYear, selectedMonth, selectedDay);
             }
             else
                 return null;
         }
 
-        public async Task<List<TimeStampModel>> GetStampTimesMonthListAsync(string userGUID, int selectedYear, int selectedMonth)
+        public async Task<List<TimeStampModel>> GetStampTimesListAsync(string userGUID, int selectedYear, int selectedMonth, int selectedDay)
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
-                return await GetCurrentTimeStampModelService().GetTimeStampListAsync(userGUID, selectedYear, selectedMonth).ConfigureAwait(false);
+                return await GetCurrentTimeStampModelService().GetTimeStampListAsync(userGUID, selectedYear, selectedMonth, selectedDay).ConfigureAwait(false);
             }
             else
                 return null;
@@ -114,6 +114,7 @@ namespace TimeCore.ModelService
                     stampIn.TimeStampHour = timeStampHour;
                     stampIn.TimeStampMinute = timeStampMinute;
                     stampIn.TimeStampSecond = timeStampSecond;
+                    stampIn.StampIn = true;
                     stampIn.LastUpdate = DateTime.Now;
                     return GetCurrentTimeStampModelService().AddTimeStamp(stampIn);
                 }
@@ -141,6 +142,7 @@ namespace TimeCore.ModelService
                     stampIn.TimeStampHour = timeStampHour;
                     stampIn.TimeStampMinute = timeStampMinute;
                     stampIn.TimeStampSecond = timeStampSecond;
+                    stampIn.StampIn = true;
                     stampIn.LastUpdate = DateTime.Now;
                     return await GetCurrentTimeStampModelService().AddTimeStampAsync(stampIn).ConfigureAwait(false);
                 }
@@ -166,6 +168,7 @@ namespace TimeCore.ModelService
                     stampOut.TimeStampHour = timeStampHour;
                     stampOut.TimeStampMinute = timeStampMinute;
                     stampOut.TimeStampSecond = timeStampSecond;
+                    stampOut.StampIn = false;
                     stampOut.LastUpdate = DateTime.Now;
                     return GetCurrentTimeStampModelService().AddTimeStamp(stampOut);
                 }
@@ -192,6 +195,7 @@ namespace TimeCore.ModelService
                     stampOut.TimeStampHour = timeStampHour;
                     stampOut.TimeStampMinute = timeStampMinute;
                     stampOut.TimeStampSecond = timeStampSecond;
+                    stampOut.StampIn = false;
                     stampOut.LastUpdate = DateTime.Now;
                     return await GetCurrentTimeStampModelService().AddTimeStampAsync(stampOut).ConfigureAwait(false);
                 }

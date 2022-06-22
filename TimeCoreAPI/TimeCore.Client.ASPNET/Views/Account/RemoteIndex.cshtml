@@ -1,39 +1,33 @@
-﻿<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Remote Index</title>
-</head>
-<body>
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h3>Login Page</h3>
+@ViewBag.error
+<form method="post" asp-controller="account" asp-action="remotelogin">
+    <fieldset>
+        Serverport <select id="Serverport" name="serverport">
 
-    <h3>Login Page</h3>
-    @ViewBag.error
-    <form method="post" asp-controller="account" asp-action="remotelogin">
-        <fieldset>
-            Serverport <select id="Serverport" name="serverport">
+            <option selected="selected" value="8558">8558</option>
 
-                <option selected="selected" value="8558">8558</option>
+            <option value="5000">5000</option>
 
-                <option value="5000">5000</option>
-
-            </select>
-        </fieldset>
-        <table border="0" cellpadding="2" cellspacing="2">
-            <tr>
-            </tr>
-            <tr>
-                <td>Username</td>
-                <td><input type="text" name="username"></td>
-            </tr>
-            <tr>
-                <td>Password</td>
-                <td><input type="password" name="password"></td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <td><input type="submit" value="Login"></td>
-            </tr>
-        </table>
-    </form>
-
-</body>
-</html>
+        </select>
+    </fieldset>
+    <table border="0" cellpadding="2" cellspacing="2">
+        <tr>
+        </tr>
+        <tr>
+            <td>Username</td>
+            <td><input type="text" name="username"></td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input type="password" name="password"></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td><input type="submit" value="Login"></td>
+        </tr>
+    </table>
+</form>

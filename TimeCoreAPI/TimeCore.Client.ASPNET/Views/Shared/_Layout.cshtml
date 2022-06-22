@@ -12,11 +12,13 @@
         </h1>
         <ul id="navlist">
             <li class="first">
-                <a href="/"
-                   id="current">Home</a>
+                <a asp-controller="account" asp-action="logout">Logout</a>
             </li>
             <li>
-                <a href="/Store/">Store</a>
+                <a asp-controller="timecore" asp-action="GetUserList" asp-route-listselection="day">Tag</a>
+            </li>
+            <li>
+                <a asp-controller="timecore" asp-action="GetUserList" asp-route-listselection="month">Monat</a>
             </li>
         </ul>
     </div>

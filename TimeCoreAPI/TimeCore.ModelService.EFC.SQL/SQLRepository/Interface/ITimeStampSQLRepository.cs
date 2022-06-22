@@ -8,7 +8,7 @@ namespace TimeCore.ModelService.EFC.SQL
     {
         TimeStampModel AddTimeStampToDataSource(TimeStampModel newTimeStamp);
         Task<TimeStampModel> AddTimeStampToDataSourceAsync(TimeStampModel newTimeStamp);
-        List<TimeStampModel> GetTimeStampListFromDataSource(string userGUID, int selectedYear, int selectedMonth);
-        Task<List<TimeStampModel>> GetTimeStampListFromDataSourceAsync(string userGUID, int selectedYear, int selectedMonth);
+        List<TimeStampModel> GetTimeStampListFromDataSource(string userGUID, int selectedYear, int selectedMonth, int selectedDay);
+        Task<List<TimeStampModel>> GetTimeStampListFromDataSourceAsync(string userGUID, int selectedYear, int selectedMonth, int selectedDay);
     }
 }

@@ -105,13 +105,13 @@ namespace TimeCore.API
             }
         }
 
-        public List<TimeStampModel> GetStampTimesMonthList(RequestModel selectedRequest)
+        public List<TimeStampModel> GetStampTimesList(RequestModel selectedRequest)
         {
             try
             {
                 if (string.IsNullOrEmpty(selectedRequest.requestGUID))
                     return new List<TimeStampModel>();
-                List<TimeStampModel> foundResult = GetCurrentTimeCoreSQLModulService().GetStampTimesMonthList(selectedRequest.requestGUID, selectedRequest.requestYear, selectedRequest.requestMonth);
+                List<TimeStampModel> foundResult = GetCurrentTimeCoreSQLModulService().GetStampTimesList(selectedRequest.requestGUID, selectedRequest.requestYear, selectedRequest.requestMonth, selectedRequest.requestDay);
                 if (foundResult is List<TimeStampModel>)
                     return foundResult;
                 else

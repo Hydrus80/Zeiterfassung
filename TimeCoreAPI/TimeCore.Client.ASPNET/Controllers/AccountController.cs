@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Model;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -36,13 +38,26 @@ namespace TimeCore.Client.ASPNET
             //https://learningprogramming.net/net/asp-net-core-mvc-5/login-form-with-session-in-asp-net-core-mvc-5/
             try
             {
+                //Init
+                List<TimeStampModel> returnList = null;
+
                 if ((string.IsNullOrEmpty(username)) || (string.IsNullOrEmpty(password)))
                     return BadRequest();
                 string foundResult = requestModulService.Authenticate(new RequestModel() { requestUserName = username, requestPassword = password });
                 if (!string.IsNullOrEmpty(foundResult))
                 {
+                    //User setzen
                     HttpContext.Session.SetString("userGUID", foundResult);
-                    return View("Success");
+                    HttpContext.Session.SetString("userUserName", username);
+
+                    //Tagesliste holen
+                    returnList = requestModulService.GetStampTimesList(new RequestModel() { requestGUID = foundResult, requestYear = DateTime.Now.Year, requestMonth = DateTime.Now.Month, requestDay = DateTime.Now.Day });
+
+                    //Liste gefunden?
+                    if (returnList is List<TimeStampModel>)
+                        return View("~/Views/TimeCore/Stamp.cshtml", returnList);
+                    else
+                        return View("~/Views/TimeCore/Stamp.cshtml", new List<TimeStampModel>());
                 }
                 else
                 {
@@ -83,6 +98,7 @@ namespace TimeCore.Client.ASPNET
                     if (!string.IsNullOrEmpty(APIresponse))
                     {
                         HttpContext.Session.SetString("userGUID", APIresponse);
+                        HttpContext.Session.SetString("userUserName", username);
                         return View("Success");
                     }
                     else
@@ -115,7 +131,8 @@ namespace TimeCore.Client.ASPNET
         [HttpGet]
         public IActionResult Logout()
         {
-            HttpContext.Session.Remove("username");
+            HttpContext.Session.Remove("userGUID");
+            HttpContext.Session.Remove("userUserName");
             return RedirectToAction("Index");
         }
     }

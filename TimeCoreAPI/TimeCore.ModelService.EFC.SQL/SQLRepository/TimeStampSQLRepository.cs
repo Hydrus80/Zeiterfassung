@@ -31,6 +31,7 @@ namespace TimeCore.ModelService.EFC.SQL
                             TimeStampHour = newTimeStamp.TimeStampHour,
                             TimeStampMinute = newTimeStamp.TimeStampMinute,
                             TimeStampSecond = newTimeStamp.TimeStampSecond,
+                            StampIn = newTimeStamp.StampIn,
                             AccountID = newTimeStamp.Account.ID,
                             LastUpdate = newTimeStamp.LastUpdate,
                         };
@@ -73,6 +74,7 @@ namespace TimeCore.ModelService.EFC.SQL
                             TimeStampHour = newTimeStamp.TimeStampHour,
                             TimeStampMinute = newTimeStamp.TimeStampMinute,
                             TimeStampSecond = newTimeStamp.TimeStampSecond,
+                            StampIn = newTimeStamp.StampIn,
                             AccountID = newTimeStamp.Account.ID,
                             LastUpdate = newTimeStamp.LastUpdate,
                         };
@@ -97,7 +99,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public List<TimeStampModel> GetTimeStampListFromDataSource(string userGUID, int selectedYear, int selectedMonth)
+        public List<TimeStampModel> GetTimeStampListFromDataSource(string userGUID, int selectedYear, int selectedMonth, int selectedDay)
         {
             try
             {
@@ -110,10 +112,22 @@ namespace TimeCore.ModelService.EFC.SQL
                         //Init
                         List<TimeStampModel> returnValue = new List<TimeStampModel>();
 
-                        //Liste holen
-                        returnValue = sqlContext.TimeStamp.Where(s => s.Account.GUID == userGUID &&
-                        s.TimeStampMonth == selectedMonth &&
-                        s.TimeStampYear == selectedYear).ToList();
+                        //Auswerten
+                        if ((selectedYear > 0) && (selectedMonth > 0) && (selectedDay == 0))
+                        {
+                            //Liste holen
+                            returnValue = sqlContext.TimeStamp.Where(s => s.Account.GUID == userGUID &&
+                            s.TimeStampMonth == selectedMonth &&
+                            s.TimeStampYear == selectedYear).ToList();
+                        }
+                        else if ((selectedYear > 0) && (selectedMonth > 0) && (selectedDay > 0))
+                        {
+                            //Liste holen
+                            returnValue = sqlContext.TimeStamp.Where(s => s.Account.GUID == userGUID &&
+                            s.TimeStampDay == selectedDay &&
+                            s.TimeStampMonth == selectedMonth &&
+                            s.TimeStampYear == selectedYear).ToList();
+                        }
 
                         //Accounts ergänzen
                         for (int i = 0; i < returnValue.Count; i++)
@@ -137,7 +151,7 @@ namespace TimeCore.ModelService.EFC.SQL
             }
         }
 
-        public async Task<List<TimeStampModel>> GetTimeStampListFromDataSourceAsync(string userGUID, int selectedYear, int selectedMonth)
+        public async Task<List<TimeStampModel>> GetTimeStampListFromDataSourceAsync(string userGUID, int selectedYear, int selectedMonth, int selectedDay)
         {
             try
             {
@@ -147,9 +161,32 @@ namespace TimeCore.ModelService.EFC.SQL
                     //Existiert Datenbank und ist der Zugriff gewährt?
                     if (sqlContext.Database.CanConnect())
                     {
-                        return await Task.FromResult(sqlContext.TimeStamp.Where(s => s.Account.GUID == userGUID &&
-                         s.TimeStampMonth == selectedMonth &&
-                        s.TimeStampYear == selectedYear).ToList()).ConfigureAwait(false);
+                        //Init
+                        List<TimeStampModel> returnValue = new List<TimeStampModel>();
+
+                        //Auswerten
+                        if ((selectedYear > 0) && (selectedMonth > 0) && (selectedDay == 0))
+                        {
+                            //Liste holen
+                            returnValue = await Task.FromResult(sqlContext.TimeStamp.Where(s => s.Account.GUID == userGUID &&
+                                                                                        s.TimeStampMonth == selectedMonth &&
+                                                                                        s.TimeStampYear == selectedYear).ToList()).ConfigureAwait(false);
+                        }
+                        else if ((selectedYear > 0) && (selectedMonth > 0) && (selectedDay > 0))
+                        {
+                            returnValue =await Task.FromResult(sqlContext.TimeStamp.Where(s => s.Account.GUID == userGUID &&
+                                                                                        s.TimeStampDay== selectedDay &&
+                                                                                        s.TimeStampMonth == selectedMonth &&
+                                                                                        s.TimeStampYear == selectedYear).ToList()).ConfigureAwait(false);
+                        }
+
+                        //Accounts ergänzen
+                        for (int i = 0; i < returnValue.Count; i++)
+                        {
+                            TimeStampModel updateTimeStamp = returnValue[i];
+                            updateTimeStamp.Account = sqlContext.Account.Find(updateTimeStamp.AccountID);
+                        }
+                        return returnValue;
                     }
                     else
                     {

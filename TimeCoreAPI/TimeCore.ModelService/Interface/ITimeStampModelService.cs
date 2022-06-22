@@ -8,7 +8,7 @@ namespace TimeCore.ModelService
     {
         TimeStampModel AddTimeStamp(TimeStampModel newTimeStamp);
         Task<TimeStampModel> AddTimeStampAsync(TimeStampModel newTimeStamp);
-        List<TimeStampModel> GetTimeStampList(string userGUID, int selectedYear, int selectedMonth);
-        Task<List<TimeStampModel>> GetTimeStampListAsync(string userGUID, int selectedYear, int selectedMonth);
+        List<TimeStampModel> GetTimeStampList(string userGUID, int selectedYear, int selectedMonth, int selectedDay);
+        Task<List<TimeStampModel>> GetTimeStampListAsync(string userGUID, int selectedYear, int selectedMonth, int selectedDay);
     }
 }

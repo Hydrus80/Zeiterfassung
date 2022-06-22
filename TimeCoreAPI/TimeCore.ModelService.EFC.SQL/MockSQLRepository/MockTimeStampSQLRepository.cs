@@ -36,19 +36,20 @@ namespace TimeCore.ModelService.EFC.SQL
             return await Task.FromResult(AddTimeStampToDataSource(newTimeStamp)).ConfigureAwait(false);
         }
 
-        public List<TimeStampModel> GetTimeStampListFromDataSource(string userGUID, int selectedYear, int selectedMonth)
+        public List<TimeStampModel> GetTimeStampListFromDataSource(string userGUID, int selectedYear, int selectedMonth, int selectedDay)
         {
             List<TimeStampModel> returnList = mockData.GetTimeStampsForAccountOne().Where(s => s.TimeStampYear == selectedYear &&
-                        s.TimeStampMonth == selectedMonth &&
+                        s.TimeStampMonth == selectedMonth && 
+                        s.TimeStampDay == selectedDay &&
                         s.Account.GUID == userGUID).ToList();
             if (returnList is null)
                 returnList = new List<TimeStampModel>();
             return returnList;
         }
 
-        public async Task<List<TimeStampModel>> GetTimeStampListFromDataSourceAsync(string userGUID, int selectedYear, int selectedMonth)
+        public async Task<List<TimeStampModel>> GetTimeStampListFromDataSourceAsync(string userGUID, int selectedYear, int selectedMonth, int selectedDay)
         {
-            return await Task.FromResult(GetTimeStampListFromDataSource(userGUID, selectedYear, selectedMonth)).ConfigureAwait(false);
+            return await Task.FromResult(GetTimeStampListFromDataSource(userGUID, selectedYear, selectedMonth, selectedDay)).ConfigureAwait(false);
         }
     }
 }
