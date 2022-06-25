@@ -1,29 +1,29 @@
-﻿@{
+﻿@using TimeCore.Client.ASPNET.ViewModel;
+@{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h3>Login Page</h3>
 @ViewBag.error
-<form method="post" asp-controller="account" asp-action="login">
-    <table cellpadding="2" cellspacing="2">
+@model HostViewModel
+<form method="post" asp-controller="account" asp-action="remotelogin">
+    <table border="0" cellpadding="2" cellspacing="2">
         <tr>
-            <td width="150">Username</td>
+        </tr>
+        <tr>
+            <td>Host</td>
+            <td><select asp-for="Host" asp-items="Model.Hosts"></select></td>
+        </tr>
+        <tr>
+            <td>Username</td>
             <td><input type="text" name="username"></td>
         </tr>
         <tr>
-            <td width="150">Password</td>
+            <td>Password</td>
             <td><input type="password" name="password"></td>
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td><input type="submit" value="Login"></td>
-        </tr>
-    </table>
-</form>
-<form method="post" asp-controller="account" asp-action="openremote">
-    <table cellpadding="2" cellspacing="2">
-        <tr>
-            <td width="150">Open remote login</td>
             <td><input type="submit" value="Login"></td>
         </tr>
     </table>

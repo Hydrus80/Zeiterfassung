@@ -8,6 +8,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using TimeCore.API;
+using TimeCore.Client.ASPNET.ViewModel;
 using TimeCore.ErrorHandler;
 
 namespace TimeCore.Client.ASPNET
@@ -25,10 +26,12 @@ namespace TimeCore.Client.ASPNET
 
         [Route("")]
         [Route("index")]
+        [Route("remoteindex")]
         [Route("~/")]
         public IActionResult Index()
         {
-            return View();
+            var model = new HostViewModel();
+            return View(model);
         }
 
         [Route("login")]
@@ -75,17 +78,20 @@ namespace TimeCore.Client.ASPNET
 
         [Route("remotelogin")]
         [HttpPost]
-        public async Task<IActionResult> RemoteLogin(string username, string password, string serverport)
+        public async Task<IActionResult> RemoteLogin(string username, string password, HostViewModel hostURL)
         {
+            //Init
+            List<TimeStampModel> returnList = null;
+
             //https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/calling-a-web-api-from-a-net-client
             try
             {
-                if ((string.IsNullOrEmpty(username)) || (string.IsNullOrEmpty(password)) || (string.IsNullOrEmpty(serverport)))
+                if ((string.IsNullOrEmpty(username)) || (string.IsNullOrEmpty(password)) || (string.IsNullOrEmpty(hostURL.Host)))
                     return BadRequest();
 
                 // Update port # in the following line.
                 HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri($"http://localhost:{serverport}/ ");
+                client.BaseAddress = new Uri($"{hostURL.Host}/ ");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
@@ -99,7 +105,16 @@ namespace TimeCore.Client.ASPNET
                     {
                         HttpContext.Session.SetString("userGUID", APIresponse);
                         HttpContext.Session.SetString("userUserName", username);
-                        return View("Success");
+
+                        //Tagesliste holen
+                        returnList = requestModulService.GetStampTimesList(new RequestModel() { requestGUID = APIresponse, requestYear = DateTime.Now.Year, requestMonth = DateTime.Now.Month, requestDay = DateTime.Now.Day });
+
+                        //Liste gefunden?
+                        if (returnList is List<TimeStampModel>)
+                            return View("~/Views/TimeCore/Stamp.cshtml", returnList);
+                        else
+                            return View("~/Views/TimeCore/Stamp.cshtml", new List<TimeStampModel>());
+
                     }
                     else
                     {
