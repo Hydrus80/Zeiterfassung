@@ -349,12 +349,12 @@ namespace TimeCore.ModelService
         }
         #endregion
 
-        #region GetStampTimesMonthList
+        #region GetStampTimesList
         /// <summary>
         /// Zeitauflistung mit gueltigem Account und vorhandener Liste
         /// </summary>
         [TestMethod]
-        public void GetStampTimesMonthList_CheckExistingAccountAndValidMonth_ResultIsListOfTimeStamp()
+        public void GetStampTimesList_CheckExistingAccountAndValidMonth_ResultIsListOfTimeStamp()
         {
             //Init
             string userGUID = mockData.GetAccountOne().GUID;
@@ -375,7 +375,7 @@ namespace TimeCore.ModelService
         /// Zeitauflistung mit gueltigem Account und vorhandener Liste
         /// </summary>
         [TestMethod]
-        public void GetStampTimesMonthListAsync_CheckExistingAccountAndValidMonth_ResultIsListOfTimeStamp()
+        public void GetStampTimesListAsync_CheckExistingAccountAndValidMonth_ResultIsListOfTimeStamp()
         {
             //Init
             string userGUID = mockData.GetAccountOne().GUID;
@@ -396,7 +396,7 @@ namespace TimeCore.ModelService
         /// Zeitauflistung mit ungueltigem Account
         /// </summary>
         [TestMethod]
-        public void GetStampTimesMonthList_CheckUnknownAccount_ResultIsEmptyList()
+        public void GetStampTimesList_CheckUnknownAccount_ResultIsEmptyList()
         {
             //Init
             string userGUID = string.Empty;
@@ -415,7 +415,7 @@ namespace TimeCore.ModelService
         ///  Zeitauflistung mit ungueltigem Account
         /// </summary>
         [TestMethod]
-        public void GetStampTimesMonthListAsync_CheckUnknownAccount_ResultIsEmptyList()
+        public void GetStampTimesListAsync_CheckUnknownAccount_ResultIsEmptyList()
         {
             //Init
             string userGUID = string.Empty;
@@ -434,7 +434,7 @@ namespace TimeCore.ModelService
         /// Zeitauflistung mit gueltigem Account aber leerem Monat
         /// </summary>
         [TestMethod]
-        public void GetStampTimesMonthList_CheckAccountWithEmtpyMonth_ResultIsEmptyList()
+        public void GetStampTimesList_CheckAccountWithEmtpyMonth_ResultIsEmptyList()
         {
             //Init
             string userGUID = mockData.GetAccountOne().GUID;
@@ -453,7 +453,7 @@ namespace TimeCore.ModelService
         ///  Zeitauflistung mit gueltigem Account aber leerem Monat
         /// </summary>
         [TestMethod]
-        public void GetStampTimesMonthListAsync_CheckAccountWithEmtpyMonth_ResultIsEmptyList()
+        public void GetStampTimesListAsync_CheckAccountWithEmtpyMonth_ResultIsEmptyList()
         {
             //Init
             string userGUID = mockData.GetAccountOne().GUID;

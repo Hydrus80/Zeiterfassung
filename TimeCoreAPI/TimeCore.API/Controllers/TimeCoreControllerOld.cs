@@ -184,14 +184,14 @@ namespace TimeCore.API.Controllers
 
         //http://localhost:8558/api/TimeCore/Login/
         [HttpGet]
-        [Route("SQL/GetStampTimesMonthList/{accountUserName}/{selectedYear}/{selectedMonth}")]
-        public IActionResult GetStampTimesMonthList(AccountModel accountUserName, int selectedYear, int selectedMonth)
+        [Route("SQL/GetStampTimesList/{accountUserName}/{selectedYear}/{selectedMonth}")]
+        public IActionResult GetStampTimesList(AccountModel accountUserName, int selectedYear, int selectedMonth)
         {
             try
             {
                 if ((accountUserName is null) && (selectedYear == 0) && (selectedMonth == 0))
                     return BadRequest();
-                List<TimeStampModel> foundResult = GetCurrentTimeCoreSQLModulService().GetStampTimesMonthList(accountUserName, selectedYear, selectedMonth);
+                List<TimeStampModel> foundResult = GetCurrentTimeCoreSQLModulService().GetStampTimesList(accountUserName, selectedYear, selectedMonth);
                 if (foundResult is List<TimeStampModel>)
                     return new OkObjectResult(foundResult);
                 else
@@ -206,14 +206,14 @@ namespace TimeCore.API.Controllers
 
         //http://localhost:8558/api/TimeCore/Login/
         [HttpGet]
-        [Route("SQL/GetStampTimesMonthList/{accountUserName}/{selectedYear}/{selectedMonth}")]
-        public async Task<IActionResult> GetStampTimesMonthListAsync(AccountModel accountUserName, int selectedYear, int selectedMonth)
+        [Route("SQL/GetStampTimesList/{accountUserName}/{selectedYear}/{selectedMonth}")]
+        public async Task<IActionResult> GetStampTimesListAsync(AccountModel accountUserName, int selectedYear, int selectedMonth)
         {
             try
             {
                 if ((accountUserName is null) && (selectedYear == 0) && (selectedMonth == 0))
                     return BadRequest();
-                List<TimeStampModel> foundResult = await GetCurrentTimeCoreSQLModulService().GetStampTimesMonthListAsync(accountUserName, selectedYear, selectedMonth).ConfigureAwait(false);
+                List<TimeStampModel> foundResult = await GetCurrentTimeCoreSQLModulService().GetStampTimesListAsync(accountUserName, selectedYear, selectedMonth).ConfigureAwait(false);
                 if (foundResult is List<TimeStampModel>)
                     return new OkObjectResult(foundResult);
                 else

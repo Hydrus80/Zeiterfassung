@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace TimeCore.API
 {
+    [BindProperties]
     public class RequestModel
     {
         public string requestUserName { get; set; }

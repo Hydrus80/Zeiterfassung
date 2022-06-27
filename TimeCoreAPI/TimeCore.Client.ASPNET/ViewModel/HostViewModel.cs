@@ -9,8 +9,8 @@ namespace TimeCore.Client.ASPNET.ViewModel
 
         public List<SelectListItem> Hosts { get; } = new List<SelectListItem>
         {
-            new SelectListItem { Value = "http://localhost:8558", Text = "Debug" },
-            new SelectListItem { Value = "http://localhost:5000", Text = "Release" },
+            new SelectListItem { Value = "http://localhost:8558", Text = "http://localhost:8558 (Debug)" },
+            new SelectListItem { Value = "http://localhost:5000", Text = "http://localhost:5000 (Release)" },
         };
     }
 }

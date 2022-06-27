@@ -119,7 +119,7 @@ namespace TimeCore.API
             }
             catch (Exception ex)
             {
-                ErrorHandlerLog.WriteError($"RequestModulService.GetStampTimesMonthList(): {ex.Message}");
+                ErrorHandlerLog.WriteError($"RequestModulService.GetStampTimesList(): {ex.Message}");
                 return new List<TimeStampModel>();
             }
         }

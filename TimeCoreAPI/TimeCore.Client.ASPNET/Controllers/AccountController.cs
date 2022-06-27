@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -103,11 +104,22 @@ namespace TimeCore.Client.ASPNET
                     string APIresponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                     if (!string.IsNullOrEmpty(APIresponse))
                     {
+                        APIresponse = APIresponse.Replace("\"", "");
                         HttpContext.Session.SetString("userGUID", APIresponse);
                         HttpContext.Session.SetString("userUserName", username);
 
                         //Tagesliste holen
-                        returnList = requestModulService.GetStampTimesList(new RequestModel() { requestGUID = APIresponse, requestYear = DateTime.Now.Year, requestMonth = DateTime.Now.Month, requestDay = DateTime.Now.Day });
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", APIresponse);
+                        RequestModel getRequestModel = new RequestModel()
+                        {
+                            requestGUID = APIresponse,
+                            requestYear = DateTime.Now.Year,
+                            requestMonth = DateTime.Now.Month,
+                            requestDay = DateTime.Now.Day
+                        };
+
+                        string requestModelString = JsonConvert.SerializeObject(getRequestModel);
+                        returnList = await client.GetFromJsonAsync<List<TimeStampModel>>($"api/TimeCore/SQL/JSON/GetStampTimesList?jsonData=\"{requestModelString}").ConfigureAwait(false);
 
                         //Liste gefunden?
                         if (returnList is List<TimeStampModel>)

@@ -15,6 +15,6 @@ namespace TimeCore.ModulService
         TimeStampModel StampOut(string userGUID, int timeStampYear, int timeStampMonth, int timeStampDay, int timeStampHour, int timeStampMinute, int timeStampSecond);
         Task<TimeStampModel> StampOutAsync(string userGUID, int timeStampYear, int timeStampMonth, int timeStampDay, int timeStampHour, int timeStampMinute, int timeStampSecond);
         List<TimeStampModel> GetStampTimesList(string userGUID, int selectedYear, int selectedMonth, int selectedDay);
-        Task<List<TimeStampModel>> GetStampTimesMonthListAsync(string userGUID, int selectedYear, int selectedMonth, int selectedDay);
+        Task<List<TimeStampModel>> GetStampTimesListAsync(string userGUID, int selectedYear, int selectedMonth, int selectedDay);
     }
 }

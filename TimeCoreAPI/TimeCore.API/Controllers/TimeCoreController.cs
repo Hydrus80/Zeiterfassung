@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading;
+using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using TimeCore.API.Handler;
 using TimeCore.ErrorHandler;
 
 namespace TimeCore.API.Controllers
@@ -17,10 +21,12 @@ namespace TimeCore.API.Controllers
     {
         //Felder
         public IRequestModulService requestModulService;
+        public IJSONHandler controllerJSONHandler;
 
         public TimeCoreController(IRequestModulService selRequestModulService)
         {
             requestModulService = selRequestModulService;
+            controllerJSONHandler = new JSONHandler();
         }
 
         /*POST http://localhost:8558/api/TimeCore/SQL/Authenticate
@@ -79,16 +85,16 @@ namespace TimeCore.API.Controllers
             }
         }
 
-        /*GET http://localhost:8558/api/TimeCore/SQL/GetStampTimesMonthList
+        /*GET http://localhost:8558/api/TimeCore/SQL/GetStampTimesList
         {
             "requestYear": 2022,
             "requestMonth": 6
         }
         Authentization -> Bearer Token
        */
-        [HttpGet]
-        [Route("SQL/GetStampTimesMonthList")]
-        public IActionResult GetStampTimesMonthList([FromBody] RequestModel requestModel)
+        [HttpGet("GetStampTimesList")]
+        [Route("SQL/GetStampTimesList")]
+        public IActionResult GetStampTimesList([FromBody] RequestModel requestModel)
         {
             try
             {
@@ -103,7 +109,58 @@ namespace TimeCore.API.Controllers
             }
             catch (Exception ex)
             {
-                ErrorHandlerLog.WriteError($"TimeCoreController.GetStampTimesMonthList(): {ex.Message}");
+                ErrorHandlerLog.WriteError($"TimeCoreController.GetStampTimesList(): {ex.Message}");
+                return StatusCode(500);
+            }
+        }
+
+        // GET method
+        [HttpGet("GetStampTimesList")]
+        [Route("SQL/JSON/GetStampTimesList")]
+        public IActionResult GetStampTimesList(string jsonData)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(jsonData))
+                    return BadRequest();
+                else
+                    return GetStampTimesList(controllerJSONHandler.ConvertJSONStringtoRequestModel(jsonData));
+            }
+            catch (Exception ex)
+            {
+                ErrorHandlerLog.WriteError($"TimeCoreController.GetStampTimesList(): {ex.Message}");
+                return StatusCode(500);
+            }
+        }
+
+        //https://www.telerik.com/blogs/how-to-pass-multiple-parameters-get-method-aspnet-core-mvc
+        //https://stackoverflow.com/questions/49228906/415-unsupported-media-type-asp-net-core
+        /*GET http://localhost:8558/api/TimeCore/SQL/2022/6/26
+          Authentization -> Bearer Token
+        */
+        [HttpGet("{requestYear}/{requestMonth}/{requestDay}")]
+        public IActionResult Get(int requestYear, int requestMonth, int requestDay)
+        {
+            //INit
+            RequestModel requestModel = new RequestModel();
+            requestModel.requestYear = requestYear;
+            requestModel.requestMonth = requestMonth;
+            requestModel.requestDay = requestDay;
+
+            try
+            {
+                requestModel = requestModulService.GetAuthenticatedUser(this.User, requestModel);
+                if (string.IsNullOrEmpty(requestModel.requestGUID))
+                    return BadRequest();
+                List<TimeStampModel> foundResult = requestModulService.GetStampTimesList(requestModel);
+                if (foundResult is List<TimeStampModel>)
+                    return new OkObjectResult(foundResult);
+                else
+                    return new NotFoundObjectResult(string.Empty);
+            }
+            catch (Exception ex)
+            {
+                ErrorHandlerLog.WriteError($"TimeCoreController.GetStampTimesList(): {ex.Message}");
                 return StatusCode(500);
             }
         }
@@ -174,6 +231,7 @@ namespace TimeCore.API.Controllers
             }
         }
 
+      
 
     }
 }

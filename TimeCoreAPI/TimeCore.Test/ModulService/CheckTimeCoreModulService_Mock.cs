@@ -487,12 +487,12 @@ namespace TimeCore.Test
         }
         #endregion
 
-        #region GetStampTimesMonthList
+        #region GetStampTimesList
         /// <summary>
         /// Zeitauflistung mit gueltigem Account und vorhandener Liste
         /// </summary>
         [TestMethod]
-        public void GetStampTimesMonthList_CheckExistingAccountAndValidMonth_ResultIsListOfTimeStamp()
+        public void GetStampTimesList_CheckExistingAccountAndValidMonth_ResultIsListOfTimeStamp()
         {
             //Init
             string userGUID = mockData.GetAccountOne();
@@ -501,10 +501,10 @@ namespace TimeCore.Test
 
            //Arrange
            Mock<ITimeCoreModulService> WorkshopModulService = new Mock<ITimeCoreModulService>();
-            WorkshopModulService.Setup(x => x.GetStampTimesMonthList(userAccount, selectedYear, selectedMonth)).Returns(mockData.GetTimeStampsForAccountOne());
+            WorkshopModulService.Setup(x => x.GetStampTimesList(userAccount, selectedYear, selectedMonth)).Returns(mockData.GetTimeStampsForAccountOne());
 
             //Act
-            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthList(userAccount, selectedYear, selectedMonth);
+            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesList(userAccount, selectedYear, selectedMonth);
 
             //Assert
             Assert.IsTrue(MockResult.Count == 2);
@@ -516,7 +516,7 @@ namespace TimeCore.Test
         /// Zeitauflistung mit gueltigem Account und vorhandener Liste
         /// </summary>
         [TestMethod]
-        public void GetStampTimesMonthListAsync_CheckExistingAccountAndValidMonth_ResultIsListOfTimeStamp()
+        public void GetStampTimesListAsync_CheckExistingAccountAndValidMonth_ResultIsListOfTimeStamp()
         {
             //Init
             string userGUID = mockData.GetAccountOne();
@@ -525,10 +525,10 @@ namespace TimeCore.Test
 
             //Arrange
             Mock<ITimeCoreModulService> WorkshopModulService = new Mock<ITimeCoreModulService>();
-            WorkshopModulService.Setup(x => x.GetStampTimesMonthListAsync(userAccount, selectedYear, selectedMonth)).Returns(Task.FromResult<List<TimeStampModel>>(mockData.GetTimeStampsForAccountOne()));
+            WorkshopModulService.Setup(x => x.GetStampTimesListAsync(userAccount, selectedYear, selectedMonth)).Returns(Task.FromResult<List<TimeStampModel>>(mockData.GetTimeStampsForAccountOne()));
 
             //Act
-            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthListAsync(userAccount, selectedYear, selectedMonth).GetAwaiter().GetResult();
+            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesListAsync(userAccount, selectedYear, selectedMonth).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.Count == 2);
@@ -540,7 +540,7 @@ namespace TimeCore.Test
         /// Zeitauflistung mit ungueltigem Account
         /// </summary>
         [TestMethod]
-        public void GetStampTimesMonthList_CheckUnknownAccount_ResultIsEmptyList()
+        public void GetStampTimesList_CheckUnknownAccount_ResultIsEmptyList()
         {
             //Init
             string userGUID = new AccountModel();
@@ -549,10 +549,10 @@ namespace TimeCore.Test
 
             //Arrange
             Mock<ITimeCoreModulService> WorkshopModulService = new Mock<ITimeCoreModulService>();
-            WorkshopModulService.Setup(x => x.GetStampTimesMonthList(userAccount, selectedYear, selectedMonth)).Returns(new List<TimeStampModel>());
+            WorkshopModulService.Setup(x => x.GetStampTimesList(userAccount, selectedYear, selectedMonth)).Returns(new List<TimeStampModel>());
 
             //Act
-            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthList(userAccount, selectedYear, selectedMonth);
+            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesList(userAccount, selectedYear, selectedMonth);
 
             //Assert
             Assert.IsTrue(MockResult.Count == 0);
@@ -562,7 +562,7 @@ namespace TimeCore.Test
         ///  Zeitauflistung mit ungueltigem Account
         /// </summary>
         [TestMethod]
-        public void GetStampTimesMonthListAsync_CheckUnknownAccount_ResultIsEmptyList()
+        public void GetStampTimesListAsync_CheckUnknownAccount_ResultIsEmptyList()
         {
             //Init
             string userGUID = new AccountModel();
@@ -571,10 +571,10 @@ namespace TimeCore.Test
 
             //Arrange
             Mock<ITimeCoreModulService> WorkshopModulService = new Mock<ITimeCoreModulService>();
-            WorkshopModulService.Setup(x => x.GetStampTimesMonthListAsync(userAccount, selectedYear, selectedMonth)).Returns(Task.FromResult<List<TimeStampModel>>(new List<TimeStampModel>()));
+            WorkshopModulService.Setup(x => x.GetStampTimesListAsync(userAccount, selectedYear, selectedMonth)).Returns(Task.FromResult<List<TimeStampModel>>(new List<TimeStampModel>()));
 
             //Act
-            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthListAsync(userAccount, selectedYear, selectedMonth).GetAwaiter().GetResult();
+            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesListAsync(userAccount, selectedYear, selectedMonth).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.Count == 0);
@@ -584,7 +584,7 @@ namespace TimeCore.Test
         /// Zeitauflistung mit gueltigem Account aber leerem Monat
         /// </summary>
         [TestMethod]
-        public void GetStampTimesMonthList_CheckAccountWithEmtpyMonth_ResultIsEmptyList()
+        public void GetStampTimesList_CheckAccountWithEmtpyMonth_ResultIsEmptyList()
         {
             //Init
             string userGUID = mockData.GetAccountOne();
@@ -593,10 +593,10 @@ namespace TimeCore.Test
 
             //Arrange
             Mock<ITimeCoreModulService> WorkshopModulService = new Mock<ITimeCoreModulService>();
-            WorkshopModulService.Setup(x => x.GetStampTimesMonthList(userAccount, selectedYear, selectedMonth)).Returns(new List<TimeStampModel>());
+            WorkshopModulService.Setup(x => x.GetStampTimesList(userAccount, selectedYear, selectedMonth)).Returns(new List<TimeStampModel>());
 
             //Act
-            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthList(userAccount, selectedYear, selectedMonth);
+            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesList(userAccount, selectedYear, selectedMonth);
 
             //Assert
             Assert.IsTrue(MockResult.Count == 0);
@@ -606,7 +606,7 @@ namespace TimeCore.Test
         ///  Zeitauflistung mit gueltigem Account aber leerem Monat
         /// </summary>
         [TestMethod]
-        public void GetStampTimesMonthListAsync_CheckAccountWithEmtpyMonth_ResultIsEmptyList()
+        public void GetStampTimesListAsync_CheckAccountWithEmtpyMonth_ResultIsEmptyList()
         {
             //Init
             string userGUID = mockData.GetAccountOne();
@@ -615,10 +615,10 @@ namespace TimeCore.Test
 
             //Arrange
             Mock<ITimeCoreModulService> WorkshopModulService = new Mock<ITimeCoreModulService>();
-            WorkshopModulService.Setup(x => x.GetStampTimesMonthListAsync(userAccount, selectedYear, selectedMonth)).Returns(Task.FromResult<List<TimeStampModel>>(new List<TimeStampModel>()));
+            WorkshopModulService.Setup(x => x.GetStampTimesListAsync(userAccount, selectedYear, selectedMonth)).Returns(Task.FromResult<List<TimeStampModel>>(new List<TimeStampModel>()));
 
             //Act
-            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthListAsync(userAccount, selectedYear,  selectedMonth).GetAwaiter().GetResult();
+            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesListAsync(userAccount, selectedYear,  selectedMonth).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.Count == 0);
@@ -628,7 +628,7 @@ namespace TimeCore.Test
         /// Zeitauflistung mit gueltigem Account aber falschem Passwort
         /// </summary>
         [TestMethod]
-        public void GetStampTimesMonthList_CheckExistingLoginWithWrongPassword_ResultIsEmptyList()
+        public void GetStampTimesList_CheckExistingLoginWithWrongPassword_ResultIsEmptyList()
         {
             //Init
             string userGUID = mockData.GetAccountOne();
@@ -638,10 +638,10 @@ namespace TimeCore.Test
 
             //Arrange
             Mock<ITimeCoreModulService> WorkshopModulService = new Mock<ITimeCoreModulService>();
-            WorkshopModulService.Setup(x => x.GetStampTimesMonthList(userAccount, selectedYear, selectedMonth)).Returns(new List<TimeStampModel>());
+            WorkshopModulService.Setup(x => x.GetStampTimesList(userAccount, selectedYear, selectedMonth)).Returns(new List<TimeStampModel>());
 
             //Act
-            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthList(userAccount, selectedYear, selectedMonth);
+            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesList(userAccount, selectedYear, selectedMonth);
             
             //Assert
             Assert.IsTrue(MockResult.Count == 0);
@@ -651,7 +651,7 @@ namespace TimeCore.Test
         ///  Zeitauflistung mit gueltigem Account aber falschem Passwort
         /// </summary>
         [TestMethod]
-        public void GetStampTimesMonthListAsync_CheckExistingLoginWithWrongPassword_ResultIsEmptyList()
+        public void GetStampTimesListAsync_CheckExistingLoginWithWrongPassword_ResultIsEmptyList()
         {
             //Init
             string userGUID = mockData.GetAccountOne();
@@ -661,10 +661,10 @@ namespace TimeCore.Test
 
             //Arrange
             Mock<ITimeCoreModulService> WorkshopModulService = new Mock<ITimeCoreModulService>();
-            WorkshopModulService.Setup(x => x.GetStampTimesMonthListAsync(userAccount, selectedYear,selectedMonth)).Returns(Task.FromResult<List<TimeStampModel>>(new List<TimeStampModel>()));
+            WorkshopModulService.Setup(x => x.GetStampTimesListAsync(userAccount, selectedYear,selectedMonth)).Returns(Task.FromResult<List<TimeStampModel>>(new List<TimeStampModel>()));
 
             //Act
-            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesMonthListAsync(userAccount, selectedYear, selectedMonth).GetAwaiter().GetResult();
+            List<TimeStampModel> MockResult = WorkshopModulService.Object.GetStampTimesListAsync(userAccount, selectedYear, selectedMonth).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsTrue(MockResult.Count == 0);

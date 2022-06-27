@@ -41,7 +41,7 @@ namespace TimeCore.ModulService
                 return null;
         }
 
-        public async Task<List<TimeStampModel>> GetStampTimesMonthListAsync(string userGUID, int selectedYear, int selectedMonth, int selectedDay)
+        public async Task<List<TimeStampModel>> GetStampTimesListAsync(string userGUID, int selectedYear, int selectedMonth, int selectedDay)
         {
             if (modelDatabaseType == eDatabaseType.SQL)
             {
