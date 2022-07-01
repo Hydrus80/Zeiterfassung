@@ -133,38 +133,6 @@ namespace TimeCore.API.Controllers
             }
         }
 
-        //https://www.telerik.com/blogs/how-to-pass-multiple-parameters-get-method-aspnet-core-mvc
-        //https://stackoverflow.com/questions/49228906/415-unsupported-media-type-asp-net-core
-        /*GET http://localhost:8558/api/TimeCore/SQL/2022/6/26
-          Authentization -> Bearer Token
-        */
-        [HttpGet("{requestYear}/{requestMonth}/{requestDay}")]
-        public IActionResult Get(int requestYear, int requestMonth, int requestDay)
-        {
-            //INit
-            RequestModel requestModel = new RequestModel();
-            requestModel.requestYear = requestYear;
-            requestModel.requestMonth = requestMonth;
-            requestModel.requestDay = requestDay;
-
-            try
-            {
-                requestModel = requestModulService.GetAuthenticatedUser(this.User, requestModel);
-                if (string.IsNullOrEmpty(requestModel.requestGUID))
-                    return BadRequest();
-                List<TimeStampModel> foundResult = requestModulService.GetStampTimesList(requestModel);
-                if (foundResult is List<TimeStampModel>)
-                    return new OkObjectResult(foundResult);
-                else
-                    return new NotFoundObjectResult(string.Empty);
-            }
-            catch (Exception ex)
-            {
-                ErrorHandlerLog.WriteError($"TimeCoreController.GetStampTimesList(): {ex.Message}");
-                return StatusCode(500);
-            }
-        }
-
         /*GET http://localhost:8558/api/TimeCore/SQL/StampIn
         {
             "requestYear": 2022,
@@ -176,7 +144,7 @@ namespace TimeCore.API.Controllers
         }
         Authentization -> Bearer Token
         */
-        [HttpGet]
+        [HttpGet("StampIn")]
         [Route("SQL/StampIn")]
         public IActionResult StampIn([FromBody] RequestModel requestModel)
         {
@@ -190,6 +158,25 @@ namespace TimeCore.API.Controllers
                     return new OkObjectResult(foundResult);
                 else
                     return new NotFoundObjectResult(string.Empty);
+            }
+            catch (Exception ex)
+            {
+                ErrorHandlerLog.WriteError($"TimeCoreController.StampIn(): {ex.Message}");
+                return StatusCode(500);
+            }
+        }
+
+        // GET method
+        [HttpGet("StampIn")]
+        [Route("SQL/JSON/StampIn")]
+        public IActionResult StampIn(string jsonData)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(jsonData))
+                    return BadRequest();
+                else
+                    return StampIn(controllerJSONHandler.ConvertJSONStringtoRequestModel(jsonData));
             }
             catch (Exception ex)
             {
@@ -231,7 +218,23 @@ namespace TimeCore.API.Controllers
             }
         }
 
-      
-
+        // GET method
+        [HttpGet("StampOut")]
+        [Route("SQL/JSON/StampOut")]
+        public IActionResult StampOut(string jsonData)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(jsonData))
+                    return BadRequest();
+                else
+                    return StampOut(controllerJSONHandler.ConvertJSONStringtoRequestModel(jsonData));
+            }
+            catch (Exception ex)
+            {
+                ErrorHandlerLog.WriteError($"TimeCoreController.StampOut(): {ex.Message}");
+                return StatusCode(500);
+            }
+        }
     }
 }

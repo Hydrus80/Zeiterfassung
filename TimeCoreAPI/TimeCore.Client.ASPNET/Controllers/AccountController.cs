@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using TimeCore.API;
+using TimeCore.Client.ASPNET.ModulService;
 using TimeCore.Client.ASPNET.ViewModel;
 using TimeCore.ErrorHandler;
 
@@ -19,10 +20,18 @@ namespace TimeCore.Client.ASPNET
     {
         //Felder
         public IRequestModulService requestModulService;
+        public IHTTPRequestBuilderModulService httpRequestBuilderModulService;
 
         public AccountController(IRequestModulService selRequestModulService)
         {
             requestModulService = selRequestModulService;
+        }
+
+        public IHTTPRequestBuilderModulService GetCurrentHTTPRequestBuilderModulService()
+        {
+            if (httpRequestBuilderModulService is null)
+                httpRequestBuilderModulService = new HTTPRequestBuilderModulService();
+            return httpRequestBuilderModulService;
         }
 
         [Route("")]
@@ -90,12 +99,8 @@ namespace TimeCore.Client.ASPNET
                 if ((string.IsNullOrEmpty(username)) || (string.IsNullOrEmpty(password)) || (string.IsNullOrEmpty(hostURL.Host)))
                     return BadRequest();
 
-                // Update port # in the following line.
-                HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri($"{hostURL.Host}/ ");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new MediaTypeWithQualityHeaderValue("application/json"));
+                //HTTPClient aufbauen
+                HttpClient client = GetCurrentHTTPRequestBuilderModulService().CreateHttpClient(hostURL.Host, string.Empty);
 
                 HttpResponseMessage response = await client.PostAsJsonAsync("api/TimeCore/SQL/Authenticate", new RequestModel() { requestUserName = username, requestPassword = password }).ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
@@ -107,6 +112,7 @@ namespace TimeCore.Client.ASPNET
                         APIresponse = APIresponse.Replace("\"", "");
                         HttpContext.Session.SetString("userGUID", APIresponse);
                         HttpContext.Session.SetString("userUserName", username);
+                        HttpContext.Session.SetString("hostURL", hostURL.Host);
 
                         //Tagesliste holen
                         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", APIresponse);
@@ -118,8 +124,7 @@ namespace TimeCore.Client.ASPNET
                             requestDay = DateTime.Now.Day
                         };
 
-                        string requestModelString = JsonConvert.SerializeObject(getRequestModel);
-                        returnList = await client.GetFromJsonAsync<List<TimeStampModel>>($"api/TimeCore/SQL/JSON/GetStampTimesList?jsonData=\"{requestModelString}").ConfigureAwait(false);
+                        returnList = await client.GetFromJsonAsync<List<TimeStampModel>>($"api/TimeCore/SQL/JSON/GetStampTimesList?jsonData=\"{JsonConvert.SerializeObject(getRequestModel)}").ConfigureAwait(false);
 
                         //Liste gefunden?
                         if (returnList is List<TimeStampModel>)
